@@ -9,7 +9,7 @@
   <style>
     /* ===== Toppfelt ===== */
     .topp {
-      position: absolute; inset: 0 0 auto 0; z-index: 3;
+      position: relative; z-index: 3;
       display: flex; align-items: center; justify-content: space-between;
       gap: var(--rom-m);
       max-width: var(--maks-bredde); margin-inline: auto;
@@ -20,97 +20,100 @@
     .meny a {
       font-family: var(--font-display); font-weight: 400;
       font-size: 0.8125rem; letter-spacing: 0.22em; text-transform: uppercase;
-      color: var(--taake); text-decoration: none;
-      padding-block: 0.25rem;
+      color: var(--taake); text-decoration: none; padding-block: 0.25rem;
     }
     .meny a[aria-current="page"] { color: var(--korall); }
     @media (hover: hover) and (pointer: fine) {
       .meny a:hover { color: var(--hvit); }
     }
 
-    /* ===== Hero ===== */
+    /* ===== Hero v2: plakatstil – flat flate + diagonalt fotopanel ===== */
     .hero {
-      position: relative; min-height: 92vh; min-height: 92dvh;
-      display: grid; align-items: end;
-      isolation: isolate; overflow: hidden;
-      background: var(--natt);
-      /* Skrått bunnsnitt – ekko av logoens diagonale flater (slakere vinkel av layouthensyn) */
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 2.5rem));
-      padding-bottom: 2.5rem;
-    }
-    .hero__bilde {
-      position: absolute; inset: 0; z-index: -2;
-      width: 100%; height: 100%; object-fit: cover;
-      opacity: 0.55;
-    }
-    .hero::after { /* mørk tone nederst: tekst på rolig flate (s. 5) */
-      content: ""; position: absolute; inset: 0; z-index: -1;
-      background: linear-gradient(to top, var(--natt) 8%, rgba(26,15,40,0.55) 45%, rgba(26,15,40,0.2) 100%);
+      position: relative; isolation: isolate; overflow: hidden;
+      background: var(--midnatt);
     }
     /* Subtile lysstråler [IKKE FRA HÅNDBOKEN – fra oppdraget] */
     .hero__straaler {
-      position: absolute; inset: -20% -10%; z-index: -1;
+      position: absolute; inset: -15%; z-index: -1; pointer-events: none;
       background:
-        linear-gradient(104deg, transparent 44%, rgba(254,87,87,0.05) 47%, transparent 50%),
-        linear-gradient(76deg, transparent 58%, rgba(235,230,237,0.06) 61%, transparent 64%),
-        linear-gradient(94deg, transparent 72%, rgba(254,87,87,0.04) 74%, transparent 77%);
-      pointer-events: none;
+        linear-gradient(104deg, transparent 40%, rgba(254,87,87,0.045) 43%, transparent 46%),
+        linear-gradient(80deg, transparent 63%, rgba(235,230,237,0.05) 66%, transparent 69%);
     }
-    .hero__innhold { padding-block: var(--rom-3xl) var(--rom-2xl); }
-    .hero h1 { color: var(--hvit); max-width: 14ch; margin-bottom: 0; }
+    .hero__grid { display: grid; }
+    .hero__tekst { padding-block: var(--rom-2xl) var(--rom-3xl); }
+    .hero h1 { color: var(--hvit); max-width: 12ch; margin-bottom: 0; }
     .hero h1 .aksent { color: var(--korall); }
-    .hero p { color: var(--taake); max-width: 46ch; }
+    .hero__tekst p:not(.etikett) { color: var(--taake); max-width: 42ch; }
     .hero__knapper { display: flex; flex-wrap: wrap; gap: var(--rom-m); margin-top: var(--rom-l); }
 
-    /* Inntreden ved lasting – kun hero, kun når bevegelse er ønsket */
+    /* Fotopanel med diagonalt snitt (ekko av logoens 41°-flater) */
+    .hero__panel { position: relative; }
+    .hero__panel img { width: 100%; height: 100%; object-fit: cover; }
+    @media (max-width: 63.98rem) {
+      .hero__panel {
+        clip-path: polygon(0 2.5rem, 100% 0, 100% 100%, 0 100%);
+        margin-top: calc(-1 * var(--rom-2xl));
+      }
+      .hero__panel img { aspect-ratio: 16 / 10; }
+    }
+    @media (min-width: 64rem) {
+      .hero__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+      .hero__tekst { padding-block: var(--rom-3xl); align-self: center; }
+      .hero__panel {
+        position: absolute; top: 0; right: 0; bottom: 0; width: 44%;
+        clip-path: polygon(7rem 0, 100% 0, 100% 100%, 0 100%);
+        z-index: -1;
+      }
+      .hero__panel::after { /* tone mot flaten slik at snittet leser tydelig */
+        content: ""; position: absolute; inset: 0;
+        background: linear-gradient(to right, rgba(42,24,64,0.55), rgba(42,24,64,0.05) 45%);
+      }
+    }
+
     @media (prefers-reduced-motion: no-preference) {
       .hero__straaler { animation: pust 9s ease-in-out infinite alternate; }
       @keyframes pust { from { opacity: 0.5; } to { opacity: 1; } }
-      .hero__innhold > * {
-        animation: inn 700ms var(--ease-ut) backwards;
-      }
-      .hero__innhold > *:nth-child(2) { animation-delay: 60ms; }
-      .hero__innhold > *:nth-child(3) { animation-delay: 120ms; }
-      .hero__innhold > *:nth-child(4) { animation-delay: 180ms; }
-      .hero__innhold > *:nth-child(5) { animation-delay: 240ms; }
-      @keyframes inn {
-        from { opacity: 0; transform: translateY(12px); }
-      }
+      .hero__tekst > * { animation: inn 700ms var(--ease-ut) backwards; }
+      .hero__tekst > *:nth-child(2) { animation-delay: 60ms; }
+      .hero__tekst > *:nth-child(3) { animation-delay: 120ms; }
+      .hero__tekst > *:nth-child(4) { animation-delay: 180ms; }
+      .hero__tekst > *:nth-child(5) { animation-delay: 240ms; }
+      @keyframes inn { from { opacity: 0; transform: translateY(12px); } }
     }
 
-    /* ===== Tjenestekort ===== */
-    .kort-rekke {
-      display: grid; gap: 1px; background: rgba(235,230,237,0.14);
-      border-block: 1px solid rgba(235,230,237,0.14);
+    /* ===== Tjenester: plakatens kolonnemotiv (håndboken s. 13) ===== */
+    .kolonner {
+      display: grid; gap: var(--rom-xl) var(--rom-l);
+      grid-template-columns: 1fr;
     }
-    @media (min-width: 40rem) { .kort-rekke { grid-template-columns: 1fr 1fr; } }
-    @media (min-width: 64rem) { .kort-rekke { grid-template-columns: repeat(4, 1fr); } }
-    .tkort {
-      background: var(--midnatt); padding: var(--rom-xl) var(--rom-l);
-      text-decoration: none; color: inherit; display: flex;
-      flex-direction: column; align-items: flex-start; gap: var(--rom-s);
-      transition: background-color 200ms var(--ease-ut);
+    @media (min-width: 40rem) { .kolonner { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 64rem) { .kolonner { grid-template-columns: repeat(4, 1fr); } }
+    .kolonne {
+      border-top: 1px solid rgba(235,230,237,0.3);
+      padding-top: var(--rom-m);
+      text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; align-items: flex-start; gap: var(--rom-s);
+      transition: border-color 200ms var(--ease-ut);
     }
-    .tkort h3 { color: var(--hvit); margin: 0; font-size: 1.25rem; }
-    .tkort p { font-size: 0.9375rem; margin: 0 0 var(--rom-m); }
-    .tkort .lenke {
+    .kolonne h3 { color: var(--hvit); margin: 0; font-size: 1.25rem; }
+    .kolonne p { font-size: 0.9375rem; margin: 0 0 var(--rom-m); }
+    .kolonne .lenke {
       margin-top: auto;
       font-family: var(--font-display); font-size: 0.8125rem;
       letter-spacing: 0.22em; text-transform: uppercase; color: var(--korall);
     }
-    .tkort .lenke::after { content: " →"; }
+    .kolonne .lenke::after { content: " →"; }
     @media (hover: hover) and (pointer: fine) {
-      .tkort:hover { background: #32204c; }
+      .kolonne:hover { border-top-color: var(--korall); }
     }
-    .tkort__ny { /* «Nytt: showlaser klasse 4» (s. 9) */
+    .kolonne__ny {
       font-family: var(--font-display); font-size: 0.75rem;
       letter-spacing: 0.22em; text-transform: uppercase; color: var(--korall);
     }
 
-    /* ===== Seksjonsoverskrifter ===== */
     .seksjonstittel { color: var(--hvit); }
 
-    /* ===== Galleri-utvalg: asymmetrisk (variance) ===== */
+    /* ===== Galleri-utvalg: asymmetrisk ===== */
     .galleri { display: grid; gap: var(--rom-m); }
     @media (min-width: 48rem) {
       .galleri { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; }
@@ -118,17 +121,14 @@
       .galleri figure:first-child img { height: 100%; }
     }
     .galleri figure { margin: 0; }
-    .galleri img {
-      aspect-ratio: 4 / 3; object-fit: cover; width: 100%; height: 100%;
-    }
+    .galleri img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; height: 100%; }
     .galleri figcaption {
       margin-top: var(--rom-s);
       font-size: var(--detalj-storrelse); color: var(--taake);
     }
 
-    /* ===== Lys seksjon: slik jobber vi ===== */
+    /* ===== Lys seksjon ===== */
     .lys-seksjon {
-      /* Skrått toppsnitt – samme diagonalmotiv som heroen */
       clip-path: polygon(0 2.5rem, 100% 0, 100% 100%, 0 100%);
       padding-top: calc(var(--rom-2xl) + 2.5rem);
     }
@@ -142,11 +142,10 @@
     .steg h3 { color: var(--natt); margin-bottom: var(--rom-s); }
     .steg p { font-size: 0.9375rem; }
 
-    /* ===== CTA-stripe ===== */
+    /* ===== CTA ===== */
     .cta { text-align: center; }
     .cta h2 { color: var(--hvit); }
-    .cta .strek { margin-inline: auto; }
-    .cta p { margin-inline: auto; }
+    .cta .strek, .cta p { margin-inline: auto; }
 
     /* ===== Footer ===== */
     footer { background: var(--natt); padding-block: var(--rom-2xl); }
@@ -173,72 +172,78 @@
 </head>
 <body>
 
-<header>
-  <nav class="topp" aria-label="Hovedmeny">
-    <a class="topp__logo" href="forside.html" aria-label="T-Event – til forsiden">
-      <img src="../tevent-logo-negativ.svg" alt="" width="44" height="35">
-    </a>
-    <div class="meny">
-      <a href="forside.html" aria-current="page">Hjem</a>
-      <a href="tjenester.html">Tjenester</a>
-      <a href="#">Priser</a>
-      <a href="#">Galleri</a>
-      <a href="#">Kontakt</a>
-    </div>
-  </nav>
-</header>
+<div class="hero">
+  <header>
+    <nav class="topp" aria-label="Hovedmeny">
+      <a class="topp__logo" href="forside.html" aria-label="T-Event – til forsiden">
+        <img src="../tevent-logo-negativ.svg" alt="" width="44" height="35">
+      </a>
+      <div class="meny">
+        <a href="forside.html" aria-current="page">Hjem</a>
+        <a href="tjenester.html">Tjenester</a>
+        <a href="#">Priser</a>
+        <a href="#">Galleri</a>
+        <a href="#">Kontakt</a>
+      </div>
+    </nav>
+  </header>
 
-<main>
   <!-- HERO -->
-  <section class="hero">
-    <img class="hero__bilde" src="bilder/hero-lasere.jpg" alt="" fetchpriority="high">
+  <section aria-label="Introduksjon">
     <div class="hero__straaler" aria-hidden="true"></div>
-    <div class="ramme hero__innhold">
-      <p class="etikett">DJ · lyd · lys</p>
-      <h1>Lyd, lys og DJ <span class="aksent">på Helgeland</span></h1>
-      <hr class="strek" aria-hidden="true">
-      <p>DJ, lyd og lys til russearrangementer, bryllup, konserter og
-      firmafest. Vi tar hele jobben – rigg, teknikk og nedrigg – slik at du
-      bare trenger å glede deg til kvelden.</p>
-      <div class="hero__knapper">
-        <a class="knapp knapp--primar" href="#">Send forespørsel</a>
-        <a class="knapp knapp--sekundar" href="tjenester.html">Se tjenestene</a>
+    <div class="ramme hero__grid">
+      <div class="hero__tekst">
+        <p class="etikett">DJ · lyd · lys</p>
+        <h1>Lyd, lys og DJ <span class="aksent">på Helgeland</span></h1>
+        <hr class="strek" aria-hidden="true">
+        <p>DJ, lyd og lys til russearrangementer, bryllup, konserter og
+        firmafest. Vi tar hele jobben – rigg, teknikk og nedrigg – slik at
+        du bare trenger å glede deg til kvelden.</p>
+        <div class="hero__knapper">
+          <a class="knapp knapp--primar" href="#">Send forespørsel</a>
+          <a class="knapp knapp--sekundar" href="tjenester.html">Se tjenestene</a>
+        </div>
+      </div>
+      <div class="hero__panel">
+        <img src="bilder/hero-lasere.jpg" alt="" fetchpriority="high">
       </div>
     </div>
   </section>
+</div>
 
-  <!-- TJENESTER I KORTFORM -->
+<main>
+  <!-- TJENESTER: kolonnemotiv fra plakaten -->
   <section class="seksjon" aria-labelledby="tjenester-tittel">
     <div class="ramme">
       <h2 id="tjenester-tittel" class="seksjonstittel">Det vi leverer</h2>
       <hr class="strek" aria-hidden="true">
-    </div>
-    <div class="kort-rekke">
-      <a class="tkort" href="tjenester.html#dj">
-        <h3>DJ</h3>
-        <p>Musikk tilpasset arrangementet, fra første gjest til siste låt.
-        Egen DJ, miksere og mikrofoner.</p>
-        <span class="lenke">Les om DJ-tjenesten</span>
-      </a>
-      <a class="tkort" href="tjenester.html#lyd-og-lys">
-        <h3>Lyd og lys</h3>
-        <p>Lydanlegget tilpasses arrangementet, og lyset rigges for lokalet –
-        fra festlys til full scenerigg.</p>
-        <span class="lenke">Les om lyd og lys</span>
-      </a>
-      <a class="tkort" href="tjenester.html#showlaser">
-        <span class="tkort__ny">Nytt</span>
-        <h3>Showlaser klasse 4</h3>
-        <p>Showlaser registrert hos DSA, operert av oss med egen
-        strålevernkoordinator.</p>
-        <span class="lenke">Les om showlaser</span>
-      </a>
-      <a class="tkort" href="tjenester.html#effekter">
-        <h3>Effekter</h3>
-        <p>Røyk, haze og andre spesialeffekter som løfter lysbildet og
-        stemningen i lokalet.</p>
-        <span class="lenke">Les om effekter</span>
-      </a>
+      <div class="kolonner">
+        <a class="kolonne" href="tjenester.html#dj">
+          <h3>DJ</h3>
+          <p>Musikk tilpasset arrangementet, fra første gjest til siste låt.
+          Egen DJ, miksere og mikrofoner.</p>
+          <span class="lenke">Les om DJ-tjenesten</span>
+        </a>
+        <a class="kolonne" href="tjenester.html#lyd-og-lys">
+          <h3>Lyd og lys</h3>
+          <p>Lydanlegget tilpasses arrangementet, og lyset rigges for
+          lokalet – fra festlys til full scenerigg.</p>
+          <span class="lenke">Les om lyd og lys</span>
+        </a>
+        <a class="kolonne" href="tjenester.html#showlaser">
+          <span class="kolonne__ny">Nytt</span>
+          <h3>Showlaser klasse 4</h3>
+          <p>Showlaser registrert hos DSA, operert av oss med egen
+          strålevernkoordinator.</p>
+          <span class="lenke">Les om showlaser</span>
+        </a>
+        <a class="kolonne" href="tjenester.html#effekter">
+          <h3>Effekter</h3>
+          <p>Røyk, haze og andre spesialeffekter som løfter lysbildet og
+          stemningen i lokalet.</p>
+          <span class="lenke">Les om effekter</span>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -313,7 +318,8 @@
           <li><a href="mailto:mathias@t-event.no">mathias@t-event.no</a></li>
           <li>Myravegen 1J, 8640 Hemnesberget</li>
           <li><a href="https://www.instagram.com/teventno/">Instagram</a> ·
-              <a href="https://www.facebook.com/teventservice">Facebook</a></li>
+              <a href="https://www.facebook.com/teventservice">Facebook</a> ·
+              <a href="https://www.tiktok.com/@tevent.no">TikTok</a></li>
         </ul>
       </div>
       <div>

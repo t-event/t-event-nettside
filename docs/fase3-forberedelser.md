@@ -72,7 +72,18 @@ kun IP-basert; Turnstile er derfor primærforsvaret.
   fritt til å avtale avbestillingsvilkår – Mathias' depositumsmodell står
   på egne ben.
 
-## 4. Spørsmål som må besvares av Mathias før fase 3-bygging
+## Svar mottatt 2026-10-01 (se decisions.md)
+
+- E-post: **EU-tjeneste valgt** → Brevo er kandidaten (verifisert: Paris,
+  EU-lagring, gratis 300/dag, transaksjons-API).
+- Depositum: **ingen som hovedregel** – avbestillingsfrister i stedet.
+  TODO: fristene og ev. gebyrer.
+- Databehandler innboks: **proffhosting.no** (norsk leverandør).
+- TikTok: **med** på ny side.
+- Pakkepriser: utvikles sammen med Mathias fra Tripletex-prisene.
+- Bildesamtykker: muntlig OK, skriftlig mangler → docs/samtykke-meldinger.md.
+
+## 4. Spørsmål som fortsatt står åpne
 
 1. **Design:** godkjenner du fase 2-utkastene (med de 10 merkede valgene i
    design-fase2.md), eller hva skal endres?
