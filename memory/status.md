@@ -69,6 +69,23 @@ Sist oppdatert: 2026-10-01
   Tripletex-priser + de tre prisreglene, skriftlige samtykkesvar
   (meldingsutkast klare i docs/samtykke-meldinger.md).
 
+## Fase 3 – bygging: STARTET 2026-10-01 (Mathias' klarsignal)
+
+- Design v3 «scenen» levert (CSS-laserstråler, glassmeny, scroll-
+  avsløringer) – venter på Mathias' vurdering, men bygging går parallelt.
+- Astro 7.3.5-prosjekt etablert: package.json + lockfile, astro.config.mjs
+  (site: t-event.no), tsconfig (strict), content collections (pakker +
+  galleri med bildeoptimalisering), src/data/bedrift.json med alle faste
+  opplysninger/tillegg/avbestillingsregler, midlertidig index.astro.
+  `npm audit`: 0 sårbarheter. Dependabot aktivert.
+- VIKTIG: Mathias må endre Cloudflare-innstillinger: Build command
+  `npm run build`, Build output directory `dist`. Frem til da gir
+  pages.dev-roten 404 (designutkastene virker fortsatt).
+- Neste byggesteg: BaseLayout + komponenter fra design v3, alle sider,
+  bookingskjema (Turnstile + Brevo via Pages Function), juridiske utkast.
+- Fase 5-sperrer (utvidet): skoleball-bilder byttes ut + skriftlige
+  samtykker (Marius/Daniel/Rana Blad) skal foreligge før publisering.
+
 ## Fase 3-forberedelser (2026-10-01): docs/fase3-forberedelser.md
 
 - E-posttjeneste: Resend (USA/SCC-forbehold) vs. EU-alternativ – til valg.
