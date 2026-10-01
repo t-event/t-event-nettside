@@ -55,9 +55,12 @@ Sist oppdatert: 2026-10-01.
 ## 5. Avhengighet av gratis tredjepartstjenester
 - Beskrivelse: Cloudflare Pages/Turnstile/Web Analytics og e-posttjeneste
   (forslag: Resend) brukes på gratisnivå. Vilkår, priser eller gratisnivå kan
-  endres og kan stoppe skjema eller deploy.
+  endres og kan stoppe skjema eller deploy. Tillegg 2026-10-01: Resend lagrer
+  data i USA (SCC som overføringsgrunnlag) – må i så fall dokumenteres i
+  personvernerklæringen; EU-alternativ foreslått (docs/fase3-forberedelser.md).
 - Alvorlighet: Middels
-- Kilde/bestemmelse: Tjenestenes egne vilkår; kontrolleres ved valg (fase 3).
+- Kilde/bestemmelse: Tjenestenes egne vilkår; Resend-detaljer kontrollert
+  2026-10-01 (resend.com/security/gdpr via søk); verifiseres ved avtale.
 - Lovkrav eller policy: Policy
 - Tiltak: Innhold og kode ligger i eget repo (flyttbart); e-posttjeneste byttes
   bak én Pages Function; skjemaet har alltid synlig e-post/telefon som
@@ -109,6 +112,18 @@ Sist oppdatert: 2026-10-01.
 - Tiltak: Testmeldinger fra preview merkes tydelig i emnefeltet
   (f.eks. «[TEST – forhåndsvisning]»).
 - Oppfølging: Claude (implementasjon i fase 3)
+
+## 11. Angrerett for ren utstyrsutleie er uavklart
+- Beskrivelse: DJ/teknikk til bestemt dato er trolig unntatt angrerett
+  (angrerettloven § 22 m), men ren utstyrsutleie til forbruker er i tvil –
+  utstyrsutleie er ikke uttrykkelig nevnt i unntaket.
+- Alvorlighet: Middels
+- Kilde/bestemmelse: Angrerettloven § 22 bokstav m, lovdata.no, kontrollert
+  2026-10-01.
+- Lovkrav eller policy: Lovkrav (opplysningsplikt gjelder uansett)
+- Tiltak: Vilkårstekst lages for begge utfall i fase 3; anbefales vurdert av
+  fagperson før lansering.
+- Oppfølging: Claude (utkast), Mathias/jurist (vurdering)
 
 ## 10. mathias@t-event.no må eksistere og ha fungerende mottak
 - Beskrivelse: Bookingmottaket forutsetter at adressen på eget domene finnes
