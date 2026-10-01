@@ -46,10 +46,13 @@
       font-family: var(--font-display); font-weight: 400;
       font-size: 0.8125rem; letter-spacing: 0.22em; text-transform: uppercase;
       color: var(--taake); text-decoration: none; padding-block: 0.25rem;
-      transition: color 160ms var(--ease-ut);
+      background: linear-gradient(var(--korall), var(--korall)) left bottom / 0% 1px no-repeat;
+      transition: color 160ms var(--ease-ut), background-size 250ms var(--ease-ut);
     }
     .meny a[aria-current="page"] { color: var(--korall); }
-    @media (hover: hover) and (pointer: fine) { .meny a:hover { color: var(--hvit); } }
+    @media (hover: hover) and (pointer: fine) {
+      .meny a:hover { color: var(--hvit); background-size: 100% 1px; }
+    }
 
     /* ===== HERO: riggen ===== */
     .rigg {
@@ -126,26 +129,35 @@
       max-width: var(--maks-bredde); width: 100%;
       margin-inline: auto; padding: var(--rom-3xl) var(--rom-l);
     }
+    /* Typografien ER helten [AVVIK: overstiger håndbokens 60 px-tak for
+       overskrift – til Mathias' godkjenning] */
     .rigg h1 {
-      font-size: clamp(2.5rem, 7vw, 3.75rem);
-      max-width: 13ch;
-      margin-bottom: var(--rom-m);
-      /* Overskriften lyssettes: et lysdrag vandrer gjennom teksten,
+      display: flex; flex-direction: column;
+      font-size: clamp(3rem, 10.5vw, 7rem);
+      line-height: 0.98; letter-spacing: -0.01em;
+      margin-bottom: var(--rom-l);
+    }
+    .rigg h1 .linje {
+      /* Hver linje lyssettes: et lysdrag vandrer gjennom teksten,
          som en projeksjon på en vegg */
       background: linear-gradient(100deg,
         var(--taake) 20%, var(--hvit) 38%, #fff7f7 50%, var(--hvit) 62%, var(--taake) 80%);
       background-size: 220% 100%;
       -webkit-background-clip: text; background-clip: text;
       color: transparent;
+      width: fit-content;
     }
+    .rigg h1 .linje--inn { margin-left: clamp(1.5rem, 8vw, 7rem); } /* trappetrinn */
     @media (prefers-reduced-motion: no-preference) {
-      .rigg h1 { animation: projeksjon 7s var(--ease-inn-ut) infinite alternate; }
+      .rigg h1 .linje { animation: projeksjon 7s var(--ease-inn-ut) infinite alternate; }
+      .rigg h1 .linje:nth-child(2) { animation-delay: -2.3s; }
+      .rigg h1 .linje:nth-child(3) { animation-delay: -4.6s; }
       @keyframes projeksjon {
         from { background-position: 10% 0; }
         to   { background-position: 90% 0; }
       }
     }
-    .rigg h1 .aksent {
+    .rigg h1 .linje.aksent {
       background: none;
       -webkit-text-fill-color: var(--korall);
       color: var(--korall);
@@ -231,6 +243,26 @@
       font-size: var(--detalj-storrelse); color: var(--taake);
     }
 
+    /* ===== Kinetisk tekstbånd (én per side) ===== */
+    .baand {
+      overflow: hidden; background: var(--natt);
+      border-block: 1px solid rgba(235,230,237,0.1);
+      padding-block: var(--rom-l);
+    }
+    .baand__spor { display: flex; gap: 4rem; width: max-content; }
+    .baand span {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: clamp(1.75rem, 4.5vw, 3rem);
+      text-transform: uppercase; letter-spacing: 0.1em; white-space: nowrap;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(235,230,237,0.45);
+    }
+    .baand span b { font-weight: 300; -webkit-text-stroke: 1px rgba(254,87,87,0.7); }
+    @media (prefers-reduced-motion: no-preference) {
+      .baand__spor { animation: rull 30s linear infinite; }
+      @keyframes rull { to { transform: translateX(-50%); } }
+    }
+
     /* ===== Lys seksjon ===== */
     .lys-seksjon {
       clip-path: polygon(0 2.5rem, 100% 0, 100% 100%, 0 100%);
@@ -256,7 +288,16 @@
     .cta .strek, .cta p { margin-inline: auto; }
 
     /* ===== Footer ===== */
-    footer { background: var(--midnatt); padding-block: var(--rom-2xl); }
+    footer { background: var(--midnatt); padding-block: var(--rom-xl) var(--rom-2xl); }
+    .footer-merke {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: clamp(4rem, 15vw, 11rem); line-height: 1.05;
+      text-align: center; user-select: none;
+      color: transparent; -webkit-text-stroke: 1px rgba(235,230,237,0.22);
+      letter-spacing: 0.08em;
+      margin-bottom: var(--rom-xl);
+      overflow: hidden;
+    }
     .footer-kolonner { display: grid; gap: var(--rom-xl); }
     @media (min-width: 48rem) { .footer-kolonner { grid-template-columns: 2fr 1fr 1fr; } }
     footer .f-logo { width: 8rem; margin-bottom: var(--rom-m); }
@@ -309,8 +350,7 @@
 
     <div class="rigg__innhold">
       <p class="etikett">DJ · lyd · lys</p>
-      <h1>Lyd, lys og DJ <span class="aksent">på Helgeland</span></h1>
-      <hr class="strek" aria-hidden="true">
+      <h1><span class="linje">Lyd, lys</span><span class="linje linje--inn">og DJ</span><span class="linje aksent">på Helgeland.</span></h1>
       <p>DJ, lyd og lys til russearrangementer, bryllup, konserter og
       firmafest. Vi tar hele jobben – rigg, teknikk og nedrigg – slik at du
       bare trenger å glede deg til kvelden.</p>
@@ -378,6 +418,14 @@
     </div>
   </section>
 
+  <!-- KINETISK BÅND -->
+  <div class="baand" aria-hidden="true">
+    <div class="baand__spor">
+      <span>Vi tar hele jobben <b>·</b> rigg <b>·</b> teknikk <b>·</b> nedrigg <b>·</b>&nbsp;</span>
+      <span>Vi tar hele jobben <b>·</b> rigg <b>·</b> teknikk <b>·</b> nedrigg <b>·</b>&nbsp;</span>
+    </div>
+  </div>
+
   <!-- SLIK JOBBER VI -->
   <section class="lys seksjon lys-seksjon" aria-labelledby="slik-tittel">
     <div class="ramme avsloer">
@@ -414,6 +462,7 @@
 </main>
 
 <footer>
+  <p class="footer-merke" aria-hidden="true">T-EVENT</p>
   <div class="ramme">
     <div class="footer-kolonner">
       <div>
