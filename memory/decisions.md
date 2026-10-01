@@ -13,6 +13,19 @@ Format (nyeste øverst):
 
 ---
 
+## 2026-10-01 – Avbestillingsfrister fastsatt
+- Beslutning: Avbestilling mer enn 14 dager før arrangementet: kostnadsfritt.
+  14 til 3 dager før: 50 % av avtalt pris. Mindre enn 48 timer før: 100 %
+  av avtalt pris. (Ingen depositum, jf. tidligere beslutning.)
+- Begrunnelse: Mathias' praktiserte regler, oppgitt 2026-10-01.
+- Forventet resultat: Grunnlag for «Avbestilling og refusjon»-siden i
+  fase 3. MERK – hull flagget til Mathias: vinduet mellom 3 dager (72 t) og
+  48 timer er udefinert. Forslag: «14 dager til 48 timer før: 50 %». Også
+  til avklaring i fase 3: gjelder satsene fra skriftlig bekreftelse, og
+  regnes fristene mot arrangementets starttidspunkt?
+- Reviewdato: 2026-10-31
+- Status: Aktiv (venter på tetting av 72–48-timersvinduet)
+
 ## 2026-10-01 – Fase 3-avklaringer fra Mathias (e-post, priser, avtaler, m.m.)
 - Beslutning: (1) **E-posttjeneste: EU-basert** – kandidat Brevo (Paris,
   EU-datalagring, gratis 300/dag, transaksjons-API; verifisert mot
