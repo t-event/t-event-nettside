@@ -60,9 +60,21 @@ Sist oppdatert: 2026-10-01
 - Leveranse i `public/design/` (ses på pages.dev/design/): tokens.css,
   forside, tjenesteside, komponentoversikt med kontrasttabell.
 - Grunnlag og ikke-fra-håndboken-valg dokumentert i docs/design-fase2.md.
-- Venter på: Mathias' godkjenning av designet og de 8 merkede valgene.
-- Deretter fase 3 (Astro 7.x-bygg) – prisavklaringene (km tur/retur,
-  kjøretid/avrunding, rigg i pakkene, pakkepriser) må tas tidlig i fase 3.
+- Venter på: Mathias' godkjenning av designet og de 10 merkede valgene.
+- Polish-runde kjørt med installerte skills (.claude/skills/, pinnede
+  commits); konflikt React-stack vs. minst-JS løst etter rangeringen.
+
+## Fase 3-forberedelser (2026-10-01): docs/fase3-forberedelser.md
+
+- E-posttjeneste: Resend (USA/SCC-forbehold) vs. EU-alternativ – til valg.
+- Spambeskyttelse: Turnstile + honeypot + CF rate limiting (fase 5) +
+  KV-teller (hashet IP, TTL 1 t) – til godkjenning.
+- Angrerett: § 22 m-vurdering gjort (kontrollert 2026-10-01); utstyrsutleie
+  i tvil → risiko 11, tekst for begge utfall lages i fase 3.
+- 7 spørsmål til Mathias samlet i notatets punkt 4 (design, priser,
+  bindende avtale, lagringstider, databehandlere/innboks-leverandør,
+  TikTok, samtykkedokumentasjon).
+- Astro 7.3.5 / TypeScript 7.0.2 er nyeste per 2026-10-01.
 
 ## Neste fase
 Fase 1 – innhold fra gammel side. Starter først etter Mathias' godkjenning
