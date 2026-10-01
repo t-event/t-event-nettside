@@ -7,93 +7,144 @@
   <title>UTKAST – Forside – T-Event</title>
   <link rel="stylesheet" href="tokens.css">
   <style>
-    /* ===== Toppfelt ===== */
+    body { background: var(--natt); }
+
+    /* ===== Sticky glassmeny ===== */
     .topp {
-      position: relative; z-index: 3;
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(26,15,40,0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(235,230,237,0.08);
+    }
+    .topp__rad {
       display: flex; align-items: center; justify-content: space-between;
       gap: var(--rom-m);
       max-width: var(--maks-bredde); margin-inline: auto;
-      padding: var(--rom-l);
+      padding: var(--rom-m) var(--rom-l);
     }
-    .topp__logo img { width: 2.75rem; height: auto; } /* kun symbol på liten flate (s. 4) */
-    .meny { display: flex; flex-wrap: wrap; gap: var(--rom-m) var(--rom-l); align-items: center; }
+    .topp__logo img { width: 2.5rem; height: auto; }
+    .meny { display: flex; flex-wrap: wrap; gap: var(--rom-s) var(--rom-l); align-items: center; }
     .meny a {
       font-family: var(--font-display); font-weight: 400;
       font-size: 0.8125rem; letter-spacing: 0.22em; text-transform: uppercase;
       color: var(--taake); text-decoration: none; padding-block: 0.25rem;
+      transition: color 160ms var(--ease-ut);
     }
     .meny a[aria-current="page"] { color: var(--korall); }
     @media (hover: hover) and (pointer: fine) {
       .meny a:hover { color: var(--hvit); }
     }
 
-    /* ===== Hero v2: plakatstil – flat flate + diagonalt fotopanel ===== */
-    .hero {
+    /* ===== HERO v3: scenen ===== */
+    .scene {
       position: relative; isolation: isolate; overflow: hidden;
-      background: var(--midnatt);
+      min-height: 88vh; min-height: 88dvh;
+      display: grid; place-items: center;
+      background: var(--natt);
     }
-    /* Subtile lysstråler [IKKE FRA HÅNDBOKEN – fra oppdraget] */
-    .hero__straaler {
-      position: absolute; inset: -15%; z-index: -1; pointer-events: none;
+    /* Scenerøyk: store, myke glød-flater */
+    .scene::before {
+      content: ""; position: absolute; inset: -20%; z-index: -3;
       background:
-        linear-gradient(104deg, transparent 40%, rgba(254,87,87,0.045) 43%, transparent 46%),
-        linear-gradient(80deg, transparent 63%, rgba(235,230,237,0.05) 66%, transparent 69%);
+        radial-gradient(42% 55% at 72% 85%, rgba(254,87,87,0.13), transparent 70%),
+        radial-gradient(55% 60% at 25% 90%, rgba(107,98,117,0.17), transparent 72%),
+        radial-gradient(70% 55% at 50% 0%, rgba(42,24,64,0.9), transparent 75%);
     }
-    .hero__grid { display: grid; }
-    .hero__tekst { padding-block: var(--rom-2xl) var(--rom-3xl); }
-    .hero h1 { color: var(--hvit); max-width: 12ch; margin-bottom: 0; }
-    .hero h1 .aksent { color: var(--korall); }
-    .hero__tekst p:not(.etikett) { color: var(--taake); max-width: 42ch; }
-    .hero__knapper { display: flex; flex-wrap: wrap; gap: var(--rom-m); margin-top: var(--rom-l); }
-
-    /* Fotopanel med diagonalt snitt (ekko av logoens 41°-flater) */
-    .hero__panel { position: relative; }
-    .hero__panel img { width: 100%; height: 100%; object-fit: cover; }
-    @media (max-width: 63.98rem) {
-      .hero__panel {
-        clip-path: polygon(0 2.5rem, 100% 0, 100% 100%, 0 100%);
-        margin-top: calc(-1 * var(--rom-2xl));
-      }
-      .hero__panel img { aspect-ratio: 16 / 10; }
+    /* Laserstråler: tynne lyslinjer fra øvre hjørner */
+    .straale {
+      position: absolute; top: -4%; z-index: -2;
+      width: 2px; height: 130%;
+      background: linear-gradient(to bottom,
+        rgba(254,87,87,0.85), rgba(254,87,87,0.25) 55%, transparent 90%);
+      box-shadow: 0 0 10px rgba(254,87,87,0.55);
+      transform-origin: top center;
+      pointer-events: none;
     }
-    @media (min-width: 64rem) {
-      .hero__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
-      .hero__tekst { padding-block: var(--rom-3xl); align-self: center; }
-      .hero__panel {
-        position: absolute; top: 0; right: 0; bottom: 0; width: 44%;
-        clip-path: polygon(7rem 0, 100% 0, 100% 100%, 0 100%);
-        z-index: -1;
-      }
-      .hero__panel::after { /* tone mot flaten slik at snittet leser tydelig */
-        content: ""; position: absolute; inset: 0;
-        background: linear-gradient(to right, rgba(42,24,64,0.55), rgba(42,24,64,0.05) 45%);
-      }
+    .straale--hvit {
+      background: linear-gradient(to bottom,
+        rgba(235,230,237,0.8), rgba(235,230,237,0.2) 55%, transparent 90%);
+      box-shadow: 0 0 9px rgba(235,230,237,0.4);
     }
-
+    .straale:nth-child(1) { left: 6%;  transform: rotate(16deg); }
+    .straale:nth-child(2) { left: 13%; transform: rotate(23deg); }
+    .straale:nth-child(3) { left: 20%; transform: rotate(31deg); }
+    .straale:nth-child(4) { right: 6%;  left: auto; transform: rotate(-16deg); }
+    .straale:nth-child(5) { right: 13%; left: auto; transform: rotate(-24deg); }
+    .straale:nth-child(6) { right: 20%; left: auto; transform: rotate(-32deg); }
     @media (prefers-reduced-motion: no-preference) {
-      .hero__straaler { animation: pust 9s ease-in-out infinite alternate; }
-      @keyframes pust { from { opacity: 0.5; } to { opacity: 1; } }
-      .hero__tekst > * { animation: inn 700ms var(--ease-ut) backwards; }
-      .hero__tekst > *:nth-child(2) { animation-delay: 60ms; }
-      .hero__tekst > *:nth-child(3) { animation-delay: 120ms; }
-      .hero__tekst > *:nth-child(4) { animation-delay: 180ms; }
-      .hero__tekst > *:nth-child(5) { animation-delay: 240ms; }
-      @keyframes inn { from { opacity: 0; transform: translateY(12px); } }
+      .straale { animation: sveip 11s var(--ease-inn-ut) infinite alternate; }
+      .straale:nth-child(2) { animation-duration: 13s; animation-delay: -4s; }
+      .straale:nth-child(3) { animation-duration: 9s;  animation-delay: -2s; }
+      .straale:nth-child(4) { animation-duration: 12s; animation-delay: -6s; }
+      .straale:nth-child(5) { animation-duration: 10s; animation-delay: -1s; }
+      .straale:nth-child(6) { animation-duration: 14s; animation-delay: -5s; }
+      @keyframes sveip {
+        from { transform: rotate(var(--fra, 14deg)); }
+        to   { transform: rotate(var(--til, 34deg)); }
+      }
+      .straale:nth-child(1) { --fra: 10deg;  --til: 26deg; }
+      .straale:nth-child(2) { --fra: 18deg;  --til: 30deg; }
+      .straale:nth-child(3) { --fra: 26deg;  --til: 38deg; }
+      .straale:nth-child(4) { --fra: -10deg; --til: -26deg; }
+      .straale:nth-child(5) { --fra: -19deg; --til: -31deg; }
+      .straale:nth-child(6) { --fra: -27deg; --til: -39deg; }
+      .scene::before { animation: puls 12s ease-in-out infinite alternate; }
+      @keyframes puls { from { opacity: 0.75; } to { opacity: 1; } }
     }
 
-    /* ===== Tjenester: plakatens kolonnemotiv (håndboken s. 13) ===== */
-    .kolonner {
-      display: grid; gap: var(--rom-xl) var(--rom-l);
-      grid-template-columns: 1fr;
+    .scene__innhold {
+      position: relative; text-align: center;
+      padding: var(--rom-3xl) var(--rom-l);
+      max-width: 46rem;
     }
+    .scene h1 {
+      color: var(--hvit);
+      font-size: clamp(2.5rem, 7vw, 3.75rem); /* topp = håndbokens 60 px */
+      margin-bottom: var(--rom-m);
+      text-wrap: balance;
+    }
+    .scene h1 .aksent { color: var(--korall); }
+    .scene .strek { margin-inline: auto; }
+    .scene p:not(.etikett) {
+      color: var(--taake); max-width: 44ch; margin-inline: auto;
+    }
+    .scene__knapper {
+      display: flex; flex-wrap: wrap; gap: var(--rom-m);
+      justify-content: center; margin-top: var(--rom-l);
+    }
+    .knapp--glod { box-shadow: 0 0 28px rgba(254,87,87,0.35); } /* scenelys på CTA */
+    @media (prefers-reduced-motion: no-preference) {
+      .scene__innhold > * { animation: inn 800ms var(--ease-ut) backwards; }
+      .scene__innhold > *:nth-child(2) { animation-delay: 80ms; }
+      .scene__innhold > *:nth-child(3) { animation-delay: 160ms; }
+      .scene__innhold > *:nth-child(4) { animation-delay: 240ms; }
+      .scene__innhold > *:nth-child(5) { animation-delay: 320ms; }
+      @keyframes inn { from { opacity: 0; transform: translateY(14px); } }
+    }
+
+    /* Diagonal overgang fra scenen */
+    .scene { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 3rem)); padding-bottom: 3rem; }
+
+    /* ===== Tjenester: kolonnemotiv ===== */
+    .seksjonstittel { color: var(--hvit); }
+    .kolonner { display: grid; gap: var(--rom-xl) var(--rom-l); grid-template-columns: 1fr; }
     @media (min-width: 40rem) { .kolonner { grid-template-columns: 1fr 1fr; } }
     @media (min-width: 64rem) { .kolonner { grid-template-columns: repeat(4, 1fr); } }
     .kolonne {
-      border-top: 1px solid rgba(235,230,237,0.3);
+      position: relative;
+      border-top: 1px solid rgba(235,230,237,0.28);
       padding-top: var(--rom-m);
       text-decoration: none; color: inherit;
       display: flex; flex-direction: column; align-items: flex-start; gap: var(--rom-s);
-      transition: border-color 200ms var(--ease-ut);
+    }
+    .kolonne::before { /* korall-lys som tenner langs toppstreken */
+      content: ""; position: absolute; top: -1px; left: 0; height: 1px; width: 0;
+      background: var(--korall); box-shadow: 0 0 8px rgba(254,87,87,0.6);
+      transition: width 350ms var(--ease-ut);
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .kolonne:hover::before { width: 100%; }
     }
     .kolonne h3 { color: var(--hvit); margin: 0; font-size: 1.25rem; }
     .kolonne p { font-size: 0.9375rem; margin: 0 0 var(--rom-m); }
@@ -103,17 +154,12 @@
       letter-spacing: 0.22em; text-transform: uppercase; color: var(--korall);
     }
     .kolonne .lenke::after { content: " →"; }
-    @media (hover: hover) and (pointer: fine) {
-      .kolonne:hover { border-top-color: var(--korall); }
-    }
     .kolonne__ny {
       font-family: var(--font-display); font-size: 0.75rem;
       letter-spacing: 0.22em; text-transform: uppercase; color: var(--korall);
     }
 
-    .seksjonstittel { color: var(--hvit); }
-
-    /* ===== Galleri-utvalg: asymmetrisk ===== */
+    /* ===== Galleri ===== */
     .galleri { display: grid; gap: var(--rom-m); }
     @media (min-width: 48rem) {
       .galleri { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; }
@@ -121,7 +167,7 @@
       .galleri figure:first-child img { height: 100%; }
     }
     .galleri figure { margin: 0; }
-    .galleri img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; height: 100%; }
+    .galleri img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; height: 100%; display: block; }
     .galleri figcaption {
       margin-top: var(--rom-s);
       font-size: var(--detalj-storrelse); color: var(--taake);
@@ -142,13 +188,19 @@
     .steg h3 { color: var(--natt); margin-bottom: var(--rom-s); }
     .steg p { font-size: 0.9375rem; }
 
-    /* ===== CTA ===== */
-    .cta { text-align: center; }
+    /* ===== CTA med scenelys ===== */
+    .cta {
+      position: relative; isolation: isolate; text-align: center; overflow: hidden;
+    }
+    .cta::before {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background: radial-gradient(50% 65% at 50% 100%, rgba(254,87,87,0.14), transparent 70%);
+    }
     .cta h2 { color: var(--hvit); }
     .cta .strek, .cta p { margin-inline: auto; }
 
     /* ===== Footer ===== */
-    footer { background: var(--natt); padding-block: var(--rom-2xl); }
+    footer { background: var(--midnatt); padding-block: var(--rom-2xl); }
     .footer-kolonner { display: grid; gap: var(--rom-xl); }
     @media (min-width: 48rem) { .footer-kolonner { grid-template-columns: 2fr 1fr 1fr; } }
     footer .f-logo { width: 8rem; margin-bottom: var(--rom-m); }
@@ -172,49 +224,47 @@
 </head>
 <body>
 
-<div class="hero">
-  <header>
-    <nav class="topp" aria-label="Hovedmeny">
-      <a class="topp__logo" href="forside.html" aria-label="T-Event – til forsiden">
-        <img src="../tevent-logo-negativ.svg" alt="" width="44" height="35">
-      </a>
-      <div class="meny">
-        <a href="forside.html" aria-current="page">Hjem</a>
-        <a href="tjenester.html">Tjenester</a>
-        <a href="#">Priser</a>
-        <a href="#">Galleri</a>
-        <a href="#">Kontakt</a>
-      </div>
-    </nav>
-  </header>
+<header class="topp">
+  <nav class="topp__rad" aria-label="Hovedmeny">
+    <a class="topp__logo" href="forside.html" aria-label="T-Event – til forsiden">
+      <img src="../tevent-logo-negativ.svg" alt="" width="40" height="32">
+    </a>
+    <div class="meny">
+      <a href="forside.html" aria-current="page">Hjem</a>
+      <a href="tjenester.html">Tjenester</a>
+      <a href="#">Priser</a>
+      <a href="#">Galleri</a>
+      <a href="#">Kontakt</a>
+    </div>
+  </nav>
+</header>
 
-  <!-- HERO -->
-  <section aria-label="Introduksjon">
-    <div class="hero__straaler" aria-hidden="true"></div>
-    <div class="ramme hero__grid">
-      <div class="hero__tekst">
-        <p class="etikett">DJ · lyd · lys</p>
-        <h1>Lyd, lys og DJ <span class="aksent">på Helgeland</span></h1>
-        <hr class="strek" aria-hidden="true">
-        <p>DJ, lyd og lys til russearrangementer, bryllup, konserter og
-        firmafest. Vi tar hele jobben – rigg, teknikk og nedrigg – slik at
-        du bare trenger å glede deg til kvelden.</p>
-        <div class="hero__knapper">
-          <a class="knapp knapp--primar" href="#">Send forespørsel</a>
-          <a class="knapp knapp--sekundar" href="tjenester.html">Se tjenestene</a>
-        </div>
-      </div>
-      <div class="hero__panel">
-        <img src="bilder/hero-lasere.jpg" alt="" fetchpriority="high">
+<main>
+  <!-- HERO: scenen -->
+  <section class="scene" aria-label="Introduksjon">
+    <div class="straale" aria-hidden="true"></div>
+    <div class="straale straale--hvit" aria-hidden="true"></div>
+    <div class="straale" aria-hidden="true"></div>
+    <div class="straale" aria-hidden="true"></div>
+    <div class="straale straale--hvit" aria-hidden="true"></div>
+    <div class="straale" aria-hidden="true"></div>
+    <div class="scene__innhold">
+      <p class="etikett">DJ · lyd · lys</p>
+      <h1>Lyd, lys og DJ <span class="aksent">på Helgeland</span></h1>
+      <hr class="strek" aria-hidden="true">
+      <p>DJ, lyd og lys til russearrangementer, bryllup, konserter og
+      firmafest. Vi tar hele jobben – rigg, teknikk og nedrigg – slik at du
+      bare trenger å glede deg til kvelden.</p>
+      <div class="scene__knapper">
+        <a class="knapp knapp--primar knapp--glod" href="#">Send forespørsel</a>
+        <a class="knapp knapp--sekundar" href="tjenester.html">Se tjenestene</a>
       </div>
     </div>
   </section>
-</div>
 
-<main>
-  <!-- TJENESTER: kolonnemotiv fra plakaten -->
-  <section class="seksjon" aria-labelledby="tjenester-tittel">
-    <div class="ramme">
+  <!-- TJENESTER -->
+  <section class="seksjon" aria-labelledby="tjenester-tittel" style="background:var(--midnatt)">
+    <div class="ramme avsloer">
       <h2 id="tjenester-tittel" class="seksjonstittel">Det vi leverer</h2>
       <hr class="strek" aria-hidden="true">
       <div class="kolonner">
@@ -247,21 +297,21 @@
     </div>
   </section>
 
-  <!-- GALLERI-UTVALG -->
-  <section class="seksjon" aria-labelledby="galleri-tittel">
-    <div class="ramme">
+  <!-- GALLERI -->
+  <section class="seksjon" aria-labelledby="galleri-tittel" style="background:var(--midnatt)">
+    <div class="ramme avsloer">
       <h2 id="galleri-tittel" class="seksjonstittel">Bak riggen</h2>
       <hr class="strek" aria-hidden="true">
       <div class="galleri">
-        <figure>
+        <figure class="bilde-tone">
           <img src="bilder/halloween.jpg" alt="Dansegulv i grønt lys og røyk på Halloween-arrangement">
           <figcaption>Halloween på Park22</figcaption>
         </figure>
-        <figure>
+        <figure class="bilde-tone">
           <img src="bilder/w-projeksjon.jpg" alt="Industribygg lyssatt i rosa og blått under et kveldsarrangement">
           <figcaption>Utendørs lyssetting</figcaption>
         </figure>
-        <figure>
+        <figure class="bilde-tone">
           <img src="bilder/dj-daniel.jpg" alt="DJ bak miksepulten i rødt lys">
           <figcaption>Klubbkveld</figcaption>
         </figure>
@@ -269,9 +319,9 @@
     </div>
   </section>
 
-  <!-- SLIK JOBBER VI (lys flate) -->
+  <!-- SLIK JOBBER VI -->
   <section class="lys seksjon lys-seksjon" aria-labelledby="slik-tittel">
-    <div class="ramme">
+    <div class="ramme avsloer">
       <h2 id="slik-tittel">Vi tar hele jobben</h2>
       <hr class="strek" aria-hidden="true">
       <div class="steg">
@@ -295,11 +345,11 @@
   </section>
 
   <!-- CTA -->
-  <section class="seksjon cta" aria-labelledby="cta-tittel">
-    <div class="ramme">
+  <section class="seksjon cta" aria-labelledby="cta-tittel" style="background:var(--natt)">
+    <div class="ramme avsloer">
       <h2 id="cta-tittel">Ledig dato? Send en melding, så finner vi ut av det.</h2>
       <hr class="strek" aria-hidden="true">
-      <a class="knapp knapp--primar" href="#">Send forespørsel</a>
+      <a class="knapp knapp--primar knapp--glod" href="#">Send forespørsel</a>
     </div>
   </section>
 </main>
