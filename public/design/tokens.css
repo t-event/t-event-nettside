@@ -77,6 +77,10 @@
 html { box-sizing: border-box; }
 *, *::before, *::after { box-sizing: inherit; }
 
+/* Nettleserflatene bærer også profilen */
+::selection { background: var(--korall); color: var(--natt); }
+:root { accent-color: var(--korall); caret-color: var(--korall); }
+
 body {
   margin: 0;
   background: var(--midnatt);                 /* 60 % mørk flate (s. 7) */
