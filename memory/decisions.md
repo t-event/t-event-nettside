@@ -13,6 +13,22 @@ Format (nyeste øverst):
 
 ---
 
+## 2026-10-01 – Design v3 «scenen», priser lages sammen, bygging starter
+- Beslutning: (1) Mathias: v2 fortsatt for lik gammel side; ønsker «mer
+  proff, med effekter» → v3 bygget som scene: animerte CSS-laserstråler,
+  scenerøyk-glød, sticky glassmeny, duotone-bildebehandling, scroll-
+  avsløringer med CSS scroll-driven animations (uten JavaScript; statisk i
+  nettlesere uten støtte), CTA med scenelys-glød. Alt slås av ved
+  prefers-reduced-motion. (2) Tripletex-prisene hentes ikke inn – pakker og
+  priser settes sammen av Mathias og Claude i en egen økt senere;
+  prissiden bygges med TODO-plassholdere. (3) Fase 3-byggingen starter nå,
+  uten å vente på skriftlige bildesamtykker – de SKAL foreligge før
+  publisering (føyd til fase 5-sperren sammen med skoleball-byttet).
+- Begrunnelse: Mathias' beskjed 2026-10-01 kveld.
+- Forventet resultat: v3 til vurdering; Astro-prosjektet etableres.
+- Reviewdato: 2026-10-31
+- Status: Aktiv
+
 ## 2026-10-01 – Avbestillingsfrister fastsatt
 - Beslutning (endelig per 2026-10-01 kveld): Avbestilling mer enn 14 dager
   før arrangementet: kostnadsfritt. 14 dager til 48 timer før: 50 % av

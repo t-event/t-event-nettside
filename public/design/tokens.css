@@ -175,6 +175,40 @@ a:focus-visible {
 }
 .seksjon { padding-block: var(--rom-2xl); }
 
+/* ---- Effektverktøy [IKKE FRA HÅNDBOKEN – fase 2 v3] ---- */
+
+/* Duotone-aktig bildebehandling: trekker foto inn i profilen */
+.bilde-tone { position: relative; overflow: hidden; }
+.bilde-tone img {
+  filter: saturate(0.85) contrast(1.06);
+  transition: transform 600ms var(--ease-ut), filter 600ms var(--ease-ut);
+}
+.bilde-tone::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, rgba(26,15,40,0.45), rgba(42,24,64,0.12));
+  transition: opacity 600ms var(--ease-ut);
+}
+@media (hover: hover) and (pointer: fine) {
+  .bilde-tone:hover img { transform: scale(1.03); filter: saturate(1) contrast(1.06); }
+  .bilde-tone:hover::after { opacity: 0.5; }
+}
+
+/* Scroll-avsløring uten JavaScript (CSS scroll-driven animations).
+   Progressiv: nettlesere uten støtte viser innholdet statisk. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .avsloer {
+      animation: avsloer-inn linear both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 45%;
+    }
+    @keyframes avsloer-inn {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: none; }
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
