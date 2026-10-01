@@ -13,6 +13,25 @@ Format (nyeste øverst):
 
 ---
 
+## 2026-10-01 – Spor B valgt: ekte WebGL-rigg, ny side fra blanke ark
+- Beslutning: Etter referansene landonorris.com, lusion.co og
+  cornrevolution.resn.global valgte Mathias spor B («spor b. men start
+  helt på nytt»): ekte 3D i heroen. Dermed: (1) **three.js r182 (MIT)
+  godkjent som avhengighet**, selvhostet (355 kB, lastes kun på forsiden).
+  (2) Mathias informert om og aksepterte at Lighthouse 95+-målet er i
+  risiko på mobil. (3) Ny side «Showet» bygget fra blanke ark:
+  3D-lysrigg (truss, 6 moving heads, volumetriske stråler, røyk, gulvglød)
+  som følger pekeren, lysbordet styrer riggen (hvitt/røyk/rolig/blackout),
+  indeksliste-tjenester, horisontal filmstripe-galleri. CSS-reserve uten
+  WebGL og ved prefers-reduced-motion – siden er aldri tom.
+- Begrunnelse: Mathias prioriterer «1 av 1»-opplevelse over maksimal
+  ytelse; avbøtende tiltak beholder tilgjengelighet og reserve.
+- Forventet resultat: Mathias vurderer 3D-utkastet i nettleser (Claude kan
+  ikke se WebGL-rendering selv – visuell verifisering gjøres av Mathias og
+  med Playwright-skjermbilder i fase 4).
+- Reviewdato: 2026-10-31
+- Status: Aktiv
+
 ## 2026-10-01 – «Lysbordet»: helt nytt konsept fra blanke ark
 - Beslutning: Mathias forkastet iterasjonslinjen v1–v5 («du fortsetter å
   jobbe på den samme gamle siden … lag noe helt nytt, nyskapende») og ba
