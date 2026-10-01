@@ -31,7 +31,20 @@ Sist oppdatert: 2026-10-01
   `docs/oppsett-cloudflare.md` steg 1–2 og oppgi prosjektadressen.
   Blokkerer ikke fase 1–2, men må være klart før fase 3-skjemaet testes.
 
-## Fase 1 – innhold fra gammel side: pågår
+## Fase 1 – innhold fra gammel side: kartlegging ferdig, venter på godkjenning
+
+- `INNHOLD-FRA-GAMMEL-SIDE.md`: alle tekster, 4 URL-er, bildeliste med
+  vurderinger, video. Flagget: påstander («erfarne DJ-er», «vi har alt»),
+  merkenavn på innleid utstyr, Park22/Eprod-navngiving, feil domene i
+  canonical (t-events.no), TikTok-konto ikke i faste opplysninger.
+- `RETTIGHETER.md`: ingen filer har dokumentert bruksrett ennå. Hovedfunn:
+  skoleball-serien har mulige mindreårige (5 bilder), teambilde krever
+  Marius' samtykke, 4 bilder mistenkt stock, «DANIEL I»-bilder viser trolig
+  annen artist.
+- Gammel side ligger trolig allerede på Cloudflare Pages-prosjektet
+  `t-events` (OG-url t-events.pages.dev) – relevant for fase 5.
+- VENTER PÅ: Mathias' svar på rettighetsspørsmålene og godkjenning av hvilket
+  innhold som tas med videre, før fase 2 (design) starter.
 
 ## Neste fase
 Fase 1 – innhold fra gammel side. Starter først etter Mathias' godkjenning
