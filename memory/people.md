@@ -15,6 +15,9 @@
   Anbefalt (ikke gjort): kort skriftlig OK fra Eprod på å navngis.
 - **«Daniel I»** – DJ/artist på to bilder fra gammel side. Har samtykket til
   bildebruk (Mathias 2026-10-01). TODO: ta vare på samtykket skriftlig.
+- **Proffhosting (proffhosting.no)** – drifter e-posten på @t-event.no
+  (oppgitt av Mathias 2026-10-01). Databehandler for innkommende
+  forespørsler; navngis i personvernerklæringen.
 - **Regnskapsfører** – TODO: navn/kontakt hvis relevant (oppfølging av
   mva-spørsmål og lagringstid for regnskapsmateriale).
 - **Jurist/fagperson** – ikke engasjert; juridiske tekster er utkast til

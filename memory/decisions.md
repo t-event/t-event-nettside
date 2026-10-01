@@ -13,6 +13,39 @@ Format (nyeste øverst):
 
 ---
 
+## 2026-10-01 – Fase 3-avklaringer fra Mathias (e-post, priser, avtaler, m.m.)
+- Beslutning: (1) **E-posttjeneste: EU-basert** – kandidat Brevo (Paris,
+  EU-datalagring, gratis 300/dag, transaksjons-API; verifisert mot
+  brevo.com 2026-10-01). Resend er ute. (2) **Ingen depositum som
+  hovedregel** – avbestillingsfrister brukes i stedet; bindingspunkt og
+  frister konkretiseres (TODO fra Mathias). Dette erstatter oppdragets
+  opprinnelige depositum-grunnprinsipp. (3) **proffhosting.no** drifter
+  @t-event.no-innboksen → navngis som databehandler i personvernerklæringen.
+  (4) **TikTok (@tevent.no) skal med** på ny side (footer + JSON-LD sameAs).
+  (5) **Pakkepriser må utvikles** – ingen oppdrag er like; pakker med
+  «fra»-priser settes sammen med utgangspunkt i Tripletex-produktprisene
+  når Mathias sender dem. (6) **Bildesamtykker:** Marius/Daniel/Rana Blad er
+  informert muntlig, skriftlig dokumentasjon mangler – ferdige meldingsutkast
+  laget i docs/samtykke-meldinger.md som Mathias kan sende.
+- Begrunnelse: Mathias' svar 2026-10-01. EU-valget fjerner
+  tredjelandsoverføring for skjemadata.
+- Forventet resultat: Skjemafunksjonen bygges mot Brevo i fase 3;
+  vilkår/avbestilling skrives rundt frister, ikke depositum.
+- Reviewdato: 2026-10-31
+- Status: Aktiv
+
+## 2026-10-01 – Designretning: tydeligere avstand fra gammel side
+- Beslutning: Mathias synes v1-utkastet «ligner veldig på den gamle siden»
+  (foto-hero med mørkt overlegg). Ny retning: typografidrevet, plakatlik
+  hero i håndbokens stil – flat Midnatt-flate med stor Jost Light-tittel og
+  asymmetrisk fotopanel med diagonalt snitt; tjenestene som plakatens
+  kolonnemotiv (s. 13) i stedet for kort-bokser.
+- Begrunnelse: Håndbokens egen estetikk er flat og typografisk, ikke
+  foto-overlegg; gir tydelig avstand fra gammel side.
+- Forventet resultat: Design v2 til ny vurdering.
+- Reviewdato: 2026-10-31
+- Status: Aktiv
+
 ## 2026-10-01 – Cloudflare Web Analytics aktivert + designprosess
 - Beslutning: (1) Mathias har aktivert Cloudflare Web Analytics for
   Pages-prosjektet (cookiefri statistikk, jf. statistikkbeslutningen).

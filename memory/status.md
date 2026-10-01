@@ -60,9 +60,14 @@ Sist oppdatert: 2026-10-01
 - Leveranse i `public/design/` (ses på pages.dev/design/): tokens.css,
   forside, tjenesteside, komponentoversikt med kontrasttabell.
 - Grunnlag og ikke-fra-håndboken-valg dokumentert i docs/design-fase2.md.
-- Venter på: Mathias' godkjenning av designet og de 10 merkede valgene.
+- Mathias' tilbakemelding på v1: «ligner veldig på den gamle siden» → v2
+  laget 2026-10-01: plakatstil-hero (flat Midnatt + diagonalt fotopanel),
+  tjenester som håndbokens kolonnemotiv. Venter på ny vurdering.
 - Polish-runde kjørt med installerte skills (.claude/skills/, pinnede
   commits); konflikt React-stack vs. minst-JS løst etter rangeringen.
+- Åpne TODO-er fra Mathias: avbestillingsfrister (+gebyrer),
+  Tripletex-priser + de tre prisreglene, skriftlige samtykkesvar
+  (meldingsutkast klare i docs/samtykke-meldinger.md).
 
 ## Fase 3-forberedelser (2026-10-01): docs/fase3-forberedelser.md
 
