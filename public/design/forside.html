@@ -7,12 +7,29 @@
   <title>UTKAST – Forside – T-Event</title>
   <link rel="stylesheet" href="tokens.css">
   <style>
+    /* ============================================================
+       V4 «LYSRIGGEN» – konsept: siden er T-Events lysrigg.
+       Besøkeren styrer lyskjeglen (mus/finger); uten JavaScript
+       sveiper lyset automatisk. Alle vinkler er logoens 41°.
+       ============================================================ */
+
     body { background: var(--natt); }
+
+    /* Filmkorn over alt – gir dybde, fjerner «flat skjermfølelse» */
+    body::after {
+      content: ""; position: fixed; inset: 0; z-index: 60;
+      pointer-events: none; opacity: 0.045;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* Lyskjeglens posisjon – registrert så den kan animeres i ren CSS */
+    @property --lys-x { syntax: "<percentage>"; inherits: true; initial-value: 62%; }
+    @property --lys-y { syntax: "<percentage>"; inherits: true; initial-value: 38%; }
 
     /* ===== Sticky glassmeny ===== */
     .topp {
       position: sticky; top: 0; z-index: 10;
-      background: rgba(26,15,40,0.75);
+      background: rgba(26,15,40,0.72);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(235,230,237,0.08);
@@ -24,7 +41,7 @@
       padding: var(--rom-m) var(--rom-l);
     }
     .topp__logo img { width: 2.5rem; height: auto; }
-    .meny { display: flex; flex-wrap: wrap; gap: var(--rom-s) var(--rom-l); align-items: center; }
+    .meny { display: flex; flex-wrap: wrap; gap: var(--rom-s) var(--rom-l); }
     .meny a {
       font-family: var(--font-display); font-weight: 400;
       font-size: 0.8125rem; letter-spacing: 0.22em; text-transform: uppercase;
@@ -32,101 +49,124 @@
       transition: color 160ms var(--ease-ut);
     }
     .meny a[aria-current="page"] { color: var(--korall); }
-    @media (hover: hover) and (pointer: fine) {
-      .meny a:hover { color: var(--hvit); }
-    }
+    @media (hover: hover) and (pointer: fine) { .meny a:hover { color: var(--hvit); } }
 
-    /* ===== HERO v3: scenen ===== */
-    .scene {
+    /* ===== HERO: riggen ===== */
+    .rigg {
       position: relative; isolation: isolate; overflow: hidden;
-      min-height: 88vh; min-height: 88dvh;
-      display: grid; place-items: center;
+      min-height: 90vh; min-height: 90dvh;
+      display: grid; align-items: center;
       background: var(--natt);
-    }
-    /* Scenerøyk: store, myke glød-flater */
-    .scene::before {
-      content: ""; position: absolute; inset: -20%; z-index: -3;
-      background:
-        radial-gradient(42% 55% at 72% 85%, rgba(254,87,87,0.13), transparent 70%),
-        radial-gradient(55% 60% at 25% 90%, rgba(107,98,117,0.17), transparent 72%),
-        radial-gradient(70% 55% at 50% 0%, rgba(42,24,64,0.9), transparent 75%);
-    }
-    /* Laserstråler: tynne lyslinjer fra øvre hjørner */
-    .straale {
-      position: absolute; top: -4%; z-index: -2;
-      width: 2px; height: 130%;
-      background: linear-gradient(to bottom,
-        rgba(254,87,87,0.85), rgba(254,87,87,0.25) 55%, transparent 90%);
-      box-shadow: 0 0 10px rgba(254,87,87,0.55);
-      transform-origin: top center;
-      pointer-events: none;
-    }
-    .straale--hvit {
-      background: linear-gradient(to bottom,
-        rgba(235,230,237,0.8), rgba(235,230,237,0.2) 55%, transparent 90%);
-      box-shadow: 0 0 9px rgba(235,230,237,0.4);
-    }
-    .straale:nth-child(1) { left: 6%;  transform: rotate(16deg); }
-    .straale:nth-child(2) { left: 13%; transform: rotate(23deg); }
-    .straale:nth-child(3) { left: 20%; transform: rotate(31deg); }
-    .straale:nth-child(4) { right: 6%;  left: auto; transform: rotate(-16deg); }
-    .straale:nth-child(5) { right: 13%; left: auto; transform: rotate(-24deg); }
-    .straale:nth-child(6) { right: 20%; left: auto; transform: rotate(-32deg); }
-    @media (prefers-reduced-motion: no-preference) {
-      .straale { animation: sveip 11s var(--ease-inn-ut) infinite alternate; }
-      .straale:nth-child(2) { animation-duration: 13s; animation-delay: -4s; }
-      .straale:nth-child(3) { animation-duration: 9s;  animation-delay: -2s; }
-      .straale:nth-child(4) { animation-duration: 12s; animation-delay: -6s; }
-      .straale:nth-child(5) { animation-duration: 10s; animation-delay: -1s; }
-      .straale:nth-child(6) { animation-duration: 14s; animation-delay: -5s; }
-      @keyframes sveip {
-        from { transform: rotate(var(--fra, 14deg)); }
-        to   { transform: rotate(var(--til, 34deg)); }
-      }
-      .straale:nth-child(1) { --fra: 10deg;  --til: 26deg; }
-      .straale:nth-child(2) { --fra: 18deg;  --til: 30deg; }
-      .straale:nth-child(3) { --fra: 26deg;  --til: 38deg; }
-      .straale:nth-child(4) { --fra: -10deg; --til: -26deg; }
-      .straale:nth-child(5) { --fra: -19deg; --til: -31deg; }
-      .straale:nth-child(6) { --fra: -27deg; --til: -39deg; }
-      .scene::before { animation: puls 12s ease-in-out infinite alternate; }
-      @keyframes puls { from { opacity: 0.75; } to { opacity: 1; } }
+      touch-action: pan-y;
     }
 
-    .scene__innhold {
-      position: relative; text-align: center;
-      padding: var(--rom-3xl) var(--rom-l);
-      max-width: 46rem;
+    /* Lag 1: scenen i mørket – så vidt synlig */
+    .rigg__moerke {
+      position: absolute; inset: 0; z-index: -3;
+      background-image: url("bilder/hero-lasere.jpg");
+      background-size: cover; background-position: center;
+      opacity: 0.1;
+      filter: saturate(0.7);
     }
-    .scene h1 {
-      color: var(--hvit);
-      font-size: clamp(2.5rem, 7vw, 3.75rem); /* topp = håndbokens 60 px */
-      margin-bottom: var(--rom-m);
-      text-wrap: balance;
+
+    /* Lag 2: det lyskjeglen avslører – samme scene, i full styrke */
+    .rigg__lys {
+      position: absolute; inset: 0; z-index: -2;
+      background-image:
+        linear-gradient(rgba(26,15,40,0.25), rgba(26,15,40,0.25)),
+        url("bilder/hero-lasere.jpg");
+      background-size: cover; background-position: center;
+      -webkit-mask-image: radial-gradient(circle 24rem at var(--lys-x) var(--lys-y),
+        rgba(0,0,0,0.95), rgba(0,0,0,0.5) 55%, transparent 78%);
+      mask-image: radial-gradient(circle 24rem at var(--lys-x) var(--lys-y),
+        rgba(0,0,0,0.95), rgba(0,0,0,0.5) 55%, transparent 78%);
     }
-    .scene h1 .aksent { color: var(--korall); }
-    .scene .strek { margin-inline: auto; }
-    .scene p:not(.etikett) {
-      color: var(--taake); max-width: 44ch; margin-inline: auto;
+    /* Selve lyskjeglen som svak glød oppå */
+    .rigg__kjegle {
+      position: absolute; inset: 0; z-index: -1; pointer-events: none;
+      background: radial-gradient(circle 24rem at var(--lys-x) var(--lys-y),
+        rgba(235,230,237,0.09), transparent 70%);
     }
-    .scene__knapper {
-      display: flex; flex-wrap: wrap; gap: var(--rom-m);
-      justify-content: center; margin-top: var(--rom-l);
-    }
-    .knapp--glod { box-shadow: 0 0 28px rgba(254,87,87,0.35); } /* scenelys på CTA */
+
+    /* Uten JavaScript / uten pekerhover: lyset sveiper selv */
     @media (prefers-reduced-motion: no-preference) {
-      .scene__innhold > * { animation: inn 800ms var(--ease-ut) backwards; }
-      .scene__innhold > *:nth-child(2) { animation-delay: 80ms; }
-      .scene__innhold > *:nth-child(3) { animation-delay: 160ms; }
-      .scene__innhold > *:nth-child(4) { animation-delay: 240ms; }
-      .scene__innhold > *:nth-child(5) { animation-delay: 320ms; }
+      html:not(.har-peker) .rigg {
+        animation: lyssveip 16s var(--ease-inn-ut) infinite alternate;
+      }
+      @keyframes lyssveip {
+        0%   { --lys-x: 22%; --lys-y: 34%; }
+        45%  { --lys-x: 74%; --lys-y: 30%; }
+        100% { --lys-x: 58%; --lys-y: 66%; }
+      }
+    }
+
+    /* T-merket som scenografi: stor, svak kontur bak teksten */
+    .rigg__merke {
+      position: absolute; z-index: -1; pointer-events: none;
+      right: -4%; top: 50%; translate: 0 -50%;
+      width: min(52vw, 34rem); opacity: 0.1;
+    }
+    .rigg__merke path { fill: none; stroke: var(--taake); stroke-width: 2; }
+    .rigg__merke .m-korall { stroke: var(--korall); }
+
+    /* To stråler låst til logoens 41° */
+    .rigg__straale {
+      position: absolute; top: -12%; z-index: -1; pointer-events: none;
+      width: 2px; height: 140%;
+      background: linear-gradient(to bottom, rgba(254,87,87,0.5),
+        rgba(254,87,87,0.12) 60%, transparent 90%);
+      box-shadow: 0 0 12px rgba(254,87,87,0.3);
+      transform: rotate(41deg); transform-origin: top center;
+    }
+    .rigg__straale--en { left: 14%; }
+    .rigg__straale--to { left: 30%; opacity: 0.5; }
+
+    .rigg__innhold {
+      position: relative;
+      max-width: var(--maks-bredde); width: 100%;
+      margin-inline: auto; padding: var(--rom-3xl) var(--rom-l);
+    }
+    .rigg h1 {
+      font-size: clamp(2.5rem, 7vw, 3.75rem);
+      max-width: 13ch;
+      margin-bottom: var(--rom-m);
+      /* Overskriften lyssettes: et lysdrag vandrer gjennom teksten,
+         som en projeksjon på en vegg */
+      background: linear-gradient(100deg,
+        var(--taake) 20%, var(--hvit) 38%, #fff7f7 50%, var(--hvit) 62%, var(--taake) 80%);
+      background-size: 220% 100%;
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .rigg h1 { animation: projeksjon 7s var(--ease-inn-ut) infinite alternate; }
+      @keyframes projeksjon {
+        from { background-position: 10% 0; }
+        to   { background-position: 90% 0; }
+      }
+    }
+    .rigg h1 .aksent {
+      background: none;
+      -webkit-text-fill-color: var(--korall);
+      color: var(--korall);
+    }
+    .rigg p:not(.etikett) { color: var(--taake); max-width: 44ch; }
+    .rigg__knapper { display: flex; flex-wrap: wrap; gap: var(--rom-m); margin-top: var(--rom-l); }
+    .knapp--glod { box-shadow: 0 0 28px rgba(254,87,87,0.3); }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .rigg__innhold > * { animation: inn 800ms var(--ease-ut) backwards; }
+      .rigg__innhold > *:nth-child(2) { animation-delay: 80ms; }
+      .rigg__innhold > *:nth-child(3) { animation-delay: 160ms; }
+      .rigg__innhold > *:nth-child(4) { animation-delay: 240ms; }
+      .rigg__innhold > *:nth-child(5) { animation-delay: 320ms; }
       @keyframes inn { from { opacity: 0; transform: translateY(14px); } }
     }
 
-    /* Diagonal overgang fra scenen */
-    .scene { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 3rem)); padding-bottom: 3rem; }
+    /* Diagonal overgang i 41°-familien */
+    .rigg { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 3rem)); padding-bottom: 3rem; }
 
-    /* ===== Tjenester: kolonnemotiv ===== */
+    /* ===== Tjenester ===== */
     .seksjonstittel { color: var(--hvit); }
     .kolonner { display: grid; gap: var(--rom-xl) var(--rom-l); grid-template-columns: 1fr; }
     @media (min-width: 40rem) { .kolonner { grid-template-columns: 1fr 1fr; } }
@@ -138,14 +178,12 @@
       text-decoration: none; color: inherit;
       display: flex; flex-direction: column; align-items: flex-start; gap: var(--rom-s);
     }
-    .kolonne::before { /* korall-lys som tenner langs toppstreken */
+    .kolonne::before {
       content: ""; position: absolute; top: -1px; left: 0; height: 1px; width: 0;
       background: var(--korall); box-shadow: 0 0 8px rgba(254,87,87,0.6);
       transition: width 350ms var(--ease-ut);
     }
-    @media (hover: hover) and (pointer: fine) {
-      .kolonne:hover::before { width: 100%; }
-    }
+    @media (hover: hover) and (pointer: fine) { .kolonne:hover::before { width: 100%; } }
     .kolonne h3 { color: var(--hvit); margin: 0; font-size: 1.25rem; }
     .kolonne p { font-size: 0.9375rem; margin: 0 0 var(--rom-m); }
     .kolonne .lenke {
@@ -159,7 +197,7 @@
       letter-spacing: 0.22em; text-transform: uppercase; color: var(--korall);
     }
 
-    /* ===== Galleri ===== */
+    /* ===== Galleri: «lyset skrus på» når du ruller dit ===== */
     .galleri { display: grid; gap: var(--rom-m); }
     @media (min-width: 48rem) {
       .galleri { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; }
@@ -167,7 +205,27 @@
       .galleri figure:first-child img { height: 100%; }
     }
     .galleri figure { margin: 0; }
-    .galleri img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; height: 100%; display: block; }
+    .galleri img {
+      aspect-ratio: 4 / 3; object-fit: cover; width: 100%; height: 100%; display: block;
+      filter: grayscale(0.65) brightness(0.72);
+      transition: filter 700ms var(--ease-ut);
+    }
+    @supports (animation-timeline: view()) {
+      @media (prefers-reduced-motion: no-preference) {
+        .galleri img {
+          animation: lys-paa linear both;
+          animation-timeline: view();
+          animation-range: entry 10% entry 70%;
+        }
+        @keyframes lys-paa {
+          from { filter: grayscale(0.65) brightness(0.72); }
+          to   { filter: none; }
+        }
+      }
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .galleri figure:hover img { filter: none; }
+    }
     .galleri figcaption {
       margin-top: var(--rom-s);
       font-size: var(--detalj-storrelse); color: var(--taake);
@@ -188,13 +246,11 @@
     .steg h3 { color: var(--natt); margin-bottom: var(--rom-s); }
     .steg p { font-size: 0.9375rem; }
 
-    /* ===== CTA med scenelys ===== */
-    .cta {
-      position: relative; isolation: isolate; text-align: center; overflow: hidden;
-    }
+    /* ===== CTA ===== */
+    .cta { position: relative; isolation: isolate; text-align: center; overflow: hidden; }
     .cta::before {
       content: ""; position: absolute; inset: 0; z-index: -1;
-      background: radial-gradient(50% 65% at 50% 100%, rgba(254,87,87,0.14), transparent 70%);
+      background: radial-gradient(50% 65% at 50% 100%, rgba(254,87,87,0.13), transparent 70%);
     }
     .cta h2 { color: var(--hvit); }
     .cta .strek, .cta p { margin-inline: auto; }
@@ -212,9 +268,7 @@
     footer ul { list-style: none; margin: 0; padding: 0; }
     footer li { margin-bottom: var(--rom-s); }
     footer a { text-decoration: none; }
-    @media (hover: hover) and (pointer: fine) {
-      footer a:hover { text-decoration: underline; }
-    }
+    @media (hover: hover) and (pointer: fine) { footer a:hover { text-decoration: underline; } }
     .footer-bunn {
       margin-top: var(--rom-2xl); padding-top: var(--rom-l);
       border-top: 1px solid rgba(235,230,237,0.14);
@@ -240,22 +294,27 @@
 </header>
 
 <main>
-  <!-- HERO: scenen -->
-  <section class="scene" aria-label="Introduksjon">
-    <div class="straale" aria-hidden="true"></div>
-    <div class="straale straale--hvit" aria-hidden="true"></div>
-    <div class="straale" aria-hidden="true"></div>
-    <div class="straale" aria-hidden="true"></div>
-    <div class="straale straale--hvit" aria-hidden="true"></div>
-    <div class="straale" aria-hidden="true"></div>
-    <div class="scene__innhold">
+  <!-- HERO: lysriggen -->
+  <section class="rigg" id="rigg" aria-label="Introduksjon">
+    <div class="rigg__moerke" aria-hidden="true"></div>
+    <div class="rigg__lys" aria-hidden="true"></div>
+    <div class="rigg__kjegle" aria-hidden="true"></div>
+    <svg class="rigg__merke" viewBox="0 0 381 371" aria-hidden="true">
+      <path d="M156 0 H362 V126 H245 V203 L117 317 V126 H19 Z"></path>
+      <path class="m-korall" d="M0 0 H131 L0 113 Z"></path>
+      <path class="m-korall" d="M245 238 V298 L117 371 V350 Z"></path>
+    </svg>
+    <div class="rigg__straale rigg__straale--en" aria-hidden="true"></div>
+    <div class="rigg__straale rigg__straale--to" aria-hidden="true"></div>
+
+    <div class="rigg__innhold">
       <p class="etikett">DJ · lyd · lys</p>
       <h1>Lyd, lys og DJ <span class="aksent">på Helgeland</span></h1>
       <hr class="strek" aria-hidden="true">
       <p>DJ, lyd og lys til russearrangementer, bryllup, konserter og
       firmafest. Vi tar hele jobben – rigg, teknikk og nedrigg – slik at du
       bare trenger å glede deg til kvelden.</p>
-      <div class="scene__knapper">
+      <div class="rigg__knapper">
         <a class="knapp knapp--primar knapp--glod" href="#">Send forespørsel</a>
         <a class="knapp knapp--sekundar" href="tjenester.html">Se tjenestene</a>
       </div>
@@ -303,15 +362,15 @@
       <h2 id="galleri-tittel" class="seksjonstittel">Bak riggen</h2>
       <hr class="strek" aria-hidden="true">
       <div class="galleri">
-        <figure class="bilde-tone">
+        <figure>
           <img src="bilder/halloween.jpg" alt="Dansegulv i grønt lys og røyk på Halloween-arrangement">
           <figcaption>Halloween på Park22</figcaption>
         </figure>
-        <figure class="bilde-tone">
+        <figure>
           <img src="bilder/w-projeksjon.jpg" alt="Industribygg lyssatt i rosa og blått under et kveldsarrangement">
           <figcaption>Utendørs lyssetting</figcaption>
         </figure>
-        <figure class="bilde-tone">
+        <figure>
           <img src="bilder/dj-daniel.jpg" alt="DJ bak miksepulten i rødt lys">
           <figcaption>Klubbkveld</figcaption>
         </figure>
@@ -387,6 +446,29 @@
     avtale</p>
   </div>
 </footer>
+
+<!-- Eneste skript på siden, og det er pyntegrønt [IKKE FRA HÅNDBOKEN –
+     til godkjenning]: lar besøkeren styre lyskjeglen i heroen.
+     Uten skript (eller på berøringsskjerm) sveiper lyset automatisk.
+     Ingen data samles inn. -->
+<script>
+  (function () {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    var rigg = document.getElementById('rigg');
+    if (!rigg) return;
+    document.documentElement.classList.add('har-peker');
+    var raf = null;
+    rigg.addEventListener('pointermove', function (e) {
+      if (raf) return;
+      raf = requestAnimationFrame(function () {
+        var b = rigg.getBoundingClientRect();
+        rigg.style.setProperty('--lys-x', ((e.clientX - b.left) / b.width) * 100 + '%');
+        rigg.style.setProperty('--lys-y', ((e.clientY - b.top) / b.height) * 100 + '%');
+        raf = null;
+      });
+    });
+  })();
+</script>
 
 </body>
 </html>
