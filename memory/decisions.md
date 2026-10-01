@@ -13,6 +13,32 @@ Format (nyeste øverst):
 
 ---
 
+## 2026-10-01 – Fase 0-godkjenninger fra Mathias
+- Beslutning: (1) Hele verktøy-/tjenestelisten godkjent: Playwright MCP,
+  Figma MCP, skillsene emil-design-eng, impeccable, taste, UI UX Pro Max,
+  Motion AI Kit (gratisdelen), samt Cloudflare Pages/Turnstile/Web Analytics
+  på gratisnivå. (2) Repoet gjøres offentlig for å få branch protection
+  gratis. (3) Mathias har ingen Figma-plan → fase 2-leveransen blir statiske
+  HTML/CSS-designutkast med design-tokens, vist som skjermbilder.
+  (4) mathias@t-event.no bekreftet fungerende av Mathias.
+  (5) Mathias ga stående tillatelse til at Claude merger PR-er for ham.
+- Begrunnelse: Svar på fase 0-godkjenningslisten. Offentlig repo gir ruleset
+  på GitHub Free uten kostnad; Figma-kvoten på gratisplan (ca. 6 kall/mnd) er
+  ubrukelig for reell design.
+- Forventet resultat: Fase 1 kan starte; ruleset «Beskytt main» aktiv
+  (deletion, non-fast-forward, PR-krav, 0 godkjenninger).
+- Reviewdato: 2026-10-31
+- Status: Aktiv
+
+## 2026-10-01 – Profilhåndbok mottatt og lagt i repoet
+- Beslutning: Designhåndbok v1.0 (2026) ligger som
+  `docs/profilhandbok/Designhandbok.pdf` og er designfasit. Oppsummert i
+  `memory/preferences.md` under «Profil».
+- Begrunnelse: Fase 0.4-krav.
+- Forventet resultat: Design-tokens genereres direkte fra håndboken i fase 2.
+- Reviewdato: 2026-10-31
+- Status: Aktiv
+
 ## 2026-10-01 – Plassholdere i oppdraget fastsatt
 - Beslutning: Gammelt repo = `t-event/website`. Nytt repo =
   `t-event/t-event-nettside` (privat). Bookingforespørsler sendes til

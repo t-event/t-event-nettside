@@ -18,18 +18,20 @@ Sist oppdatert: 2026-10-01
 - `RISIKOER.md` opprettet med 10 risikoer.
 - Cloudflare-instruks skrevet: `docs/oppsett-cloudflare.md`.
 
-### Gjenstår i fase 0 (venter på Mathias)
-- Godkjenning av den samlede verktøy-/tjenestelisten (presentert 2026-10-01).
-- Valg: branch protection (GitHub Pro / offentlig / kun PR-rutine).
-- Avklaring: hvilken Figma-plan har Mathias? Evt. godkjenne HTML-designutkast
-  som alternativ leveranse i fase 2.
-- Mathias må gjøre Cloudflare-oppsettet (docs/oppsett-cloudflare.md) og oppgi
-  den faktiske `<PROSJEKT>.pages.dev`-adressen.
-- Profilhåndboken (0.4): ikke mottatt – må leveres før fase 2.
+### Fase 0 lukket 2026-10-01 (med ett unntak)
+- Verktøyliste godkjent, repo gjort offentlig, ruleset «Beskytt main» aktiv.
+- Fase 2-leveranse endret til HTML/CSS-designutkast (ingen Figma-plan).
+- Profilhåndbok mottatt, committet og oppsummert i preferences.md.
+- mathias@t-event.no bekreftet av Mathias.
 
-## Åpne spørsmål til Mathias
-- Se «Gjenstår i fase 0» over.
-- Bekreft at mathias@t-event.no eksisterer og mottar e-post (risiko 10).
+### Eneste gjenstående fra fase 0
+- **Cloudflare-oppsettet ser ikke ut til å være fullført:** ingen
+  pages.dev-adresse svarer på DNS og ingen deploy-statuser på GitHub
+  (sjekket 2026-10-01 etter PR #1). Mathias må fullføre
+  `docs/oppsett-cloudflare.md` steg 1–2 og oppgi prosjektadressen.
+  Blokkerer ikke fase 1–2, men må være klart før fase 3-skjemaet testes.
+
+## Fase 1 – innhold fra gammel side: pågår
 
 ## Neste fase
 Fase 1 – innhold fra gammel side. Starter først etter Mathias' godkjenning
