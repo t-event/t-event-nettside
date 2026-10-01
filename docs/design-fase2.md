@@ -36,6 +36,32 @@ erstatter Figma-leveransen (beslutning 2026-10-01: ingen Figma-plan).
    «navigasjon skal fungere uten JavaScript».
 8. **Hero-bildet tones mot Natt nederst** slik at tekst alltid leser –
    følger prinsippet «logo/tekst på rolig del av bildet» (s. 5).
+9. **Diagonale snitt** på hero-bunn, lys seksjon og laserbåndet – ekko av
+   logoens 41°-flater (selve snittvinkelen er slakere av layouthensyn).
+10. **Hero-inntreden**: kort fade/stigning (700 ms, forskjøvet 60 ms per
+   element) kun ved sidelasting, kun i heroen, kun uten
+   `prefers-reduced-motion`.
+
+## Skill-bruk i polish-runden (2026-10-01)
+
+De godkjente skillsene er installert i `.claude/skills/` (kilder og pinnede
+commits i `.claude/skills/KILDER.txt`; skript i skillsene kjøres ikke uten
+forutgående gjennomgang, jf. RISIKOER.md #8). Anvendt på utkastene:
+
+- **emil-design-eng**: trykk-respons på knapper (`scale(0.97)`, 160 ms,
+  kraftig ease-out-kurve), hover kun bak `(hover: hover) and (pointer:
+  fine)`, UI-animasjoner < 300 ms, inntreden med forskyvning 60 ms.
+- **taste-skill**: etikett-rasjonering (maks 1 per 3 seksjoner – fjernet
+  overflødige), brudd på bilde/tekst-vekslingen med fullbredde laserbånd,
+  asymmetrisk galleri (2fr/1fr), ingen rene svarte/hvite flater (Natt/Tåke),
+  CTA-tekster konsistente.
+- **Skill-konflikt, løst etter rangeringen**: taste-skill anbefaler
+  React + Tailwind + Motion-stack; oppdragets krav om minst JavaScript og
+  SSG vinner (rangering: prompt > skills). Kun designprinsippene er brukt.
+- **Avvik fra taste-skill, med vilje**: tankestrek (–) beholdes i brødtekst
+  (norsk typografi + håndbokens egne formuleringer bruker den; håndboken
+  rangerer over skills), og «DJ · lyd · lys» beholdes som hero-etikett
+  (håndbokens faste formulering, s. 9).
 
 ## Kontrast
 
