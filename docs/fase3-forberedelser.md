@@ -77,9 +77,8 @@ kun IP-basert; Turnstile er derfor primærforsvaret.
 - E-post: **EU-tjeneste valgt** → Brevo er kandidaten (verifisert: Paris,
   EU-lagring, gratis 300/dag, transaksjons-API).
 - Depositum: **ingen som hovedregel** – avbestillingsfrister i stedet.
-  Frister (2026-10-01): >14 dager: gratis · 14–3 dager: 50 % ·
-  <48 timer: 100 %. TODO: vinduet 72–48 t er udefinert (forslag: 50 %
-  frem til 48 t), og bindingspunktet (skriftlig bekreftelse?) bekreftes.
+  Frister (endelig 2026-10-01): >14 dager: gratis · 14 dager–48 timer:
+  50 % · <48 timer: 100 %. Gjelder fra oppdraget er bekreftet med avtale.
 - Databehandler innboks: **proffhosting.no** (norsk leverandør).
 - TikTok: **med** på ny side.
 - Pakkepriser: utvikles sammen med Mathias fra Tripletex-prisene.
