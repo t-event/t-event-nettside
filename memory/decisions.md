@@ -13,6 +13,37 @@ Format (nyeste øverst):
 
 ---
 
+## 2026-10-01 – Rettigheter og innhold fra gammel side (fase 1-svar)
+- Beslutning: (1) Egne arrangementsbilder: opphavsrett bekreftet (tatt av
+  T-Event selv). (2) Skoleball-bildene brukes IKKE – kan vise mindreårige og
+  mangler dokumentert avklaring. (3) Teambildet: tatt av avis, bruk oppgitt
+  godkjent – skriftlig dokumentasjon skal innhentes. (4) Daniel I har
+  samtykket til bildebruk – dokumenteres skriftlig. (5) De fire PolarCode-
+  innlagte kortbildene (lyd/lys/effekt/mikser): opphav ukjent → brukes ikke.
+  (6) Lyd- og lysutstyret tilhører Eprod; T-Event samarbeider med Eprod og
+  bruker deres utstyr – tekst skal beskrive dette ærlig, ikke som eget
+  utstyr. Eprod kan omtales som samarbeidspartner. (7) Park22 var stedet for
+  Halloween-arrangementet og kan nevnes som faktaopplysning.
+- Begrunnelse: Mathias' svar 2026-10-01; policy om mindreårige og
+  udokumentert opphav.
+- Forventet resultat: Trygt bildegrunnlag: hero, «W»-projeksjon, makro,
+  drinkglass, Daniel I, teambildet (m/TODO). Galleriet trenger påfyll.
+- Reviewdato: 2026-10-31
+- Status: Aktiv
+
+## 2026-10-01 – Figma-plan kjøpes ikke
+- Beslutning: Mathias tilbød å kjøpe Figma-plan «om det er verdt det».
+  Claudes anbefaling: ikke verdt det – fase 2 leveres som HTML/CSS-utkast
+  med design-tokens rett fra håndboken, vist som skjermbilder. Det gir
+  samme godkjenningspunkt uten ekstra kostnad og uten konverteringssteg
+  fra Figma til kode.
+- Begrunnelse: Tokens og komponenter gjenbrukes direkte i fase 3; Figma-seat
+  gir merverdi først hvis Mathias selv vil tegne/iterere i Figma.
+- Forventet resultat: Fase 2 starter uten nye kostnader. Kan omgjøres hvis
+  behovet endrer seg.
+- Reviewdato: 2026-10-31
+- Status: Aktiv
+
 ## 2026-10-01 – Fase 0-godkjenninger fra Mathias
 - Beslutning: (1) Hele verktøy-/tjenestelisten godkjent: Playwright MCP,
   Figma MCP, skillsene emil-design-eng, impeccable, taste, UI UX Pro Max,

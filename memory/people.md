@@ -9,10 +9,12 @@
 - **Marius Hågensen** – DJ/rigger, omtalt på gammel side som fast del av
   T-Event, med navn og portrettbilde. TODO: dokumentert samtykke (navn +
   bilde) før videreføring på ny side.
-- **Eprod (Mo i Rana)** – utstyrspartner nevnt i «Vår historie» på gammel
-  side; forklarer tilgang til PA/lys. TODO: aksept for å nevnes på ny side.
-- **«Daniel I»** – artist-/DJ-navn på t-skjorte i to av bildene fra gammel
-  side. TODO: hvem er dette, og finnes samtykke til bildebruk?
+- **Eprod (Mo i Rana)** – samarbeidspartner (bekreftet av Mathias
+  2026-10-01). Eier lyd- og lysutstyret T-Event bruker på oppdrag; tekst på
+  ny side skal beskrive samarbeidet ærlig, ikke utstyret som T-Events eget.
+  Anbefalt (ikke gjort): kort skriftlig OK fra Eprod på å navngis.
+- **«Daniel I»** – DJ/artist på to bilder fra gammel side. Har samtykket til
+  bildebruk (Mathias 2026-10-01). TODO: ta vare på samtykket skriftlig.
 - **Regnskapsfører** – TODO: navn/kontakt hvis relevant (oppfølging av
   mva-spørsmål og lagringstid for regnskapsmateriale).
 - **Jurist/fagperson** – ikke engasjert; juridiske tekster er utkast til

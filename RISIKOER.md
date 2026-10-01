@@ -25,9 +25,11 @@ Sist oppdatert: 2026-10-01.
   kontrollert mot lovdata.no ennå; kontrolldato settes i fase 1.
 - Lovkrav eller policy: Lovkrav + prosjektpolicy (ingen gjenkjennelige
   personer uten dokumentert avklaring; mindreårige krever særskilt avklaring)
-- Tiltak: Full gjennomgang i fase 1 via RETTIGHETER.md; udokumentert
-  materiale publiseres ikke.
-- Oppfølging: Claude (kartlegging), Mathias (avklaringer)
+- Tiltak: Full gjennomgang gjort i fase 1 (RETTIGHETER.md). Beslutning
+  2026-10-01: skoleball-serien (mulige mindreårige) brukes ikke. Fire bilder
+  med gjenkjennelige voksne står i AVKLARING. Teambildet er avisfoto –
+  skriftlig bekreftelse fra avisen skal innhentes før lansering.
+- Oppfølging: Mathias (dokumentasjon), Claude (kontroll før fase 5)
 
 ## 3. Musikk- og opptaksrettigheter i video
 - Beskrivelse: Video fra arrangementer inneholder normalt musikk med egne
@@ -82,9 +84,9 @@ Sist oppdatert: 2026-10-01.
 - Kilde/bestemmelse: help.figma.com «Guide to the Dev Mode MCP Server» og
   developers.figma.com, kontrollert 2026-10-01.
 - Lovkrav eller policy: Praktisk begrensning
-- Tiltak: Avklar Mathias' Figma-plan. Alternativ presentert for godkjenning:
-  designutkast som statisk HTML/CSS med design-tokens, vist som skjermbilder.
-- Oppfølging: Mathias (plan + valg)
+- Tiltak: LØST 2026-10-01: Mathias har ingen Figma-plan; fase 2 leveres som
+  HTML/CSS-designutkast (godkjent). Kjøp av Figma-plan vurdert og frarådet.
+- Oppfølging: Ingen (lukket)
 
 ## 8. Skills fra tredjepart kjører skript
 - Beskrivelse: «impeccable» (JS-skript for nettleserkjøring) og «UI UX Pro
