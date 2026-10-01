@@ -13,6 +13,24 @@ Format (nyeste øverst):
 
 ---
 
+## 2026-10-01 – Design v4 «Lysriggen» – 1-av-1-konsept
+- Beslutning: Mathias underkjente v3 («effektene føles billig… vil at siden
+  skal føles som 1 av 1»). v4 bygget rundt ett eget konsept: siden ER
+  T-Events lysrigg. Besøkeren styrer en lyskjegle som avslører scenen i
+  heroen (eneste skript på siden, ~15 linjer vanilje-JS, dekorativt, med
+  automatisk lyssveip som CSS-fallback uten JS/på mobil – TIL GODKJENNING
+  som unntak fra «CSS først»), overskriften lyssettes som en projeksjon
+  (background-clip), T-merket står som svak scenografi-kontur, strålene er
+  låst til logoens 41°, galleriet «skrur på lyset» ved scrolling, og
+  filmkorn ligger over hele flaten.
+- Begrunnelse: «1 av 1» krever et konsept konkurrentene ikke kan kopiere
+  uten å kopiere T-Events identitet; lysstyring er bokstavelig talt
+  produktet deres.
+- Forventet resultat: v4 til vurdering; hvis godkjent overføres konseptet
+  til Astro-komponentene i fase 3.
+- Reviewdato: 2026-10-31
+- Status: Aktiv
+
 ## 2026-10-01 – Design v3 «scenen», priser lages sammen, bygging starter
 - Beslutning: (1) Mathias: v2 fortsatt for lik gammel side; ønsker «mer
   proff, med effekter» → v3 bygget som scene: animerte CSS-laserstråler,
