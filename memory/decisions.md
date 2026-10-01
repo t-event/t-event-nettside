@@ -13,6 +13,22 @@ Format (nyeste øverst):
 
 ---
 
+## 2026-10-01 – «Lysbordet»: helt nytt konsept fra blanke ark
+- Beslutning: Mathias forkastet iterasjonslinjen v1–v5 («du fortsetter å
+  jobbe på den samme gamle siden … lag noe helt nytt, nyskapende») og ba
+  Claude bruke full kreativitet, søke etter teknikker på nett og bruke de
+  installerte skillsene. Resultat: «Lysbordet» (/design/lysbordet) –
+  generert CSS-lysshow uten fotografier i heroen, interaktivt lysbord med
+  ekte brytere i ren CSS (:has()), kveldsfortelling 17–02 med
+  scroll-drevet korall-fader. Revidert med impeccable-skillen (craft floor
+  + mekanisk detektor, funn utbedret eller begrunnet).
+- Begrunnelse: Foto-heroen fra gammel side var kilden til «samme
+  side»-følelsen; generert lys + interaktivt verktøy er unikt for T-Event.
+- Forventet resultat: Mathias vurderer konseptet; godkjent konsept
+  overføres til Astro-sidene.
+- Reviewdato: 2026-10-31
+- Status: Aktiv
+
 ## 2026-10-01 – Design v4 «Lysriggen» – 1-av-1-konsept
 - Beslutning: Mathias underkjente v3 («effektene føles billig… vil at siden
   skal føles som 1 av 1»). v4 bygget rundt ett eget konsept: siden ER
