@@ -13,6 +13,22 @@ Format (nyeste øverst):
 
 ---
 
+## 2026-10-01 – Persongodkjenninger, Rana Blad og midlertidig skoleball-bruk
+- Beslutning: (1) Teambildet er tatt av Rana Blad; bruk godkjent iflg.
+  Mathias – skriftlig bekreftelse skal arkiveres. (2) De fire bildene som
+  sto i AVKLARING (julebord, FOH, Halloween, MASKINERIET-DJ) er godkjent av
+  de avbildede: Mathias, Marius og Daniel. (3) Skoleball-bildene brukes
+  MIDLERTIDIG som plassholdere i utvikling/forhåndsvisning og byttes ut før
+  lansering – lagt inn som sperre i fase 5-sjekklisten. Claude frarådet
+  offentlig bruk; Mathias besluttet midlertidig bruk. (4) Logo-SVG-er og
+  mediefiler mottatt i docs/logoer-og-media/.
+- Begrunnelse: Mathias' svar 2026-10-01; behov for godt nok bildemateriale
+  til å designe og bygge siden nå.
+- Forventet resultat: Fase 2 kan bruke fullt bildesett; lanseringssjekk
+  stopper skoleball-bildene fra produksjon.
+- Reviewdato: 2026-10-31
+- Status: Aktiv
+
 ## 2026-10-01 – Rettigheter og innhold fra gammel side (fase 1-svar)
 - Beslutning: (1) Egne arrangementsbilder: opphavsrett bekreftet (tatt av
   T-Event selv). (2) Skoleball-bildene brukes IKKE – kan vise mindreårige og
