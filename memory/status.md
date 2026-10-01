@@ -43,8 +43,14 @@ Sist oppdatert: 2026-10-01
   annen artist.
 - Gammel side ligger trolig allerede på Cloudflare Pages-prosjektet
   `t-events` (OG-url t-events.pages.dev) – relevant for fase 5.
-- VENTER PÅ: Mathias' svar på rettighetsspørsmålene og godkjenning av hvilket
-  innhold som tas med videre, før fase 2 (design) starter.
+- Mathias svarte 2026-10-01: egne bilder bekreftet, skoleball-serien droppes
+  (mulige mindreårige), teambildet er avisfoto (godkjent iflg. Mathias –
+  skriftlig bekreftelse TODO), Daniel I har samtykket, PolarCode-bildene
+  droppes, Eprod/Park22 kan omtales. Figma-plan kjøpes ikke.
+- GJENSTÅR FØR/UNDER FASE 2: Cloudflare-oppsettet (gjennomgås med Mathias),
+  original-SVG av logoen fra profilpakken, skriftlig dokumentasjon av
+  avis-/Daniel I-samtykker, person-avklaring for 4 bilder i AVKLARING.
+- Fase 2 (HTML/CSS-designutkast) kan starte.
 
 ## Neste fase
 Fase 1 – innhold fra gammel side. Starter først etter Mathias' godkjenning
