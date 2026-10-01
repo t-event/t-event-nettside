@@ -1,0 +1,42 @@
+---
+// Midlertidig forside mens fase 3 bygges. Erstattes av den fulle forsiden
+// (design v3) – designutkastene ligger fortsatt på /design/.
+import bedrift from '../data/bedrift.json';
+---
+
+<!doctype html>
+<html lang="nb">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>T-Event</title>
+    <style>
+      :root { color-scheme: dark; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #2a1840;
+        color: #ebe6ed;
+        font-family: 'Century Gothic', Arial, sans-serif;
+        text-align: center;
+        padding: 24px;
+      }
+      img { width: min(60vw, 260px); height: auto; }
+      p { font-size: 15px; line-height: 1.7; max-width: 36ch; }
+      a { color: #fe5757; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <img src="/tevent-logo-negativ.svg" alt={bedrift.navn} />
+      <p>
+        Ny nettside er under arbeid.<br />
+        Kontakt: <a href={`tel:${bedrift.telefonE164}`}>{bedrift.telefon}</a> ·
+        <a href={`mailto:${bedrift.epost}`}>{bedrift.epost}</a>
+      </p>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "navn": "T-Event",
+  "juridiskNavn": "Tustervatn Eventservice",
+  "orgnr": "931 764 632",
+  "adresse": {
+    "gate": "Myravegen 1J",
+    "postnummer": "8640",
+    "poststed": "Hemnesberget"
+  },
+  "telefon": "929 63 907",
+  "telefonE164": "+4792963907",
+  "epost": "mathias@t-event.no",
+  "omraade": "Helgeland og resten av Nordland, reiser etter avtale",
+  "slagord": "Lyd, lys og DJ på Helgeland",
+  "sosialt": {
+    "instagram": "https://www.instagram.com/teventno/",
+    "facebook": "https://www.facebook.com/teventservice",
+    "tiktok": "https://www.tiktok.com/@tevent.no"
+  },
+  "mvaRegistrert": false,
+  "tillegg": [
+    { "navn": "Kjøring med henger", "pris": 6, "enhet": "kr/km" },
+    { "navn": "Kjøretid", "pris": 450, "enhet": "kr/t" },
+    { "navn": "Rigg og nedrigg", "pris": 520, "enhet": "kr/t" }
+  ],
+  "avbestilling": [
+    { "naar": "Mer enn 14 dager før arrangementet", "kostnad": "Kostnadsfritt" },
+    { "naar": "14 dager til 48 timer før", "kostnad": "50 % av avtalt pris" },
+    { "naar": "Mindre enn 48 timer før", "kostnad": "100 % av avtalt pris" }
+  ]
+}
