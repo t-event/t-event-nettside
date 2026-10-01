@@ -13,6 +13,17 @@ Format (nyeste øverst):
 
 ---
 
+## 2026-10-01 – Cloudflare Pages-prosjektet er live
+- Beslutning: Pages-prosjektet heter `t-event-nettside`, adresse
+  **https://t-event-nettside.pages.dev**. Mathias slettet det feilopprettede
+  Workers-prosjektet og satte build output directory til `public`.
+  t-event.no er IKKE koblet (fase 5).
+- Begrunnelse: Fase 0.6; Workers-sporet var feil for oppsettet vårt.
+- Forventet resultat: Automatisk deploy fra main, forhåndsvisninger for
+  PR-er, noindex på alt frem til fase 5.
+- Reviewdato: 2026-10-31
+- Status: Aktiv
+
 ## 2026-10-01 – Persongodkjenninger, Rana Blad og midlertidig skoleball-bruk
 - Beslutning: (1) Teambildet er tatt av Rana Blad; bruk godkjent iflg.
   Mathias – skriftlig bekreftelse skal arkiveres. (2) De fire bildene som

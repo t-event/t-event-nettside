@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="nb">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>UTKAST – Tjenester – T-Event</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    .topp {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--rom-m);
+      max-width: var(--maks-bredde); margin-inline: auto;
+      padding: var(--rom-l);
+    }
+    .topp__logo img { width: 2.75rem; height: auto; }
+    .meny { display: flex; flex-wrap: wrap; gap: var(--rom-m) var(--rom-l); align-items: center; }
+    .meny a {
+      font-family: var(--font-display); font-weight: 400;
+      font-size: 0.8125rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--taake); text-decoration: none;
+    }
+    .meny a:hover { color: var(--hvit); }
+    .meny a[aria-current="page"] { color: var(--korall); }
+
+    .sidetopp { padding-block: var(--rom-2xl) var(--rom-xl); }
+    .sidetopp h1 { color: var(--hvit); }
+
+    /* Tjenesteseksjoner – vekslende bilde/tekst */
+    .tjeneste {
+      display: grid; gap: var(--rom-xl);
+      padding-block: var(--rom-2xl);
+      border-top: 1px solid rgba(235,230,237,0.14);
+      align-items: center;
+    }
+    @media (min-width: 48rem) {
+      .tjeneste { grid-template-columns: 1fr 1fr; }
+      .tjeneste:nth-of-type(even) .tjeneste__bilde { order: 2; }
+    }
+    .tjeneste__bilde img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
+    .tjeneste h2 { color: var(--hvit); }
+    .tjeneste ul { margin: 0 0 var(--rom-l); padding-left: 1.2em; }
+    .tjeneste li { margin-bottom: var(--rom-xs); }
+
+    .merknad {
+      background: var(--natt);
+      padding: var(--rom-l);
+      font-size: 0.9375rem;
+      border-left: var(--strek-tykkelse) solid var(--korall);
+      max-width: 60ch;
+    }
+
+    .cta { text-align: center; padding-block: var(--rom-3xl); border-top: 1px solid rgba(235,230,237,0.14); }
+    .cta h2 { color: var(--hvit); }
+    .cta .strek { margin-inline: auto; }
+
+    footer { background: var(--natt); padding-block: var(--rom-xl); }
+    footer p { font-size: 0.8125rem; margin: 0; }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav class="topp" aria-label="Hovedmeny">
+    <a class="topp__logo" href="forside.html" aria-label="T-Event – til forsiden">
+      <img src="../tevent-logo-negativ.svg" alt="" width="44" height="35">
+    </a>
+    <div class="meny">
+      <a href="forside.html">Hjem</a>
+      <a href="tjenester.html" aria-current="page">Tjenester</a>
+      <a href="#">Priser</a>
+      <a href="#">Galleri</a>
+      <a href="#">Kontakt</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="ramme sidetopp">
+    <p class="etikett">Tjenester</p>
+    <h1>Det vi leverer</h1>
+    <hr class="strek" aria-hidden="true">
+    <p>Si hva slags kveld det er, så setter vi sammen teknikken: antall
+    høyttalere, lysrigg, riggetid og hva som er inkludert står alltid i
+    tilbudet.</p>
+  </div>
+
+  <div class="ramme">
+    <section class="tjeneste" id="dj" aria-labelledby="dj-tittel">
+      <div class="tjeneste__bilde">
+        <img src="bilder/dj-daniel.jpg" alt="DJ bak miksepulten i rødt lys under en klubbkveld">
+      </div>
+      <div>
+        <h2 id="dj-tittel">DJ</h2>
+        <hr class="strek" aria-hidden="true">
+        <p>DJ til russearrangementer, bryllup, julebord og fest. Musikken
+        planlegges med deg på forhånd, og ønskelåter kan spilles inn
+        underveis.</p>
+        <ul>
+          <li>Egen DJ med miksere og mikrofoner</li>
+          <li>Musikkprofil avtales på forhånd</li>
+          <li>Mikrofon til taler og allsang</li>
+        </ul>
+        <a class="knapp knapp--primar" href="#">Send forespørsel</a>
+      </div>
+    </section>
+
+    <section class="tjeneste" id="lyd-og-lys" aria-labelledby="lydlys-tittel">
+      <div class="tjeneste__bilde">
+        <img src="bilder/hoyttaler-makro.jpg" alt="Nærbilde av fronten på en høyttaler">
+      </div>
+      <div>
+        <h2 id="lydlys-tittel">Lyd og lys</h2>
+        <hr class="strek" aria-hidden="true">
+        <p>Lydanlegget tilpasses arrangementet – lokalet, antall gjester og
+        hva kvelden skal inneholde. Lyset rigges for rommet, fra enkle
+        festlys til full scenerigg.</p>
+        <p>Der oppdraget krever mer, henter vi inn PA og lys gjennom
+        samarbeidspartneren vår Eprod i Mo i Rana.</p>
+        <ul>
+          <li>Lydanlegg dimensjonert for lokalet</li>
+          <li>Lysrigg programmert for kvelden</li>
+          <li>Rigg, drift og nedrigg inkludert</li>
+        </ul>
+        <a class="knapp knapp--primar" href="#">Send forespørsel</a>
+      </div>
+    </section>
+
+    <section class="tjeneste" id="showlaser" aria-labelledby="laser-tittel">
+      <div class="tjeneste__bilde">
+        <img src="bilder/hero-lasere.jpg" alt="Blå laserstråler over en scene i røyklagt lokale">
+      </div>
+      <div>
+        <p class="etikett">Nytt</p>
+        <h2 id="laser-tittel">Showlaser klasse 4</h2>
+        <hr class="strek" aria-hidden="true">
+        <p>Showlaser gir et lysbilde vanlige lamper ikke kommer i nærheten
+        av. Laserne er registrert hos Direktoratet for strålevern og
+        atomsikkerhet (DSA) og opereres alltid av oss.</p>
+        <div class="merknad">
+          <p style="margin:0">Laser krever planlegging: vi setter
+          sikkerhetssoner i lokalet, og vi har egen strålevernkoordinator.
+          <!-- TODO fase 3: kontroller terminologi og gjeldende krav mot
+          dsa.no før publisering --></p>
+        </div>
+        <p style="margin-top:var(--rom-l)"><a class="knapp knapp--primar" href="#">Send forespørsel</a></p>
+      </div>
+    </section>
+
+    <section class="tjeneste" id="effekter" aria-labelledby="effekter-tittel">
+      <div class="tjeneste__bilde">
+        <img src="bilder/halloween.jpg" alt="Dansegulv i grønt lys og tett røyk">
+      </div>
+      <div>
+        <h2 id="effekter-tittel">Effekter</h2>
+        <hr class="strek" aria-hidden="true">
+        <p>Røyk og haze gjør lyset synlig i rommet og løfter hele
+        lysbildet. Vi tilpasser effektene til lokalet og avklarer alltid
+        bruk av røyk med utleier på forhånd.</p>
+        <ul>
+          <li>Røykmaskiner og haze</li>
+          <li>Effekter tilpasset lokalets regler</li>
+        </ul>
+        <a class="knapp knapp--primar" href="#">Send forespørsel</a>
+      </div>
+    </section>
+  </div>
+
+  <section class="cta">
+    <div class="ramme">
+      <h2>Usikker på hva kvelden trenger?</h2>
+      <hr class="strek" aria-hidden="true">
+      <p style="margin-inline:auto">Send en melding med dato og sted, så
+      foreslår vi et oppsett og setter opp et tilbud.</p>
+      <a class="knapp knapp--primar" href="#">Send forespørsel</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="ramme">
+    <p>T-Event (Tustervatn Eventservice) · Org.nr. 931 764 632 ·
+    Myravegen 1J, 8640 Hemnesberget · <a href="tel:+4792963907" style="color:var(--taake)">929 63 907</a> ·
+    <a href="mailto:mathias@t-event.no" style="color:var(--taake)">mathias@t-event.no</a>
+    <span class="detalj" style="color:var(--taake)"> (forenklet footer i utkastet – full versjon som på forsiden)</span></p>
+  </div>
+</footer>
+
+</body>
+</html>

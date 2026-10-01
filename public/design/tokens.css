@@ -1,0 +1,171 @@
+/* =========================================================
+   T-Event design-tokens – generert direkte fra
+   Designhåndbok v1.0 (docs/profilhandbok/Designhandbok.pdf)
+   Sidetall refererer til håndboken.
+   Valg merket [IKKE FRA HÅNDBOKEN] er forslag til godkjenning.
+   ========================================================= */
+
+/* Fonter (s. 8) – selvhostet, variable fonter, latin-subset */
+@font-face {
+  font-family: "Jost";
+  font-style: normal;
+  font-weight: 300 400;
+  font-display: swap;
+  src: url("fonts/jost-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Karla";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("fonts/karla-latin.woff2") format("woff2");
+}
+
+:root {
+  /* ---- Farger (s. 7) ---- */
+  --midnatt: #2A1840; /* bærer flaten */
+  --korall:  #FE5757; /* signal – én ting av gangen */
+  --natt:    #1A0F28;
+  --skifer:  #6B6275;
+  --taake:   #EBE6ED;
+  --hvit:    #FFFFFF;
+
+  /* ---- Typografi (s. 8) ---- */
+  --font-display: "Jost", "Century Gothic", Arial, sans-serif;
+  --font-tekst:   "Karla", Arial, sans-serif;
+
+  /* Overskrift: Jost Light 34–60 px, linjeavstand 1,1 */
+  --overskrift-storrelse: clamp(2.125rem, 5.5vw, 3.75rem);
+  --overskrift-vekt: 300;
+  --overskrift-linje: 1.1;
+
+  /* Mellomnivå [IKKE FRA HÅNDBOKEN – interpolert mellom nivåene] */
+  --mellomtittel-storrelse: clamp(1.375rem, 3vw, 1.75rem);
+
+  /* Etikett: Jost Regular 11–13 px, versaler, 0,22 em sperring */
+  --etikett-storrelse: 0.75rem;
+  --etikett-sperring: 0.22em;
+
+  /* Brødtekst: Karla Regular 14–16 px, linjeavstand 1,7 */
+  --broedtekst-storrelse: 1rem;
+  --broedtekst-linje: 1.7;
+
+  /* Detalj: Karla 11–12 px i Skifer */
+  --detalj-storrelse: 0.75rem;
+
+  /* ---- Rom og flater [IKKE FRA HÅNDBOKEN] ---- */
+  --rom-xs: 0.25rem;
+  --rom-s:  0.5rem;
+  --rom-m:  1rem;
+  --rom-l:  1.5rem;
+  --rom-xl: 2.5rem;
+  --rom-2xl: 4rem;
+  --rom-3xl: 6.5rem;
+  --maks-bredde: 70rem;      /* 1120 px */
+  --radius: 0;               /* skarpe hjørner – speiler logoens rette flater */
+  --strek-tykkelse: 3px;     /* koral-streken fra plakatmalene (s. 13) */
+}
+
+/* ---- Grunnstiler ---- */
+html { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+
+body {
+  margin: 0;
+  background: var(--midnatt);                 /* 60 % mørk flate (s. 7) */
+  color: var(--taake);
+  font-family: var(--font-tekst);
+  font-size: var(--broedtekst-storrelse);
+  line-height: var(--broedtekst-linje);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: var(--overskrift-vekt);
+  line-height: var(--overskrift-linje);
+  margin: 0 0 var(--rom-m);
+}
+h1 { font-size: var(--overskrift-storrelse); }
+h2 { font-size: var(--mellomtittel-storrelse); }
+h3 { font-size: 1.125rem; font-weight: 400; }
+
+p { margin: 0 0 var(--rom-m); max-width: 60ch; }
+
+a { color: inherit; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* Etikett (s. 8) */
+.etikett {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--etikett-storrelse);
+  letter-spacing: var(--etikett-sperring);
+  text-transform: uppercase;
+  color: var(--korall);
+}
+
+/* Detalj (s. 8) – Skifer kun på lyse flater (kontrast 2,78:1 på midnatt) */
+.detalj { font-size: var(--detalj-storrelse); color: var(--skifer); }
+
+/* Koral-strek fra plakatmalene (s. 13) */
+.strek {
+  width: 4rem;
+  height: var(--strek-tykkelse);
+  background: var(--korall);
+  border: 0;
+  margin: var(--rom-m) 0 var(--rom-l);
+}
+
+/* ---- Knapper [IKKE FRA HÅNDBOKEN – kontrastbegrunnet] ----
+   Midnatt tekst på korall: 5,15:1 (AA). Hvit på korall er bare
+   3,13:1 og brukes derfor ikke til knappetekst. */
+.knapp {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  padding: 0.875rem 2rem;
+  border: 0;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.knapp--primar { background: var(--korall); color: var(--natt); }
+.knapp--primar:hover { filter: brightness(1.08); } /* ingen ny farge – kun lysstyrke */
+.knapp--sekundar {
+  background: transparent;
+  color: var(--taake);
+  border: 1px solid var(--skifer);
+}
+.knapp--sekundar:hover { border-color: var(--taake); }
+.knapp:focus-visible,
+a:focus-visible {
+  outline: 3px solid var(--korall);
+  outline-offset: 3px;
+}
+
+/* Lys seksjon (30 % lys/nøytral, s. 7) */
+.lys {
+  background: var(--taake);
+  color: var(--natt);
+}
+.lys .detalj { color: var(--skifer); } /* 4,70:1 på tåke – AA */
+
+/* Layout-hjelpere */
+.ramme {
+  max-width: var(--maks-bredde);
+  margin-inline: auto;
+  padding-inline: var(--rom-l);
+}
+.seksjon { padding-block: var(--rom-2xl); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
