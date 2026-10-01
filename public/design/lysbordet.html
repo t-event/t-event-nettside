@@ -119,6 +119,18 @@
       pointer-events: none;
       transition: background 500ms var(--ease-ut), opacity 500ms var(--ease-ut);
     }
+    /* Følgespoten: dempet lyskjegle som følger pekeren (fysikk-laget) */
+    .kjegle {
+      position: absolute; inset: 0; z-index: -1; pointer-events: none;
+      opacity: 0; transition: opacity 600ms var(--ease-ut);
+      background: radial-gradient(circle 15rem at var(--kx, 50%) var(--ky, 40%),
+        rgba(var(--straale-farge), 0.07), transparent 70%);
+    }
+    html.har-fysikk .kjegle { opacity: 1; }
+    body:has(#lb-av:checked) .kjegle,
+    body:has(#lb-ro:checked) .kjegle { opacity: 0; }
+    .vifte-rot { position: absolute; left: 50%; top: -6rem; width: 0; height: 0; z-index: -2; rotate: var(--tilt, 0deg); }
+    .vifte-rot .vifte { left: 0; top: 0; }
     @media (prefers-reduced-motion: no-preference) {
       body:not(:has(#lb-ro:checked)) .vifte { animation: fan 14s var(--ease-inn-ut) infinite alternate; }
       @keyframes fan { from { rotate: -7deg; } to { rotate: 7deg; } }
@@ -438,8 +450,9 @@
 <main>
   <section class="show" aria-label="Introduksjon">
     <div class="haze" aria-hidden="true"></div>
-    <div class="vifte" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="vifte-rot" aria-hidden="true"><div class="vifte"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
     <div class="gulvglod" aria-hidden="true"></div>
+    <div class="kjegle" aria-hidden="true"></div>
 
     <div class="show__innhold">
       <p class="etikett">DJ · lyd · lys</p>
@@ -567,6 +580,60 @@
     </div>
   </section>
 </main>
+
+<!-- Fysikk-laget: ~70 linjer håndskrevet, null biblioteker. Dekorativt.
+     Kjører kun med presis peker og uten redusert bevegelse; alt på siden
+     fungerer identisk uten det. -->
+<script>
+(function () {
+  var fin = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var rolig = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!fin || rolig) return;
+  var show = document.querySelector('.show');
+  var kjegle = document.querySelector('.kjegle');
+  var vifteRot = document.querySelector('.vifte-rot');
+  var knapp = document.querySelector('.show .knapp--glod');
+  if (!show || !kjegle) return;
+  document.documentElement.classList.add('har-fysikk');
+
+  var maalX = 0.5, maalY = 0.4, posX = 0.5, posY = 0.4;
+  var knMaalX = 0, knMaalY = 0, knX = 0, knY = 0;
+  var synlig = true;
+
+  show.addEventListener('pointermove', function (e) {
+    var b = show.getBoundingClientRect();
+    maalX = (e.clientX - b.left) / b.width;
+    maalY = (e.clientY - b.top) / b.height;
+  });
+  window.addEventListener('pointermove', function (e) {
+    if (!knapp) return;
+    var b = knapp.getBoundingClientRect();
+    var dx = e.clientX - (b.left + b.width / 2);
+    var dy = e.clientY - (b.top + b.height / 2);
+    var avstand = Math.hypot(dx, dy), radius = 140;
+    if (avstand < radius) { knMaalX = (dx / radius) * 10; knMaalY = (dy / radius) * 10; }
+    else { knMaalX = 0; knMaalY = 0; }
+  });
+  new IntersectionObserver(function (en) { synlig = en[0].isIntersecting; }).observe(show);
+
+  (function loop() {
+    if (synlig) {
+      /* dempet følging – lyset har vekt */
+      posX += (maalX - posX) * 0.07;
+      posY += (maalY - posY) * 0.07;
+      kjegle.style.setProperty('--kx', (posX * 100).toFixed(2) + '%');
+      kjegle.style.setProperty('--ky', (posY * 100).toFixed(2) + '%');
+      if (vifteRot) vifteRot.style.setProperty('--tilt', ((posX - 0.5) * 8).toFixed(2) + 'deg');
+      if (knapp) {
+        knX += (knMaalX - knX) * 0.12;
+        knY += (knMaalY - knY) * 0.12;
+        knapp.style.translate = knX.toFixed(1) + 'px ' + knY.toFixed(1) + 'px';
+      }
+    }
+    requestAnimationFrame(loop);
+  })();
+})();
+</script>
 
 <footer>
   <p class="footer-merke" aria-hidden="true">T-EVENT</p>
