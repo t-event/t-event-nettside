@@ -13,6 +13,20 @@ Format (nyeste øverst):
 
 ---
 
+## 2026-10-01 – Cloudflare Web Analytics aktivert + designprosess
+- Beslutning: (1) Mathias har aktivert Cloudflare Web Analytics for
+  Pages-prosjektet (cookiefri statistikk, jf. statistikkbeslutningen).
+  (2) Design lages av Claude selv i HTML/CSS med de godkjente skillsene
+  installert og i bruk – ikke Figma, ikke egen ekstern designtjeneste.
+  Ambisjon fra Mathias: designet skal være «sinnsykt bra»; flere
+  polish-runder med hans tilbakemeldinger.
+- Begrunnelse: Web Analytics er del av godkjent tjenesteliste. Skillsene
+  var godkjent i fase 0 nettopp for designkvalitet.
+- Forventet resultat: Beacon-skriptet verifiseres i cookie-kartleggingen
+  (fase 4) og CSP må tillate static.cloudflareinsights.com (fase 3).
+- Reviewdato: 2026-10-31
+- Status: Aktiv
+
 ## 2026-10-01 – Cloudflare Pages-prosjektet er live
 - Beslutning: Pages-prosjektet heter `t-event-nettside`, adresse
   **https://t-event-nettside.pages.dev**. Mathias slettet det feilopprettede

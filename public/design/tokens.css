@@ -64,6 +64,13 @@
   --maks-bredde: 70rem;      /* 1120 px */
   --radius: 0;               /* skarpe hjørner – speiler logoens rette flater */
   --strek-tykkelse: 3px;     /* koral-streken fra plakatmalene (s. 13) */
+
+  /* Bevegelse [IKKE FRA HÅNDBOKEN – kraftige easing-kurver, UI < 300 ms] */
+  --ease-ut: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-inn-ut: cubic-bezier(0.77, 0, 0.175, 1);
+
+  /* Logoens diagonal: 41° (s. 3). Brukes til skrå snitt på flater. */
+  --diagonal: 41deg;
 }
 
 /* ---- Grunnstiler ---- */
@@ -132,15 +139,21 @@ img { max-width: 100%; height: auto; display: block; }
   border: 0;
   border-radius: var(--radius);
   cursor: pointer;
+  transition: transform 160ms var(--ease-ut), filter 160ms var(--ease-ut),
+              border-color 160ms var(--ease-ut);
 }
+.knapp:active { transform: scale(0.97); } /* trykk-respons */
 .knapp--primar { background: var(--korall); color: var(--natt); }
-.knapp--primar:hover { filter: brightness(1.08); } /* ingen ny farge – kun lysstyrke */
 .knapp--sekundar {
   background: transparent;
   color: var(--taake);
   border: 1px solid var(--skifer);
 }
-.knapp--sekundar:hover { border-color: var(--taake); }
+/* Hover kun på enheter som faktisk har pekerhover */
+@media (hover: hover) and (pointer: fine) {
+  .knapp--primar:hover { filter: brightness(1.08); } /* ingen ny farge */
+  .knapp--sekundar:hover { border-color: var(--taake); }
+}
 .knapp:focus-visible,
 a:focus-visible {
   outline: 3px solid var(--korall);

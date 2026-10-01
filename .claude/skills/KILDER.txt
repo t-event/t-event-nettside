@@ -1,0 +1,5 @@
+emil-design-eng + animate: emilkowalski/skills @ d16ebe6 (MIT)
+taste-skill: Leonxlnx/taste-skill @ ce26fc2 (MIT)
+impeccable: pbakaus/impeccable @ c74755d (Apache-2.0)
+ui-ux-pro-max: nextlevelbuilder/ui-ux-pro-max-skill @ 09170ee (MIT)
+Merk: skript i impeccable/ui-ux-pro-max kjores ikke uten forutgaende gjennomgang (RISIKOER.md #8).

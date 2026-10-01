@@ -50,6 +50,25 @@
       max-width: 60ch;
     }
 
+    /* Fullbredde laserbånd – bryter bilde/tekst-vekslingen */
+    .laserband {
+      position: relative; isolation: isolate;
+      padding-block: var(--rom-3xl);
+      margin-block: var(--rom-2xl);
+      /* Skrå snitt topp og bunn – ekko av logoens diagonaler */
+      clip-path: polygon(0 2rem, 100% 0, 100% calc(100% - 2rem), 0 100%);
+    }
+    .laserband__bilde {
+      position: absolute; inset: 0; z-index: -2;
+      width: 100%; height: 100%; object-fit: cover; opacity: 0.5;
+    }
+    .laserband::after {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(to right, rgba(26,15,40,0.92) 0%, rgba(26,15,40,0.65) 55%, rgba(26,15,40,0.35) 100%);
+    }
+    .laserband h2 { color: var(--hvit); }
+    .laserband .merknad { background: rgba(26,15,40,0.85); }
+
     .cta { text-align: center; padding-block: var(--rom-3xl); border-top: 1px solid rgba(235,230,237,0.14); }
     .cta h2 { color: var(--hvit); }
     .cta .strek { margin-inline: auto; }
@@ -77,7 +96,6 @@
 
 <main>
   <div class="ramme sidetopp">
-    <p class="etikett">Tjenester</p>
     <h1>Det vi leverer</h1>
     <hr class="strek" aria-hidden="true">
     <p>Si hva slags kveld det er, så setter vi sammen teknikken: antall
@@ -126,26 +144,29 @@
       </div>
     </section>
 
-    <section class="tjeneste" id="showlaser" aria-labelledby="laser-tittel">
-      <div class="tjeneste__bilde">
-        <img src="bilder/hero-lasere.jpg" alt="Blå laserstråler over en scene i røyklagt lokale">
+  </div>
+
+  <!-- Showlaser: fullbredde-bånd som bryter veksel-rytmen -->
+  <section class="laserband" id="showlaser" aria-labelledby="laser-tittel">
+    <img class="laserband__bilde" src="bilder/hero-lasere.jpg" alt="">
+    <div class="ramme laserband__innhold">
+      <p class="etikett">Nytt</p>
+      <h2 id="laser-tittel">Showlaser klasse 4</h2>
+      <hr class="strek" aria-hidden="true">
+      <p>Showlaser gir et lysbilde vanlige lamper ikke kommer i nærheten
+      av. Laserne er registrert hos Direktoratet for strålevern og
+      atomsikkerhet (DSA) og opereres alltid av oss.</p>
+      <div class="merknad">
+        <p style="margin:0">Laser krever planlegging: vi setter
+        sikkerhetssoner i lokalet, og vi har egen strålevernkoordinator.
+        <!-- TODO fase 3: kontroller terminologi og gjeldende krav mot
+        dsa.no før publisering --></p>
       </div>
-      <div>
-        <p class="etikett">Nytt</p>
-        <h2 id="laser-tittel">Showlaser klasse 4</h2>
-        <hr class="strek" aria-hidden="true">
-        <p>Showlaser gir et lysbilde vanlige lamper ikke kommer i nærheten
-        av. Laserne er registrert hos Direktoratet for strålevern og
-        atomsikkerhet (DSA) og opereres alltid av oss.</p>
-        <div class="merknad">
-          <p style="margin:0">Laser krever planlegging: vi setter
-          sikkerhetssoner i lokalet, og vi har egen strålevernkoordinator.
-          <!-- TODO fase 3: kontroller terminologi og gjeldende krav mot
-          dsa.no før publisering --></p>
-        </div>
-        <p style="margin-top:var(--rom-l)"><a class="knapp knapp--primar" href="#">Send forespørsel</a></p>
-      </div>
-    </section>
+      <p style="margin-top:var(--rom-l)"><a class="knapp knapp--primar" href="#">Send forespørsel</a></p>
+    </div>
+  </section>
+
+  <div class="ramme">
 
     <section class="tjeneste" id="effekter" aria-labelledby="effekter-tittel">
       <div class="tjeneste__bilde">

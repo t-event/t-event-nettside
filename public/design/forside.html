@@ -21,42 +21,62 @@
       font-family: var(--font-display); font-weight: 400;
       font-size: 0.8125rem; letter-spacing: 0.22em; text-transform: uppercase;
       color: var(--taake); text-decoration: none;
+      padding-block: 0.25rem;
     }
-    .meny a:hover { color: var(--hvit); }
     .meny a[aria-current="page"] { color: var(--korall); }
+    @media (hover: hover) and (pointer: fine) {
+      .meny a:hover { color: var(--hvit); }
+    }
 
     /* ===== Hero ===== */
     .hero {
-      position: relative; min-height: 92vh;
+      position: relative; min-height: 92vh; min-height: 92dvh;
       display: grid; align-items: end;
       isolation: isolate; overflow: hidden;
       background: var(--natt);
+      /* Skrått bunnsnitt – ekko av logoens diagonale flater (slakere vinkel av layouthensyn) */
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 2.5rem));
+      padding-bottom: 2.5rem;
     }
     .hero__bilde {
       position: absolute; inset: 0; z-index: -2;
       width: 100%; height: 100%; object-fit: cover;
       opacity: 0.55;
     }
-    .hero::after { /* mørk tone nederst så tekst alltid leser (foto på rolig flate, s. 5) */
+    .hero::after { /* mørk tone nederst: tekst på rolig flate (s. 5) */
       content: ""; position: absolute; inset: 0; z-index: -1;
-      background: linear-gradient(to top, var(--natt) 5%, rgba(26,15,40,0.55) 45%, rgba(26,15,40,0.25) 100%);
+      background: linear-gradient(to top, var(--natt) 8%, rgba(26,15,40,0.55) 45%, rgba(26,15,40,0.2) 100%);
     }
-    /* Subtile lysstråler [IKKE FRA HÅNDBOKEN – fra oppdraget]. Svak, langsom puls. */
+    /* Subtile lysstråler [IKKE FRA HÅNDBOKEN – fra oppdraget] */
     .hero__straaler {
       position: absolute; inset: -20% -10%; z-index: -1;
       background:
         linear-gradient(104deg, transparent 44%, rgba(254,87,87,0.05) 47%, transparent 50%),
         linear-gradient(76deg, transparent 58%, rgba(235,230,237,0.06) 61%, transparent 64%),
         linear-gradient(94deg, transparent 72%, rgba(254,87,87,0.04) 74%, transparent 77%);
-      animation: pust 9s ease-in-out infinite alternate;
       pointer-events: none;
     }
-    @keyframes pust { from { opacity: 0.5; } to { opacity: 1; } }
     .hero__innhold { padding-block: var(--rom-3xl) var(--rom-2xl); }
-    .hero h1 { color: var(--hvit); max-width: 14ch; }
+    .hero h1 { color: var(--hvit); max-width: 14ch; margin-bottom: 0; }
     .hero h1 .aksent { color: var(--korall); }
     .hero p { color: var(--taake); max-width: 46ch; }
     .hero__knapper { display: flex; flex-wrap: wrap; gap: var(--rom-m); margin-top: var(--rom-l); }
+
+    /* Inntreden ved lasting – kun hero, kun når bevegelse er ønsket */
+    @media (prefers-reduced-motion: no-preference) {
+      .hero__straaler { animation: pust 9s ease-in-out infinite alternate; }
+      @keyframes pust { from { opacity: 0.5; } to { opacity: 1; } }
+      .hero__innhold > * {
+        animation: inn 700ms var(--ease-ut) backwards;
+      }
+      .hero__innhold > *:nth-child(2) { animation-delay: 60ms; }
+      .hero__innhold > *:nth-child(3) { animation-delay: 120ms; }
+      .hero__innhold > *:nth-child(4) { animation-delay: 180ms; }
+      .hero__innhold > *:nth-child(5) { animation-delay: 240ms; }
+      @keyframes inn {
+        from { opacity: 0; transform: translateY(12px); }
+      }
+    }
 
     /* ===== Tjenestekort ===== */
     .kort-rekke {
@@ -67,27 +87,51 @@
     @media (min-width: 64rem) { .kort-rekke { grid-template-columns: repeat(4, 1fr); } }
     .tkort {
       background: var(--midnatt); padding: var(--rom-xl) var(--rom-l);
-      text-decoration: none; color: inherit; display: block;
+      text-decoration: none; color: inherit; display: flex;
+      flex-direction: column; align-items: flex-start; gap: var(--rom-s);
+      transition: background-color 200ms var(--ease-ut);
     }
-    .tkort:hover { background: #32204c; }
-    .tkort h3 { color: var(--hvit); margin-bottom: var(--rom-s); }
-    .tkort p { font-size: 0.9375rem; margin-bottom: var(--rom-m); }
+    .tkort h3 { color: var(--hvit); margin: 0; font-size: 1.25rem; }
+    .tkort p { font-size: 0.9375rem; margin: 0 0 var(--rom-m); }
     .tkort .lenke {
+      margin-top: auto;
       font-family: var(--font-display); font-size: 0.8125rem;
       letter-spacing: 0.22em; text-transform: uppercase; color: var(--korall);
     }
-    .tkort__ny { /* «Nytt: showlaser klasse 4» – fast formulering (s. 9) */
-      display: inline-block; margin-bottom: var(--rom-s);
+    .tkort .lenke::after { content: " →"; }
+    @media (hover: hover) and (pointer: fine) {
+      .tkort:hover { background: #32204c; }
+    }
+    .tkort__ny { /* «Nytt: showlaser klasse 4» (s. 9) */
+      font-family: var(--font-display); font-size: 0.75rem;
+      letter-spacing: 0.22em; text-transform: uppercase; color: var(--korall);
     }
 
-    /* ===== Galleri-utvalg ===== */
+    /* ===== Seksjonsoverskrifter ===== */
+    .seksjonstittel { color: var(--hvit); }
+
+    /* ===== Galleri-utvalg: asymmetrisk (variance) ===== */
     .galleri { display: grid; gap: var(--rom-m); }
-    @media (min-width: 40rem) { .galleri { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 48rem) {
+      .galleri { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; }
+      .galleri figure:first-child { grid-row: 1 / 3; }
+      .galleri figure:first-child img { height: 100%; }
+    }
     .galleri figure { margin: 0; }
-    .galleri img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
-    .galleri figcaption { margin-top: var(--rom-s); }
+    .galleri img {
+      aspect-ratio: 4 / 3; object-fit: cover; width: 100%; height: 100%;
+    }
+    .galleri figcaption {
+      margin-top: var(--rom-s);
+      font-size: var(--detalj-storrelse); color: var(--taake);
+    }
 
     /* ===== Lys seksjon: slik jobber vi ===== */
+    .lys-seksjon {
+      /* Skrått toppsnitt – samme diagonalmotiv som heroen */
+      clip-path: polygon(0 2.5rem, 100% 0, 100% 100%, 0 100%);
+      padding-top: calc(var(--rom-2xl) + 2.5rem);
+    }
     .steg { display: grid; gap: var(--rom-xl); counter-reset: steg; }
     @media (min-width: 48rem) { .steg { grid-template-columns: repeat(3, 1fr); } }
     .steg div::before {
@@ -95,31 +139,35 @@
       font-family: var(--font-display); font-weight: 300;
       font-size: 2.5rem; color: var(--korall); display: block;
     }
-    .steg h3 { color: var(--natt); }
+    .steg h3 { color: var(--natt); margin-bottom: var(--rom-s); }
     .steg p { font-size: 0.9375rem; }
 
     /* ===== CTA-stripe ===== */
     .cta { text-align: center; }
     .cta h2 { color: var(--hvit); }
     .cta .strek { margin-inline: auto; }
+    .cta p { margin-inline: auto; }
 
     /* ===== Footer ===== */
     footer { background: var(--natt); padding-block: var(--rom-2xl); }
     .footer-kolonner { display: grid; gap: var(--rom-xl); }
     @media (min-width: 48rem) { .footer-kolonner { grid-template-columns: 2fr 1fr 1fr; } }
-    footer img { width: 8rem; margin-bottom: var(--rom-m); }
+    footer .f-logo { width: 8rem; margin-bottom: var(--rom-m); }
     footer h3 {
+      font-family: var(--font-display); font-weight: 400;
       font-size: 0.8125rem; letter-spacing: 0.22em; text-transform: uppercase;
       color: var(--korall); margin-bottom: var(--rom-m);
     }
     footer ul { list-style: none; margin: 0; padding: 0; }
     footer li { margin-bottom: var(--rom-s); }
     footer a { text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
+    @media (hover: hover) and (pointer: fine) {
+      footer a:hover { text-decoration: underline; }
+    }
     .footer-bunn {
       margin-top: var(--rom-2xl); padding-top: var(--rom-l);
       border-top: 1px solid rgba(235,230,237,0.14);
-      font-size: 0.8125rem; color: var(--taake);
+      font-size: 0.8125rem; color: var(--taake); max-width: none;
     }
   </style>
 </head>
@@ -143,8 +191,7 @@
 <main>
   <!-- HERO -->
   <section class="hero">
-    <img class="hero__bilde" src="bilder/hero-lasere.jpg"
-         alt="" fetchpriority="high">
+    <img class="hero__bilde" src="bilder/hero-lasere.jpg" alt="" fetchpriority="high">
     <div class="hero__straaler" aria-hidden="true"></div>
     <div class="ramme hero__innhold">
       <p class="etikett">DJ · lyd · lys</p>
@@ -163,8 +210,7 @@
   <!-- TJENESTER I KORTFORM -->
   <section class="seksjon" aria-labelledby="tjenester-tittel">
     <div class="ramme">
-      <p class="etikett">Tjenester</p>
-      <h2 id="tjenester-tittel" style="color:var(--hvit)">Det vi leverer</h2>
+      <h2 id="tjenester-tittel" class="seksjonstittel">Det vi leverer</h2>
       <hr class="strek" aria-hidden="true">
     </div>
     <div class="kort-rekke">
@@ -176,12 +222,12 @@
       </a>
       <a class="tkort" href="tjenester.html#lyd-og-lys">
         <h3>Lyd og lys</h3>
-        <p>Lydanlegg tilpasses arrangementet, og lyset rigges for lokalet –
+        <p>Lydanlegget tilpasses arrangementet, og lyset rigges for lokalet –
         fra festlys til full scenerigg.</p>
         <span class="lenke">Les om lyd og lys</span>
       </a>
       <a class="tkort" href="tjenester.html#showlaser">
-        <span class="etikett tkort__ny">Nytt</span>
+        <span class="tkort__ny">Nytt</span>
         <h3>Showlaser klasse 4</h3>
         <p>Showlaser registrert hos DSA, operert av oss med egen
         strålevernkoordinator.</p>
@@ -199,30 +245,28 @@
   <!-- GALLERI-UTVALG -->
   <section class="seksjon" aria-labelledby="galleri-tittel">
     <div class="ramme">
-      <p class="etikett">Fra jobbene våre</p>
-      <h2 id="galleri-tittel" style="color:var(--hvit)">Bak riggen</h2>
+      <h2 id="galleri-tittel" class="seksjonstittel">Bak riggen</h2>
       <hr class="strek" aria-hidden="true">
       <div class="galleri">
         <figure>
+          <img src="bilder/halloween.jpg" alt="Dansegulv i grønt lys og røyk på Halloween-arrangement">
+          <figcaption>Halloween på Park22</figcaption>
+        </figure>
+        <figure>
           <img src="bilder/w-projeksjon.jpg" alt="Industribygg lyssatt i rosa og blått under et kveldsarrangement">
-          <figcaption class="detalj" style="color:var(--taake)">Utendørs lyssetting</figcaption>
+          <figcaption>Utendørs lyssetting</figcaption>
         </figure>
         <figure>
           <img src="bilder/dj-daniel.jpg" alt="DJ bak miksepulten i rødt lys">
-          <figcaption class="detalj" style="color:var(--taake)">Klubbkveld</figcaption>
-        </figure>
-        <figure>
-          <img src="bilder/halloween.jpg" alt="Dansegulv i grønt lys og røyk på Halloween-arrangement">
-          <figcaption class="detalj" style="color:var(--taake)">Halloween på Park22</figcaption>
+          <figcaption>Klubbkveld</figcaption>
         </figure>
       </div>
     </div>
   </section>
 
-  <!-- SLIK JOBBER VI (lys flate – 30 %) -->
-  <section class="lys seksjon" aria-labelledby="slik-tittel">
+  <!-- SLIK JOBBER VI (lys flate) -->
+  <section class="lys seksjon lys-seksjon" aria-labelledby="slik-tittel">
     <div class="ramme">
-      <p class="etikett">Slik jobber vi</p>
       <h2 id="slik-tittel">Vi tar hele jobben</h2>
       <hr class="strek" aria-hidden="true">
       <div class="steg">
@@ -259,8 +303,8 @@
   <div class="ramme">
     <div class="footer-kolonner">
       <div>
-        <img src="../tevent-logo-negativ.svg" alt="T-Event">
-        <p class="detalj" style="color:var(--taake)">Lyd, lys og DJ på Helgeland</p>
+        <img class="f-logo" src="../tevent-logo-negativ.svg" alt="T-Event">
+        <p>Lyd, lys og DJ på Helgeland</p>
       </div>
       <div>
         <h3>Kontakt</h3>
