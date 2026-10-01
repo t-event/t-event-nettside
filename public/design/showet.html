@@ -8,12 +8,12 @@
   <link rel="stylesheet" href="tokens.css">
   <style>
     /* ================================================================
-       «SHOWET» – spor B, bygget fra blanke ark.
-       Heroen er en EKTE 3D-lysrigg (three.js r182, selvhostet):
-       truss, seks moving heads med volumetriske stråler, røyk og
-       gulvglød. Riggen følger pekeren din, og lysbordet styrer den.
-       Reserve: uten WebGL/ved redusert bevegelse vises en stillbilde-
-       versjon i ren CSS – siden er aldri tom.
+       «SHOWET» – etappe 1: scroll-regien.
+       Én 3D-lysrigg (three.js r182, selvhostet) ligger fast bak HELE
+       siden. Scrolling flytter kameraet og endrer lysstemningen i fem
+       akter: hero → tjenester → galleri → book → slutt. Ingen brytere –
+       scenen styres av scroll og peker.
+       Reserve: uten WebGL/ved redusert bevegelse en rolig CSS-versjon.
        ================================================================ */
 
     body { background: var(--natt); }
@@ -22,6 +22,12 @@
       pointer-events: none; opacity: 0.04;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
+
+    /* ===== Bakteppet: scenen bak hele siden ===== */
+    #bakteppe { position: fixed; inset: 0; z-index: 0; }
+    #bakteppe canvas { width: 100%; height: 100%; display: block; }
+    html.uten-3d #bakteppe { display: none; }
+    main, footer { position: relative; z-index: 1; }
 
     /* ===== Meny ===== */
     .topp {
@@ -47,14 +53,12 @@
       .meny a:hover { color: var(--hvit); background-size: 100% 1px; }
     }
 
-    /* ===== HERO: 3D-riggen ===== */
+    /* ===== Akt 1 – HERO ===== */
     .scene3d {
       position: relative; isolation: isolate;
       height: 100vh; height: 100dvh;
       overflow: hidden;
-      background: var(--natt);
     }
-    .scene3d canvas { position: absolute; inset: 0; display: block; }
     /* CSS-reserve når WebGL ikke kjører */
     .scene3d__reserve {
       position: absolute; inset: 0; z-index: 0; display: none;
@@ -95,49 +99,28 @@
       .scene3d__tekst > *:nth-child(4) { animation-delay: 270ms; }
       @keyframes inn { from { opacity: 0; transform: translateY(14px); } }
     }
-
-    /* Lysbordet – styrer nå en ekte rigg */
-    .lysbord {
-      position: absolute; z-index: 3;
-      right: var(--rom-l); bottom: var(--rom-l);
-      display: flex; gap: var(--rom-l);
-      padding: var(--rom-m) var(--rom-l);
-      background: rgba(26,15,40,0.72);
-      border: 1px solid rgba(235,230,237,0.14);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    }
-    @media (max-width: 47.98rem) {
-      .lysbord { left: var(--rom-l); right: auto; bottom: var(--rom-l); gap: var(--rom-m); }
-    }
-    .lysbord__tittel {
-      position: absolute; top: -0.6rem; left: var(--rom-m);
+    /* Scroll-hint nederst */
+    .scene3d__hint {
+      position: absolute; left: 50%; bottom: 0.8rem; z-index: 2;
+      translate: -50% 0;
       font-family: var(--font-display); font-size: 0.6875rem;
-      letter-spacing: 0.22em; text-transform: uppercase;
-      color: var(--korall); background: var(--natt); padding-inline: 0.4rem;
+      letter-spacing: 0.22em; text-transform: uppercase; color: var(--taake);
+      opacity: 0.7;
     }
-    .bryter { display: flex; flex-direction: column; gap: 0.4rem; align-items: center; }
-    .bryter span {
-      font-family: var(--font-display); font-size: 0.6875rem;
-      letter-spacing: 0.18em; text-transform: uppercase; color: var(--taake);
+    @media (prefers-reduced-motion: no-preference) {
+      .scene3d__hint { animation: hint 2.4s var(--ease-inn-ut) infinite; }
+      @keyframes hint { 0%, 100% { translate: -50% 0; } 50% { translate: -50% 6px; } }
     }
-    .bryter input { position: absolute; opacity: 0; width: 1px; height: 1px; }
-    .bryter .spak {
-      display: block; width: 2.4rem; height: 1.25rem; position: relative;
-      background: rgba(235,230,237,0.18); cursor: pointer;
-      transition: background 200ms var(--ease-ut);
-    }
-    .bryter .spak::after {
-      content: ""; position: absolute; top: 2px; left: 2px;
-      width: calc(1.25rem - 4px); height: calc(1.25rem - 4px);
-      background: var(--taake);
-      transition: translate 200ms var(--ease-ut), background 200ms var(--ease-ut);
-    }
-    .bryter input:checked + .spak { background: var(--korall); }
-    .bryter input:checked + .spak::after { translate: 1.15rem 0; background: var(--natt); }
-    .bryter input:focus-visible + .spak { outline: 3px solid var(--korall); outline-offset: 3px; }
+    /* På smale skjermer kolliderer hintet med knappene */
+    @media (max-width: 47.98rem) { .scene3d__hint { display: none; } }
 
-    /* ===== Tjenester: stor indeksliste ===== */
+    /* ===== Akt 2 – Tjenester: stor indeksliste ===== */
     .indeks { background: var(--midnatt); padding-block: var(--rom-3xl); }
+    html.har-3d .indeks {
+      background: linear-gradient(to bottom,
+        rgba(26,15,40,0) 0%, rgba(26,15,40,0.82) 12%,
+        rgba(26,15,40,0.82) 88%, rgba(26,15,40,0) 100%);
+    }
     .indeks h2 { color: var(--hvit); }
     .indeks__liste { list-style: none; margin: var(--rom-xl) 0 0; padding: 0; }
     .indeks__liste li { border-top: 1px solid rgba(235,230,237,0.18); }
@@ -170,8 +153,13 @@
       .indeks__liste a:hover .indeks__navn { color: var(--korall); transition: color 250ms var(--ease-ut); }
     }
 
-    /* ===== Galleri: horisontal filmstripe med snap ===== */
+    /* ===== Akt 3 – Galleri: horisontal filmstripe ===== */
     .stripe { background: var(--midnatt); padding-block: var(--rom-2xl) var(--rom-3xl); }
+    html.har-3d .stripe {
+      background: linear-gradient(to bottom,
+        rgba(26,15,40,0) 0%, rgba(26,15,40,0.5) 15%,
+        rgba(26,15,40,0.5) 85%, rgba(26,15,40,0) 100%);
+    }
     .stripe h2 { color: var(--hvit); }
     .stripe__spor {
       display: flex; gap: var(--rom-m);
@@ -195,17 +183,27 @@
     }
     .stripe figcaption { margin-top: var(--rom-s); font-size: var(--detalj-storrelse); color: var(--taake); }
 
-    /* ===== CTA ===== */
-    .cta { position: relative; isolation: isolate; text-align: center; overflow: hidden; background: var(--natt); padding-block: var(--rom-3xl); }
-    .cta::before {
-      content: ""; position: absolute; inset: 0; z-index: -1;
-      background: radial-gradient(50% 65% at 50% 100%, rgba(254,87,87,0.13), transparent 70%);
+    /* ===== Akt 4 – Book: fullt show ===== */
+    .cta {
+      position: relative; isolation: isolate; text-align: center;
+      overflow: hidden; background: var(--natt);
+      padding-block: var(--rom-3xl);
+      min-height: 70vh; min-height: 70dvh;
+      display: grid; place-items: center;
+    }
+    html.har-3d .cta { background: transparent; }
+    .cta .ramme {
+      background: radial-gradient(65% 90% at 50% 50%, rgba(26,15,40,0.72), transparent 100%);
+      padding: var(--rom-2xl) var(--rom-l);
     }
     .cta h2 { color: var(--hvit); }
     .cta .strek, .cta p { margin-inline: auto; }
 
-    /* ===== Footer ===== */
+    /* ===== Akt 5 – Footer ===== */
     footer { background: var(--midnatt); padding-block: var(--rom-xl) var(--rom-2xl); overflow: hidden; }
+    html.har-3d footer {
+      background: linear-gradient(to bottom, rgba(26,15,40,0) 0%, rgba(26,15,40,0.9) 18%, var(--natt) 60%);
+    }
     .footer-merke {
       font-family: var(--font-display); font-weight: 300;
       font-size: clamp(4rem, 15vw, 11rem); line-height: 1.05;
@@ -244,6 +242,8 @@
 </head>
 <body>
 
+<div id="bakteppe" aria-hidden="true"></div>
+
 <header class="topp">
   <nav class="topp__rad" aria-label="Hovedmeny">
     <a class="topp__logo" href="showet.html" aria-label="T-Event – til forsiden">
@@ -253,15 +253,15 @@
       <a href="showet.html" aria-current="page">Hjem</a>
       <a href="tjenester.html">Tjenester</a>
       <a href="#">Priser</a>
-      <a href="#">Galleri</a>
-      <a href="#">Kontakt</a>
+      <a href="#akt-galleri">Galleri</a>
+      <a href="#akt-book">Kontakt</a>
     </div>
   </nav>
 </header>
 
 <main>
-  <!-- HERO: 3D-riggen -->
-  <section class="scene3d" id="scene3d" aria-label="Introduksjon">
+  <!-- AKT 1: HERO -->
+  <section class="scene3d" id="akt-hero" aria-label="Introduksjon">
     <div class="scene3d__reserve" aria-hidden="true"></div>
     <div class="scene3d__tekst">
       <p class="etikett">DJ · lyd · lys</p>
@@ -269,37 +269,15 @@
       <p>DJ, lyd og lys til russearrangementer, bryllup, konserter og
       firmafest. Vi tar hele jobben – rigg, teknikk og nedrigg.</p>
       <div class="scene3d__knapper">
-        <a class="knapp knapp--primar knapp--glod" href="#">Send forespørsel</a>
+        <a class="knapp knapp--primar knapp--glod" href="#akt-book">Send forespørsel</a>
         <a class="knapp knapp--sekundar" href="tjenester.html">Se tjenestene</a>
       </div>
     </div>
-    <fieldset class="lysbord" style="border:0; margin:0;">
-      <legend class="lysbord__tittel">Lysbordet – styr riggen</legend>
-      <label class="bryter">
-        <input type="checkbox" id="lb-hvit">
-        <span class="spak" aria-hidden="true"></span>
-        <span>Hvitt</span>
-      </label>
-      <label class="bryter">
-        <input type="checkbox" id="lb-royk">
-        <span class="spak" aria-hidden="true"></span>
-        <span>Røyk</span>
-      </label>
-      <label class="bryter">
-        <input type="checkbox" id="lb-ro">
-        <span class="spak" aria-hidden="true"></span>
-        <span>Rolig</span>
-      </label>
-      <label class="bryter">
-        <input type="checkbox" id="lb-av">
-        <span class="spak" aria-hidden="true"></span>
-        <span>Blackout</span>
-      </label>
-    </fieldset>
+    <p class="scene3d__hint" aria-hidden="true">Rull – showet følger deg</p>
   </section>
 
-  <!-- TJENESTER: indeksliste -->
-  <section class="indeks" aria-labelledby="indeks-tittel">
+  <!-- AKT 2: TJENESTER -->
+  <section class="indeks" id="akt-tjenester" aria-labelledby="indeks-tittel">
     <div class="ramme">
       <h2 id="indeks-tittel">Det vi leverer</h2>
       <hr class="strek" aria-hidden="true">
@@ -325,8 +303,8 @@
     </div>
   </section>
 
-  <!-- GALLERI: filmstripe -->
-  <section class="stripe" aria-labelledby="stripe-tittel">
+  <!-- AKT 3: GALLERI -->
+  <section class="stripe" id="akt-galleri" aria-labelledby="stripe-tittel">
     <div class="ramme">
       <h2 id="stripe-tittel">Bak riggen</h2>
       <hr class="strek" aria-hidden="true">
@@ -351,8 +329,8 @@
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="cta" aria-labelledby="cta-tittel">
+  <!-- AKT 4: BOOK -->
+  <section class="cta" id="akt-book" aria-labelledby="cta-tittel">
     <div class="ramme">
       <h2 id="cta-tittel">Ledig dato? Send en melding, så finner vi ut av det.</h2>
       <hr class="strek" aria-hidden="true">
@@ -361,7 +339,8 @@
   </section>
 </main>
 
-<footer>
+<!-- AKT 5: SLUTT -->
+<footer id="akt-slutt">
   <p class="footer-merke" aria-hidden="true">T-EVENT</p>
   <div class="ramme">
     <div class="footer-kolonner">
@@ -397,11 +376,12 @@
 </footer>
 
 <script type="module">
-/* 3D-lysriggen. three.js r182 (MIT), selvhostet. */
+/* 3D-lysriggen som bakteppe for hele siden. three.js r182 (MIT), selvhostet.
+   Scroll-regien: fem akter (hero → tjenester → galleri → book → slutt),
+   interpolert glatt mellom seksjonsmidtpunktene. Ingen brytere. */
 import * as THREE from './lib/three.module.min.js';
 
 const rot = document.documentElement;
-const hero = document.getElementById('scene3d');
 const roligSys = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function reserve() { rot.classList.add('uten-3d'); }
@@ -420,7 +400,8 @@ try {
   const renderer = new THREE.WebGLRenderer({ antialias: !mobil });
   renderer.setPixelRatio(Math.min(devicePixelRatio, mobil ? 1 : 1.5));
   renderer.setClearColor(NATT);
-  hero.prepend(renderer.domElement);
+  document.getElementById('bakteppe').appendChild(renderer.domElement);
+  rot.classList.add('har-3d');
 
   const scene = new THREE.Scene();
   scene.fog = new THREE.FogExp2(NATT, 0.05);
@@ -498,47 +479,94 @@ try {
     glod.position.y = 0.02;
     scene.add(glod);
 
-    lamper.push({ g, retning, kjegle, glod, fase: Math.random() * Math.PI * 2, maal: new THREE.Vector3() });
+    lamper.push({ g, retning, kjegle, glod, kilde, fase: Math.random() * Math.PI * 2, maal: new THREE.Vector3() });
   }
 
-  /* Brytere */
-  const bry = id => document.getElementById(id);
-  function farge() { return bry('lb-hvit').checked ? HVIT : KORALL; }
+  /* ---- Scroll-regien: fem akter ----
+     fog = røyktetthet · hvit = 0 korall → 1 hvitt · fart = sveipetempo
+     str = stråle-opacity · glo = gulvglød · kam/se = kameraposisjon og
+     blikkpunkt. Interpoleres glatt mellom seksjonsmidtpunktene. */
+  const AKTER = [
+    { id: 'akt-hero',      fog: 0.050, hvit: 0,    fart: 1.0,  str: 0.12, glo: 0.16, kam: [0, 2.4, 10],    se: [0, 1.6, 0] },
+    { id: 'akt-tjenester', fog: 0.038, hvit: 1,    fart: 0.45, str: 0.09, glo: 0.08, kam: [-3.4, 3.8, 8],  se: [0, 1.1, 0] },
+    { id: 'akt-galleri',   fog: 0.100, hvit: 0.25, fart: 0.7,  str: 0.05, glo: 0.05, kam: [3.0, 1.4, 7.5], se: [0, 3.2, 0] },
+    { id: 'akt-book',      fog: 0.072, hvit: 0,    fart: 1.9,  str: 0.16, glo: 0.20, kam: [0, 1.2, 6.2],   se: [0, 3.8, 0] },
+    { id: 'akt-slutt',     fog: 0.060, hvit: 0,    fart: 0.35, str: 0.03, glo: 0.04, kam: [0, 2.2, 11],    se: [0, 2.6, 0] },
+  ];
+  const seksjoner = AKTER.map(a => document.getElementById(a.id));
+  let midtpunkt = [];
+  function maalMidtpunkt() {
+    midtpunkt = seksjoner.map(el => {
+      const r = el.getBoundingClientRect();
+      return scrollY + r.top + r.height / 2;
+    });
+  }
+  maalMidtpunkt();
+  new ResizeObserver(maalMidtpunkt).observe(document.body);
 
-  /* Peker → punkt på gulvet */
-  const stråler = new THREE.Raycaster();
+  function glatt(u) { return u * u * (3 - 2 * u); }
+
+  /* nåtilstand (dempes mot måltilstanden hvert bilde) */
+  const naa = {
+    fog: 0.05, hvit: 0, fart: 1, str: 0.12, glo: 0.16,
+    kam: new THREE.Vector3(0, 2.4, 10), se: new THREE.Vector3(0, 1.6, 0),
+  };
+  const tmpA = new THREE.Vector3(), tmpB = new THREE.Vector3();
+  const FARGE = new THREE.Color();
+  const HVIT_REN = new THREE.Color(0xffffff);
+
+  function regi(demp) {
+    const s = scrollY + innerHeight / 2;
+    let i = 0;
+    while (i < midtpunkt.length - 2 && s > midtpunkt[i + 1]) i++;
+    const u = glatt(THREE.MathUtils.clamp(
+      (s - midtpunkt[i]) / Math.max(midtpunkt[i + 1] - midtpunkt[i], 1), 0, 1));
+    const A = AKTER[i], B = AKTER[i + 1];
+
+    naa.fog  += (A.fog  + (B.fog  - A.fog)  * u - naa.fog)  * demp;
+    naa.hvit += (A.hvit + (B.hvit - A.hvit) * u - naa.hvit) * demp;
+    naa.fart += (A.fart + (B.fart - A.fart) * u - naa.fart) * demp;
+    naa.str  += (A.str  + (B.str  - A.str)  * u - naa.str)  * demp;
+    naa.glo  += (A.glo  + (B.glo  - A.glo)  * u - naa.glo)  * demp;
+    tmpA.fromArray(A.kam); tmpB.fromArray(B.kam); tmpA.lerp(tmpB, u);
+    naa.kam.lerp(tmpA, demp);
+    tmpA.fromArray(A.se); tmpB.fromArray(B.se); tmpA.lerp(tmpB, u);
+    naa.se.lerp(tmpA, demp);
+  }
+
+  /* Peker → punkt på gulvet (hele siden) */
+  const straaler = new THREE.Raycaster();
   const ndc = new THREE.Vector2();
   const gulvplan = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
   const pekerMaal = new THREE.Vector3(0, 0, 2);
   let harPeker = false;
   if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    hero.addEventListener('pointermove', e => {
-      const b = hero.getBoundingClientRect();
-      ndc.set(((e.clientX - b.left) / b.width) * 2 - 1, -(((e.clientY - b.top) / b.height) * 2 - 1));
-      stråler.setFromCamera(ndc, kamera);
+    addEventListener('pointermove', e => {
+      ndc.set((e.clientX / innerWidth) * 2 - 1, -((e.clientY / innerHeight) * 2 - 1));
+      straaler.setFromCamera(ndc, kamera);
       const treff = new THREE.Vector3();
-      if (stråler.ray.intersectPlane(gulvplan, treff)) {
+      if (straaler.ray.intersectPlane(gulvplan, treff)) {
         treff.x = THREE.MathUtils.clamp(treff.x, -8, 8);
         treff.z = THREE.MathUtils.clamp(treff.z, -4, 7);
         pekerMaal.copy(treff);
         harPeker = true;
       }
     });
-    hero.addEventListener('pointerleave', () => { harPeker = false; });
+    document.documentElement.addEventListener('pointerleave', () => { harPeker = false; });
   }
 
   /* Størrelse */
   function dimensjoner() {
-    const b = hero.getBoundingClientRect();
-    renderer.setSize(b.width, b.height);
-    kamera.aspect = b.width / b.height;
+    renderer.setSize(innerWidth, innerHeight);
+    kamera.aspect = innerWidth / innerHeight;
     kamera.updateProjectionMatrix();
+    maalMidtpunkt();
   }
   dimensjoner();
   addEventListener('resize', dimensjoner);
 
-  let synlig = true;
-  new IntersectionObserver(e => { synlig = e[0].isIntersecting; }).observe(hero);
+  let synlig = !document.hidden;
+  document.addEventListener('visibilitychange', () => { synlig = !document.hidden; });
 
   const q = new THREE.Quaternion();
   const dir = new THREE.Vector3();
@@ -549,12 +577,11 @@ try {
     requestAnimationFrame(bilde);
     if (!synlig) return;
     const dt = Math.min(klokke.getDelta(), 0.05);
-    const rolig = bry('lb-ro').checked;
-    const blackout = bry('lb-av').checked;
-    if (!rolig) t += dt;
 
-    scene.fog.density = bry('lb-royk').checked ? 0.085 : 0.05;
-    const f = farge();
+    regi(0.07);
+    t += dt * naa.fart;
+    scene.fog.density = naa.fog;
+    FARGE.copy(KORALL).lerp(HVIT, naa.hvit);
 
     for (let i = 0; i < lamper.length; i++) {
       const L = lamper[i];
@@ -570,20 +597,22 @@ try {
       q.setFromUnitVectors(NED, dir);
       L.retning.quaternion.slerp(q, 0.12);
 
-      L.kjegle.material.color.copy(f);
-      L.kjegle.material.opacity = blackout ? 0 : 0.12;
-      L.glod.material.color.copy(f);
-      L.glod.material.opacity = blackout ? 0 : 0.16;
+      L.kjegle.material.color.copy(FARGE);
+      L.kjegle.material.opacity = naa.str;
+      L.glod.material.color.copy(FARGE);
+      L.glod.material.opacity = naa.glo;
       L.glod.position.x = L.maal.x;
       L.glod.position.z = L.maal.z;
+      L.kilde.material.color.copy(FARGE).lerp(HVIT_REN, 0.5);
     }
 
-    /* kamera: rolig pust + liten dolly på scroll */
-    const rull = Math.min(scrollY / innerHeight, 1);
-    kamera.position.x = Math.sin(t * 0.08) * 0.5;
-    kamera.position.y = 2.4 + rull * 1.6;
-    kamera.position.z = 10 - rull * 1.2;
-    kamera.lookAt(0, 1.6 - rull, 0);
+    /* kamera: akt-posisjon + rolig pust */
+    kamera.position.set(
+      naa.kam.x + Math.sin(t * 0.08) * 0.5,
+      naa.kam.y + Math.sin(t * 0.11) * 0.08,
+      naa.kam.z
+    );
+    kamera.lookAt(naa.se);
 
     renderer.render(scene, kamera);
   }

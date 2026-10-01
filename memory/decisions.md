@@ -13,6 +13,20 @@ Format (nyeste øverst):
 
 ---
 
+## 2026-10-01 – Opplevelses-regi: 3D på hele siden, ingen manuelle brytere, etappevis bygging
+- Beslutning: Mathias presiserte retningen for spor B: (1) 3D-effekter skal
+  gjennomsyre **hele siden**, ikke bare heroen. (2) Brukeren skal **ikke**
+  trykke på knapper for å endre scenen – lysbord-bryterne fjernes; scenen
+  styres automatisk av scroll og peker. (3) Det skal være **en opplevelse å
+  booke / ta kontakt** (leie av utstyr osv.). (4) Det bygges **én ting av
+  gangen** etter en omforent plan (docs/plan-opplevelsen.md), ikke hele
+  siden i én jafs.
+- Begrunnelse: Unngå ny villspor-runde; hver etappe kan vurderes isolert.
+- Forventet resultat: Etappe 1 = scenen som gjennomgående bakteppe med
+  scroll-drevne «akter»; deretter én etappe per PR med Mathias' dom mellom.
+- Reviewdato: 2026-10-31
+- Status: Aktiv
+
 ## 2026-10-01 – Spor B valgt: ekte WebGL-rigg, ny side fra blanke ark
 - Beslutning: Etter referansene landonorris.com, lusion.co og
   cornrevolution.resn.global valgte Mathias spor B («spor b. men start
