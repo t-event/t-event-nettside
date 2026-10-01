@@ -47,9 +47,15 @@ Sist oppdatert: 2026-10-01
   (mulige mindreårige), teambildet er avisfoto (godkjent iflg. Mathias –
   skriftlig bekreftelse TODO), Daniel I har samtykket, PolarCode-bildene
   droppes, Eprod/Park22 kan omtales. Figma-plan kjøpes ikke.
-- GJENSTÅR FØR/UNDER FASE 2: Cloudflare-oppsettet (gjennomgås med Mathias),
-  original-SVG av logoen fra profilpakken, skriftlig dokumentasjon av
-  avis-/Daniel I-samtykker, person-avklaring for 4 bilder i AVKLARING.
+- Oppdatert kveld 2026-10-01: logo-SVG-er mottatt (docs/logoer-og-media/),
+  teambildet er fra Rana Blad (godkjent, dok-TODO), de fire åpne bildene
+  godkjent av Mathias/Marius/Daniel, skoleball-bildene brukes MIDLERTIDIG og
+  SKAL byttes ut før lansering (fase 5-sperre).
+- Cloudflare: Mathias opprettet ved en feil et Workers-prosjekt
+  (t-event-nettside.mathias-14f.workers.dev, «Hello world»). Skal slettes og
+  erstattes av et Pages-prosjekt; placeholder-side ligger klar i `public/`
+  (index.html + _headers med noindex). Pages-innstillinger: build command
+  tom, output directory `public` (endres til Astro/`dist` i fase 3).
 - Fase 2 (HTML/CSS-designutkast) kan starte.
 
 ## Neste fase
