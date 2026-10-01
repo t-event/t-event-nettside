@@ -8,24 +8,39 @@
   <link rel="stylesheet" href="tokens.css">
   <style>
     /* ================================================================
-       «LYSBORDET» – helt nytt konsept, bygget fra blanke ark.
-       1) Heroen er et GENERERT lysshow (ingen fotografier) – strålene,
-          røyken og gulvet er tegnet i ren CSS.
-       2) Besøkeren får T-Events eget verktøy: et lysbord med ekte
-          brytere som styrer showet. Null JavaScript – kun CSS :has().
-       3) Resten av siden er fortellingen om én kveld, fra rigg kl. 17
-          til nedrigg kl. 02 – med en korall-fader som fylles mens du
-          ruller (CSS scroll-driven animation, ingen JS).
+       «LYSBORDET XL» – parallax-utgaven.
+       Alle scroll-effekter kjører på CSS scroll-tidslinjer
+       (kompositor-tråden): flerlags parallax i heroen, sticky
+       kveldsscener som stabler seg, bildeparallax i galleriet og
+       footer-navnetrekk som stiger. Fortsatt null JavaScript.
        ================================================================ */
 
+    html { scroll-behavior: smooth; }
     body { background: var(--natt); }
 
-    /* Filmkorn */
-    body::after {
+    body::after { /* filmkorn */
       content: ""; position: fixed; inset: 0; z-index: 60;
       pointer-events: none; opacity: 0.045;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
+
+    /* ===== INTRO: «lys på» (kun ved lasting, hopper over ved redusert bevegelse) ===== */
+    .intro {
+      position: fixed; inset: 0; z-index: 70;
+      display: grid; place-items: center;
+      background: var(--natt);
+      pointer-events: none;
+    }
+    .intro svg { width: 7rem; height: auto; opacity: 0; }
+    .intro .i-flate { fill: var(--taake); }
+    .intro .i-korall { fill: var(--korall); }
+    @media (prefers-reduced-motion: no-preference) {
+      .intro { animation: intro-ut 700ms var(--ease-inn-ut) 1.6s forwards; }
+      .intro svg { animation: intro-lys 900ms var(--ease-ut) 300ms forwards; }
+      @keyframes intro-lys { to { opacity: 1; } }
+      @keyframes intro-ut { to { translate: 0 -100%; visibility: hidden; } }
+    }
+    @media (prefers-reduced-motion: reduce) { .intro { display: none; } }
 
     /* ===== Meny ===== */
     .topp {
@@ -53,23 +68,22 @@
       .meny a:hover { color: var(--hvit); background-size: 100% 1px; }
     }
 
-    /* ================= HERO: showet ================= */
+    /* ================= HERO: showet, nå med parallax-lag ================= */
     .show {
       position: relative; isolation: isolate; overflow: hidden;
       min-height: 92vh; min-height: 92dvh;
       display: grid; align-items: end;
-      --straale-farge: 254, 87, 87;      /* korall – byttes av lysbordet */
+      --straale-farge: 254, 87, 87;
       --royk-styrke: 0.1;
       clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 3rem));
       padding-bottom: 3rem;
+      view-timeline: --show block; /* parallax-tidslinje for lagene */
     }
-    /* Lysbordets brytere styrer showet – ren CSS via :has() */
     body:has(#lb-hvit:checked) .show { --straale-farge: 235, 230, 237; }
     body:has(#lb-royk:checked) .show { --royk-styrke: 0.22; }
     body:has(#lb-av:checked) .show .vifte { opacity: 0; }
     body:has(#lb-av:checked) .show .gulvglod { opacity: 0.25; }
 
-    /* Røyk/haze */
     .haze {
       position: absolute; inset: -15%; z-index: -3; pointer-events: none;
       background:
@@ -77,7 +91,6 @@
         radial-gradient(50% 55% at 75% 75%, rgba(107,98,117,calc(var(--royk-styrke) * 0.8)), transparent 72%);
       transition: background 600ms var(--ease-ut);
     }
-    /* Strålevifta: 7 stråler fra ett punkt over scenen */
     .vifte {
       position: absolute; left: 50%; top: -6rem; z-index: -2;
       width: 0; height: 0; pointer-events: none;
@@ -100,16 +113,37 @@
     .vifte i:nth-child(5) { rotate: 12deg; }
     .vifte i:nth-child(6) { rotate: 24deg; }
     .vifte i:nth-child(7) { rotate: 36deg; }
-    @media (prefers-reduced-motion: no-preference) {
-      body:not(:has(#lb-ro:checked)) .vifte { animation: fan 14s var(--ease-inn-ut) infinite alternate; }
-      @keyframes fan { from { rotate: -7deg; } to { rotate: 7deg; } }
-    }
-    /* Gulvgløden der strålene treffer */
     .gulvglod {
       position: absolute; inset: auto 0 0 0; height: 45%; z-index: -1;
       background: radial-gradient(60% 90% at 50% 100%, rgba(var(--straale-farge), 0.14), transparent 70%);
       pointer-events: none;
       transition: background 500ms var(--ease-ut), opacity 500ms var(--ease-ut);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      body:not(:has(#lb-ro:checked)) .vifte { animation: fan 14s var(--ease-inn-ut) infinite alternate; }
+      @keyframes fan { from { rotate: -7deg; } to { rotate: 7deg; } }
+    }
+
+    /* PARALLAX: lagene forlater heroen i ulik fart når du ruller */
+    @supports (animation-timeline: view()) {
+      @media (prefers-reduced-motion: no-preference) {
+        body:not(:has(#lb-ro:checked)) .show .haze {
+          animation: par-sakte linear both; animation-timeline: --show;
+          animation-range: exit 0% exit 100%;
+        }
+        body:not(:has(#lb-ro:checked)) .show .vifte {
+          animation: par-medium linear both, fan 14s var(--ease-inn-ut) infinite alternate;
+          animation-timeline: --show, auto;
+          animation-range: exit 0% exit 100%, normal;
+        }
+        body:not(:has(#lb-ro:checked)) .show .show__innhold {
+          animation: par-rask linear both; animation-timeline: --show;
+          animation-range: exit 0% exit 100%;
+        }
+        @keyframes par-sakte  { to { transform: translateY(14vh); } }
+        @keyframes par-medium { to { transform: translateY(7vh); } }
+        @keyframes par-rask   { to { transform: translateY(-9vh); opacity: 0.1; } }
+      }
     }
 
     .show__innhold {
@@ -131,14 +165,14 @@
     .show__knapper { display: flex; flex-wrap: wrap; gap: var(--rom-m); margin-top: var(--rom-l); }
     .knapp--glod { box-shadow: 0 0 28px rgba(254,87,87,0.3); }
     @media (prefers-reduced-motion: no-preference) {
-      .show__innhold > * { animation: inn 800ms var(--ease-ut) backwards; }
-      .show__innhold > *:nth-child(2) { animation-delay: 90ms; }
-      .show__innhold > *:nth-child(3) { animation-delay: 180ms; }
-      .show__innhold > *:nth-child(4) { animation-delay: 270ms; }
+      .show__innhold > * { animation: inn 800ms var(--ease-ut) backwards; animation-delay: 1.9s; }
+      .show__innhold > *:nth-child(2) { animation-delay: 2s; }
+      .show__innhold > *:nth-child(3) { animation-delay: 2.1s; }
+      .show__innhold > *:nth-child(4) { animation-delay: 2.2s; }
       @keyframes inn { from { opacity: 0; transform: translateY(14px); } }
     }
 
-    /* ===== LYSBORDET – panelet ===== */
+    /* ===== Lysbordet-panelet ===== */
     .lysbord {
       position: absolute; z-index: 2;
       right: var(--rom-l); bottom: calc(3rem + var(--rom-l));
@@ -178,16 +212,15 @@
     .bryter input:checked + .spak::after { translate: 1.15rem 0; background: var(--natt); }
     .bryter input:focus-visible + .spak { outline: 3px solid var(--korall); outline-offset: 3px; }
 
-    /* ================= KVELDEN – fortellingen ================= */
+    /* ================= KVELDEN: sticky scener som stabler seg ================= */
     .kveld { position: relative; background: var(--midnatt); }
     .kveld__ramme {
       max-width: var(--maks-bredde); margin-inline: auto;
       padding: var(--rom-3xl) var(--rom-l);
       display: grid; grid-template-columns: 3rem 1fr; gap: var(--rom-l);
     }
-    /* Faderen: korall-lysstolpe som fylles mens du ruller gjennom kvelden */
     .fader { position: relative; }
-    .fader::before { /* spor */
+    .fader::before {
       content: ""; position: absolute; inset: 0 auto 0 50%;
       width: 2px; translate: -50% 0;
       background: rgba(235,230,237,0.12);
@@ -211,40 +244,64 @@
       .fader__fyll { scale: 1 1; opacity: 0.5; }
     }
 
-    .akter { display: grid; gap: var(--rom-3xl); }
-    .akt { max-width: 38rem; }
-    .akt__tid {
+    .kveld h2.seksjonstittel { color: var(--hvit); margin-bottom: var(--rom-2xl); }
+
+    /* Hver akt er en scene: pinnes, stables og dekkes av den neste */
+    .scene-wrap { height: 135vh; }
+    .scene-wrap:last-child { height: auto; }
+    .akt {
+      position: sticky; top: 14vh;
+      min-height: 64vh;
+      background: var(--midnatt);
+      border: 1px solid rgba(235,230,237,0.14);
+      border-top: 3px solid var(--korall);
+      padding: var(--rom-2xl) var(--rom-xl);
+      display: grid; align-content: center; gap: var(--rom-s);
+      overflow: hidden; isolation: isolate;
+      view-timeline: --akt block;
+    }
+    .scene-wrap:nth-child(1) .akt { z-index: 1; }
+    .scene-wrap:nth-child(2) .akt { z-index: 2; }
+    .scene-wrap:nth-child(3) .akt { z-index: 3; }
+    .scene-wrap:nth-child(4) .akt { z-index: 4; }
+    /* Gigantisk klokkeslett som sceneteppe – parallakserer bak innholdet */
+    .akt__bak {
+      position: absolute; right: -1rem; bottom: -2rem; z-index: -1;
       font-family: var(--font-display); font-weight: 300;
-      font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1;
-      color: var(--taake);
-      display: block; margin-bottom: var(--rom-s);
+      font-size: clamp(8rem, 24vw, 17rem); line-height: 1;
+      color: transparent; -webkit-text-stroke: 1px rgba(235,230,237,0.14);
+      pointer-events: none; user-select: none;
       font-variant-numeric: tabular-nums;
     }
-    .akt--naa .akt__tid { color: var(--korall); }
-    .akt h2 { color: var(--hvit); margin-bottom: var(--rom-s); }
-    .akt p { font-size: 0.9875rem; }
+    @supports (animation-timeline: view()) {
+      @media (prefers-reduced-motion: no-preference) {
+        .akt__bak {
+          animation: bak-par linear both; animation-timeline: --akt;
+          animation-range: cover 0% cover 100%;
+        }
+        @keyframes bak-par { from { transform: translateY(3rem); } to { transform: translateY(-3rem); } }
+        .akt > *:not(.akt__bak) {
+          animation: akt-inn linear both; animation-timeline: --akt;
+          animation-range: entry 30% entry 90%;
+        }
+        @keyframes akt-inn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+      }
+    }
+    .akt__tid {
+      font-family: var(--font-display); font-weight: 300;
+      font-size: clamp(2rem, 5vw, 3rem); line-height: 1;
+      color: var(--korall); font-variant-numeric: tabular-nums;
+    }
+    .akt h3 { color: var(--hvit); font-size: clamp(1.5rem, 3.5vw, 2rem); margin: 0; }
+    .akt p { font-size: 0.9875rem; max-width: 52ch; }
     .akt .lenke {
       font-family: var(--font-display); font-size: 0.8125rem;
       letter-spacing: 0.22em; text-transform: uppercase;
-      color: var(--korall); text-decoration: none;
+      color: var(--korall); text-decoration: none; width: fit-content;
     }
     .akt .lenke::after { content: " →"; }
     @media (hover: hover) and (pointer: fine) {
       .akt .lenke:hover { text-decoration: underline; text-underline-offset: 4px; }
-    }
-    /* Aktene glir inn mens de rulles inn i bildet */
-    @supports (animation-timeline: view()) {
-      @media (prefers-reduced-motion: no-preference) {
-        .akt {
-          animation: akt-inn linear both;
-          animation-timeline: view();
-          animation-range: entry 5% entry 50%;
-        }
-        @keyframes akt-inn {
-          from { opacity: 0; transform: translateX(-20px); }
-          to   { opacity: 1; transform: none; }
-        }
-      }
     }
 
     /* ===== Kinetisk bånd ===== */
@@ -266,27 +323,32 @@
       @keyframes rull { to { transform: translateX(-50%); } }
     }
 
-    /* ===== Galleri: lyset skrus på ===== */
+    /* ===== Galleri med ekte bildeparallax ===== */
     .seksjonstittel { color: var(--hvit); }
     .galleri { display: grid; gap: var(--rom-m); }
     @media (min-width: 48rem) {
       .galleri { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; }
       .galleri figure:first-child { grid-row: 1 / 3; }
-      .galleri figure:first-child img { height: 100%; }
     }
-    .galleri figure { margin: 0; }
+    .galleri figure {
+      margin: 0; overflow: hidden; position: relative;
+      view-timeline: --fig block;
+    }
+    .galleri .bildeflate { aspect-ratio: 4 / 3; overflow: hidden; }
+    .galleri figure:first-child .bildeflate { height: calc(100% - 1.6rem); aspect-ratio: auto; }
     .galleri img {
-      aspect-ratio: 4 / 3; object-fit: cover; width: 100%; height: 100%; display: block;
+      object-fit: cover; width: 100%; height: 118%; display: block;
       filter: grayscale(0.65) brightness(0.72);
       transition: filter 700ms var(--ease-ut);
     }
     @supports (animation-timeline: view()) {
       @media (prefers-reduced-motion: no-preference) {
         .galleri img {
-          animation: lys-paa linear both;
-          animation-timeline: view();
-          animation-range: entry 10% entry 70%;
+          animation: bilde-par linear both, lys-paa linear both;
+          animation-timeline: --fig, --fig;
+          animation-range: cover 0% cover 100%, entry 10% entry 70%;
         }
+        @keyframes bilde-par { from { transform: translateY(-14%); } to { transform: translateY(0); } }
         @keyframes lys-paa {
           from { filter: grayscale(0.65) brightness(0.72); }
           to   { filter: none; }
@@ -310,14 +372,24 @@
     .cta h2 { color: var(--hvit); }
     .cta .strek, .cta p { margin-inline: auto; }
 
-    /* ===== Footer ===== */
-    footer { background: var(--midnatt); padding-block: var(--rom-xl) var(--rom-2xl); }
+    /* ===== Footer: navnetrekket stiger opp ===== */
+    footer { background: var(--midnatt); padding-block: var(--rom-xl) var(--rom-2xl); overflow: hidden; }
     .footer-merke {
       font-family: var(--font-display); font-weight: 300;
       font-size: clamp(4rem, 15vw, 11rem); line-height: 1.05;
       text-align: center; user-select: none;
       color: transparent; -webkit-text-stroke: 1px rgba(235,230,237,0.22);
-      letter-spacing: 0.08em; margin-bottom: var(--rom-xl); overflow: hidden;
+      letter-spacing: 0.08em; margin-bottom: var(--rom-xl);
+    }
+    @supports (animation-timeline: view()) {
+      @media (prefers-reduced-motion: no-preference) {
+        .footer-merke {
+          animation: merke-opp linear both;
+          animation-timeline: view();
+          animation-range: entry 0% entry 100%;
+        }
+        @keyframes merke-opp { from { transform: translateY(45%); opacity: 0; } to { transform: none; opacity: 1; } }
+      }
     }
     .footer-kolonner { display: grid; gap: var(--rom-xl); }
     @media (min-width: 48rem) { .footer-kolonner { grid-template-columns: 2fr 1fr 1fr; } }
@@ -340,6 +412,14 @@
 </head>
 <body>
 
+<div class="intro" aria-hidden="true">
+  <svg viewBox="0 0 381 371">
+    <path class="i-flate" d="M156 0 H362 V126 H245 V203 L117 317 V126 H19 Z"></path>
+    <path class="i-korall" d="M0 0 H131 L0 113 Z"></path>
+    <path class="i-korall" d="M245 238 V298 L117 371 V350 Z"></path>
+  </svg>
+</div>
+
 <header class="topp">
   <nav class="topp__rad" aria-label="Hovedmeny">
     <a class="topp__logo" href="lysbordet.html" aria-label="T-Event – til forsiden">
@@ -356,7 +436,6 @@
 </header>
 
 <main>
-  <!-- HERO: det genererte showet + lysbordet -->
   <section class="show" aria-label="Introduksjon">
     <div class="haze" aria-hidden="true"></div>
     <div class="vifte" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -399,48 +478,59 @@
     </fieldset>
   </section>
 
-  <!-- KVELDEN: fortellingen om ett arrangement -->
+  <!-- KVELDEN: sticky scener -->
   <section class="kveld" aria-labelledby="kveld-tittel">
     <div class="kveld__ramme">
       <div class="fader" aria-hidden="true"><div class="fader__fyll"></div></div>
       <div>
-        <h2 id="kveld-tittel" class="seksjonstittel" style="margin-bottom:var(--rom-2xl)">Slik ser kvelden din ut</h2>
-        <div class="akter">
-          <article class="akt">
-            <span class="akt__tid">17:00</span>
-            <h2>Vi rigger</h2>
-            <p>Vi kjører ut utstyret, bygger scenen og programmerer lyset for
-            lokalet ditt. Du trenger ikke løfte en kasse.</p>
-            <a class="lenke" href="tjenester.html#lyd-og-lys">Lyd og lys</a>
-          </article>
-          <article class="akt">
-            <span class="akt__tid">20:00</span>
-            <h2>Dørene åpner</h2>
-            <p>Lyden er sjekket, lyset ligger varmt i rommet, og musikken er
-            tilpasset gjestene dine fra første låt.</p>
-            <a class="lenke" href="tjenester.html#dj">DJ-tjenesten</a>
-          </article>
-          <article class="akt akt--naa">
-            <span class="akt__tid">23:00</span>
-            <h2>Showet</h2>
-            <p>Dansegulvet er fullt. Showlaser klasse 4, røyk og lysshow –
-            operert av oss, med sikkerhetssoner og egen
-            strålevernkoordinator.</p>
-            <a class="lenke" href="tjenester.html#showlaser">Showlaser og effekter</a>
-          </article>
-          <article class="akt">
-            <span class="akt__tid">02:00</span>
-            <h2>Vi rigger ned</h2>
-            <p>Gjestene går hjem, vi pakker ned og rydder. Lokalet leveres
-            slik vi fikk det.</p>
-            <a class="lenke" href="#">Send forespørsel</a>
-          </article>
+        <h2 id="kveld-tittel" class="seksjonstittel">Slik ser kvelden din ut</h2>
+        <div class="scener">
+          <div class="scene-wrap">
+            <article class="akt">
+              <span class="akt__bak" aria-hidden="true">17:00</span>
+              <span class="akt__tid">17:00</span>
+              <h3>Vi rigger</h3>
+              <p>Vi kjører ut utstyret, bygger scenen og programmerer lyset
+              for lokalet ditt. Du trenger ikke løfte en kasse.</p>
+              <a class="lenke" href="tjenester.html#lyd-og-lys">Lyd og lys</a>
+            </article>
+          </div>
+          <div class="scene-wrap">
+            <article class="akt">
+              <span class="akt__bak" aria-hidden="true">20:00</span>
+              <span class="akt__tid">20:00</span>
+              <h3>Dørene åpner</h3>
+              <p>Lyden er sjekket, lyset ligger varmt i rommet, og musikken
+              er tilpasset gjestene dine fra første låt.</p>
+              <a class="lenke" href="tjenester.html#dj">DJ-tjenesten</a>
+            </article>
+          </div>
+          <div class="scene-wrap">
+            <article class="akt">
+              <span class="akt__bak" aria-hidden="true">23:00</span>
+              <span class="akt__tid">23:00</span>
+              <h3>Showet</h3>
+              <p>Dansegulvet er fullt. Showlaser klasse 4, røyk og lysshow –
+              operert av oss, med sikkerhetssoner og egen
+              strålevernkoordinator.</p>
+              <a class="lenke" href="tjenester.html#showlaser">Showlaser og effekter</a>
+            </article>
+          </div>
+          <div class="scene-wrap">
+            <article class="akt">
+              <span class="akt__bak" aria-hidden="true">02:00</span>
+              <span class="akt__tid">02:00</span>
+              <h3>Vi rigger ned</h3>
+              <p>Gjestene går hjem, vi pakker ned og rydder. Lokalet leveres
+              slik vi fikk det.</p>
+              <a class="lenke" href="#">Send forespørsel</a>
+            </article>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- KINETISK BÅND -->
   <div class="baand" aria-hidden="true">
     <div class="baand__spor">
       <span>Vi tar hele jobben <b>·</b> rigg <b>·</b> teknikk <b>·</b> nedrigg <b>·</b>&nbsp;</span>
@@ -448,29 +538,27 @@
     </div>
   </div>
 
-  <!-- GALLERI -->
   <section class="seksjon" aria-labelledby="galleri-tittel" style="background:var(--midnatt)">
     <div class="ramme">
       <h2 id="galleri-tittel" class="seksjonstittel">Bak riggen</h2>
       <hr class="strek" aria-hidden="true">
       <div class="galleri">
         <figure>
-          <img src="bilder/halloween.jpg" alt="Dansegulv i grønt lys og røyk på Halloween-arrangement">
+          <div class="bildeflate"><img src="bilder/halloween.jpg" alt="Dansegulv i grønt lys og røyk på Halloween-arrangement"></div>
           <figcaption>Halloween på Park22</figcaption>
         </figure>
         <figure>
-          <img src="bilder/w-projeksjon.jpg" alt="Industribygg lyssatt i rosa og blått under et kveldsarrangement">
+          <div class="bildeflate"><img src="bilder/w-projeksjon.jpg" alt="Industribygg lyssatt i rosa og blått under et kveldsarrangement"></div>
           <figcaption>Utendørs lyssetting</figcaption>
         </figure>
         <figure>
-          <img src="bilder/dj-daniel.jpg" alt="DJ bak miksepulten i rødt lys">
+          <div class="bildeflate"><img src="bilder/dj-daniel.jpg" alt="DJ bak miksepulten i rødt lys"></div>
           <figcaption>Klubbkveld</figcaption>
         </figure>
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
   <section class="seksjon cta" aria-labelledby="cta-tittel">
     <div class="ramme">
       <h2 id="cta-tittel">Ledig dato? Send en melding, så finner vi ut av det.</h2>
