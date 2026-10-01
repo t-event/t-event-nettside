@@ -1,0 +1,22 @@
+# Avhengigheter
+node_modules/
+
+# Byggeresultat
+dist/
+.astro/
+
+# Miljøvariabler – ALDRI hemmeligheter i repoet
+.env
+.env.*
+!.env.example
+
+# Cloudflare
+.wrangler/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Logger og temp
+*.log
+.cache/
