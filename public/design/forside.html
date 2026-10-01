@@ -73,19 +73,19 @@
     .rigg__lys {
       position: absolute; inset: 0; z-index: -2;
       background-image:
-        linear-gradient(rgba(26,15,40,0.45), rgba(26,15,40,0.45)),
+        linear-gradient(rgba(26,15,40,0.55), rgba(26,15,40,0.55)),
         url("bilder/hero-lasere.jpg");
       background-size: cover; background-position: center;
-      -webkit-mask-image: radial-gradient(circle 19rem at var(--lys-x) var(--lys-y),
-        rgba(0,0,0,0.55), rgba(0,0,0,0.25) 50%, transparent 75%);
-      mask-image: radial-gradient(circle 19rem at var(--lys-x) var(--lys-y),
-        rgba(0,0,0,0.55), rgba(0,0,0,0.25) 50%, transparent 75%);
+      -webkit-mask-image: radial-gradient(circle 16rem at var(--lys-x) var(--lys-y),
+        rgba(0,0,0,0.3), rgba(0,0,0,0.12) 50%, transparent 75%);
+      mask-image: radial-gradient(circle 16rem at var(--lys-x) var(--lys-y),
+        rgba(0,0,0,0.3), rgba(0,0,0,0.12) 50%, transparent 75%);
     }
     /* Selve lyskjeglen som svak glød oppå */
     .rigg__kjegle {
       position: absolute; inset: 0; z-index: -1; pointer-events: none;
-      background: radial-gradient(circle 19rem at var(--lys-x) var(--lys-y),
-        rgba(235,230,237,0.05), transparent 70%);
+      background: radial-gradient(circle 16rem at var(--lys-x) var(--lys-y),
+        rgba(235,230,237,0.03), transparent 70%);
     }
 
     /* Uten JavaScript / uten pekerhover: lyset sveiper selv */
