@@ -13,6 +13,22 @@ Format (nyeste øverst):
 
 ---
 
+## 2026-10-01 – Frie tøyler: komplett side bygges fra bunnen av
+- Beslutning: Mathias ga Claude frie tøyler («bare lag en side fra bunnen
+  av. du har frie tøyler»). Dette erstatter etappeinndelingen fra samme
+  dag: i stedet for én etappe per PR bygges én komplett, ny side
+  («Opplevelsen») etter Claudes eget designskjønn. ORAVIA-prompten
+  behandles som inspirasjon (scroll-scrubbing-teknikk), ikke som
+  kloneoppdrag. Harde regler gjelder fortsatt: profilhåndbokens farger/
+  fonter, WCAG AA, ingen oppdiktede fakta, selvhostede ressurser.
+- Begrunnelse: Mathias vil se et helhetlig resultat, ikke flere
+  delleveranser til vurdering.
+- Forventet resultat: Komplett one-pager med 3D-rigg gjennom hele siden,
+  scroll-scrubbet «showkveld»-fortelling, tjenesteliste som styrer riggen,
+  galleri og bookingopplevelse. Egenverifisert med Playwright før levering.
+- Reviewdato: 2026-10-31
+- Status: Aktiv
+
 ## 2026-10-01 – Opplevelses-regi: 3D på hele siden, ingen manuelle brytere, etappevis bygging
 - Beslutning: Mathias presiserte retningen for spor B: (1) 3D-effekter skal
   gjennomsyre **hele siden**, ikke bare heroen. (2) Brukeren skal **ikke**
