@@ -51,12 +51,18 @@ Sist oppdatert: 2026-10-01
   teambildet er fra Rana Blad (godkjent, dok-TODO), de fire åpne bildene
   godkjent av Mathias/Marius/Daniel, skoleball-bildene brukes MIDLERTIDIG og
   SKAL byttes ut før lansering (fase 5-sperre).
-- Cloudflare: Mathias opprettet ved en feil et Workers-prosjekt
-  (t-event-nettside.mathias-14f.workers.dev, «Hello world»). Skal slettes og
-  erstattes av et Pages-prosjekt; placeholder-side ligger klar i `public/`
-  (index.html + _headers med noindex). Pages-innstillinger: build command
-  tom, output directory `public` (endres til Astro/`dist` i fase 3).
-- Fase 2 (HTML/CSS-designutkast) kan starte.
+- Cloudflare løst: Pages-prosjekt `t-event-nettside` live på
+  t-event-nettside.pages.dev, output directory `public` (endres til `dist`
+  i fase 3). Workers-feilprosjektet slettes av Mathias.
+
+## Fase 2 – design: utkast levert, venter på godkjenning
+
+- Leveranse i `public/design/` (ses på pages.dev/design/): tokens.css,
+  forside, tjenesteside, komponentoversikt med kontrasttabell.
+- Grunnlag og ikke-fra-håndboken-valg dokumentert i docs/design-fase2.md.
+- Venter på: Mathias' godkjenning av designet og de 8 merkede valgene.
+- Deretter fase 3 (Astro 7.x-bygg) – prisavklaringene (km tur/retur,
+  kjøretid/avrunding, rigg i pakkene, pakkepriser) må tas tidlig i fase 3.
 
 ## Neste fase
 Fase 1 – innhold fra gammel side. Starter først etter Mathias' godkjenning

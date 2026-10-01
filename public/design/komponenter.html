@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="nb">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>UTKAST – Komponenter – T-Event</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    body { padding-block: var(--rom-2xl); }
+    h1 { color: var(--hvit); }
+    h2 { color: var(--hvit); margin-top: var(--rom-3xl); }
+    .lys-demo h2 { color: var(--natt); margin-top: 0; }
+
+    .palett { display: grid; gap: var(--rom-m); grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); }
+    .farge { border: 1px solid rgba(235,230,237,0.2); }
+    .farge__flate { height: 5rem; }
+    .farge__info { padding: var(--rom-s) var(--rom-m); font-size: 0.8125rem; background: var(--natt); }
+
+    .typedemo > * { margin-bottom: var(--rom-l); }
+
+    table { border-collapse: collapse; width: 100%; font-size: 0.9375rem; }
+    caption { text-align: left; padding-bottom: var(--rom-m); }
+    th, td { text-align: left; padding: 0.6rem 0.8rem; border-bottom: 1px solid rgba(235,230,237,0.2); }
+    th { font-family: var(--font-display); font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.75rem; }
+    .ok { color: #7fd99a; }    /* kun i denne interne oversikten */
+    .stor { color: #e8c468; }
+    .nei { color: var(--korall); }
+
+    .proveflate { display: inline-block; padding: 0.35rem 0.8rem; margin-right: 0.5rem; }
+    .lys-demo { background: var(--taake); color: var(--natt); padding: var(--rom-xl); margin-top: var(--rom-xl); }
+    .knapperad { display: flex; flex-wrap: wrap; gap: var(--rom-m); align-items: center; }
+  </style>
+</head>
+<body>
+<div class="ramme">
+  <p class="etikett">Designutkast – internt</p>
+  <h1>Komponenter og tokens</h1>
+  <hr class="strek" aria-hidden="true">
+  <p>Alt er generert fra designhåndboken v1.0 (sidetall i parentes).
+  Valg håndboken ikke dekker er merket og listet i
+  <code>docs/design-fase2.md</code>.</p>
+
+  <h2>Fargepalett (s. 7)</h2>
+  <div class="palett">
+    <div class="farge"><div class="farge__flate" style="background:#2A1840"></div><div class="farge__info">Midnatt #2A1840<br>bærer flaten</div></div>
+    <div class="farge"><div class="farge__flate" style="background:#FE5757"></div><div class="farge__info">Korall #FE5757<br>signal – én ting av gangen</div></div>
+    <div class="farge"><div class="farge__flate" style="background:#1A0F28"></div><div class="farge__info">Natt #1A0F28</div></div>
+    <div class="farge"><div class="farge__flate" style="background:#6B6275"></div><div class="farge__info">Skifer #6B6275</div></div>
+    <div class="farge"><div class="farge__flate" style="background:#EBE6ED"></div><div class="farge__info">Tåke #EBE6ED</div></div>
+    <div class="farge"><div class="farge__flate" style="background:#FFFFFF"></div><div class="farge__info">Hvit #FFFFFF</div></div>
+  </div>
+  <p class="detalj" style="color:var(--taake); margin-top:var(--rom-m)">
+  Fordeling: 60 % mørk flate · 30 % lys/nøytral · 10 % korall</p>
+
+  <h2>Typografi (s. 8)</h2>
+  <div class="typedemo">
+    <h1 style="margin:0">Overskrift – Jost Light</h1>
+    <p class="etikett" style="margin:0">Etikett – Jost Regular versaler 0,22 em</p>
+    <p style="margin:0">Brødtekst – Karla Regular 16 px, linjeavstand 1,7.
+    Vi rigger, kjører og rydder. Du får én kontaktperson fra første melding
+    til siste kasse er ute av lokalet.</p>
+    <p class="detalj" style="margin:0; color:var(--taake)">Detalj – Karla 12 px
+    (Skifer kun på lyse flater, se kontrasttabellen)</p>
+  </div>
+
+  <h2>Knapper</h2>
+  <div class="knapperad">
+    <a class="knapp knapp--primar" href="#">Send forespørsel</a>
+    <a class="knapp knapp--sekundar" href="#">Se tjenestene</a>
+  </div>
+  <p class="detalj" style="color:var(--taake); margin-top:var(--rom-m)">
+  Primærknapp: Natt-tekst på korall (5,88:1). Hvit tekst på korall er bare
+  3,13:1 og brukes ikke. Knappetekster sier alltid hva som skjer.</p>
+
+  <div class="lys-demo">
+    <h2>Lys flate (Tåke)</h2>
+    <p>Brødtekst i Natt på Tåke: 14,94:1.
+    <span class="detalj">Detalj i Skifer på Tåke: 4,70:1 – godkjent.</span></p>
+    <a class="knapp knapp--primar" href="#">Send forespørsel</a>
+  </div>
+
+  <h2>Kontrasttabell (WCAG 2.1, beregnet 2026-10-01)</h2>
+  <table>
+    <caption>Krav: 4,5:1 for vanlig tekst · 3:1 for stor tekst (≥ 24 px /
+    18,7 px fet) og UI-komponenter. Beregnet med WCAG-formelen (node-skript,
+    verifiseres med axe i fase 4).</caption>
+    <tr><th>Kombinasjon</th><th>Kontrast</th><th>Bruk</th></tr>
+    <tr><td>Hvit på Midnatt</td><td>16,11:1</td><td class="ok">All tekst</td></tr>
+    <tr><td>Tåke på Midnatt</td><td>13,10:1</td><td class="ok">All tekst (standard brødtekst mørk flate)</td></tr>
+    <tr><td>Korall på Midnatt</td><td>5,15:1</td><td class="ok">All tekst (etiketter, lenker)</td></tr>
+    <tr><td>Hvit/Tåke/Korall på Natt</td><td>18,37 / 14,94 / 5,88</td><td class="ok">All tekst</td></tr>
+    <tr><td>Midnatt på Hvit / Tåke</td><td>16,11 / 13,10</td><td class="ok">All tekst (lys flate)</td></tr>
+    <tr><td>Natt på Korall</td><td>5,88:1</td><td class="ok">Knappetekst på primærknapp</td></tr>
+    <tr><td>Skifer på Hvit</td><td>5,79:1</td><td class="ok">Detaljtekst på hvit</td></tr>
+    <tr><td>Skifer på Tåke</td><td>4,70:1</td><td class="ok">Detaljtekst på tåke</td></tr>
+    <tr><td>Korall på Hvit</td><td>3,13:1</td><td class="stor">Kun stor tekst (håndboken: store tall/overskrifter – aldri brødtekst)</td></tr>
+    <tr><td>Hvit på Korall</td><td>3,13:1</td><td class="stor">Kun stor tekst/logo (s. 4: ensfarget hvit logo på korall)</td></tr>
+    <tr><td>Skifer på Midnatt</td><td>2,78:1</td><td class="nei">Brukes ikke til tekst</td></tr>
+    <tr><td>Skifer på Natt</td><td>3,18:1</td><td class="nei">Brukes ikke til tekst</td></tr>
+    <tr><td>Korall på Tåke</td><td>2,54:1</td><td class="nei">Brukes ikke til tekst (koral-strek som dekor er OK)</td></tr>
+  </table>
+  <p style="margin-top:var(--rom-l)">Ingen profilfarger er endret. Kombinasjonene
+  som ikke består, er løst med andre kombinasjoner av profilfargene
+  (f.eks. Natt-tekst på korallknapp).</p>
+</div>
+</body>
+</html>
