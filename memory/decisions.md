@@ -13,6 +13,18 @@ Format (nyeste øverst):
 
 ---
 
+## 2026-10-01 – Fullskala scene: opprigging → show → nedrigg
+- Beslutning: Mathias godkjente «Opplevelsen» som start («dette er en
+  start») og ba om en fullskala scene der riggen faktisk bygges opp,
+  spiller showet og rigges ned gjennom scroll-tidslinjen.
+- Begrunnelse: Dramaturgien skal speile den ekte leveransen: opprigging,
+  show, nedrigg – «vi tar hele jobben» vist, ikke bare fortalt.
+- Forventet resultat: Utvidet 3D-scene (scenedekk, trusstårn, PA-stabler,
+  DJ-bord, flightcaser) som monteres under 17:00-øyeblikket og demonteres
+  under 02:00; byggetilstanden styres av scrubbe-progresjonen.
+- Reviewdato: 2026-10-31
+- Status: Aktiv
+
 ## 2026-10-01 – Frie tøyler: komplett side bygges fra bunnen av
 - Beslutning: Mathias ga Claude frie tøyler («bare lag en side fra bunnen
   av. du har frie tøyler»). Dette erstatter etappeinndelingen fra samme

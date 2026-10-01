@@ -140,7 +140,7 @@
     }
     .oyeblikk p { color: var(--taake); max-width: 38ch; }
 
-    html.har-3d .kvelden__scrub { height: 350vh; height: 350dvh; }
+    html.har-3d .kvelden__scrub { height: 450vh; height: 450dvh; }
     html.har-3d .kvelden__klister {
       position: sticky; top: 0;
       height: 100vh; height: 100dvh;
@@ -395,8 +395,8 @@
           <div class="kvelden__linje" aria-hidden="true"><i id="kvelden-fyll"></i></div>
           <div class="oyeblikk aktiv" data-oyeblikk="0">
             <p class="oyeblikk__tid" aria-hidden="true">17:00</p>
-            <h3>Vi rigger</h3>
-            <p>Vi kommer før gjestene. Lyd, lys og scene settes opp og
+            <h3>Opprigging</h3>
+            <p>Vi kommer før gjestene. Scene, lyd og lys bygges opp og
             testes – du trenger ikke løfte en kabel.</p>
           </div>
           <div class="oyeblikk" data-oyeblikk="1">
@@ -413,8 +413,8 @@
           </div>
           <div class="oyeblikk" data-oyeblikk="3">
             <p class="oyeblikk__tid" aria-hidden="true">02:00</p>
-            <h3>Siste låt</h3>
-            <p>Når kvelden er over, tar vi nedriggen. Du takker gjestene –
+            <h3>Nedrigg</h3>
+            <p>Siste låt tones ut – så pakker vi ned. Du takker gjestene,
             vi tar resten.</p>
           </div>
         </div>
@@ -638,16 +638,90 @@ try {
   rutenett.position.y = 0.01;
   scene.add(rutenett);
 
-  /* Truss */
+  /* ---- Fullskala scene: alt som rigges opp og ned ----
+     Hvert element monteres i sitt eget vindu av byggeprosessen (0–1). */
   const trussMat = new THREE.MeshStandardMaterial({ color: 0x241536, roughness: 0.6, metalness: 0.4 });
+  const kasseMat = () => new THREE.MeshStandardMaterial({ color: 0x0d0714, roughness: 0.55 });
+
+  /* Toppriggen (truss + lamper) heises opp som én enhet */
+  const riggTopp = new THREE.Group();
+  scene.add(riggTopp);
   const truss = new THREE.Mesh(new THREE.BoxGeometry(14, 0.18, 0.18), trussMat);
   truss.position.set(0, 5.4, 0);
-  scene.add(truss);
-  const truss2 = truss.clone(); truss2.position.y = 5.0; scene.add(truss2);
+  riggTopp.add(truss);
+  const truss2 = truss.clone(); truss2.position.y = 5.0; riggTopp.add(truss2);
   for (let x = -7; x <= 7; x += 1.4) {
     const stag = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.5, 0.08), trussMat);
     stag.position.set(x, 5.2, 0);
-    scene.add(stag);
+    riggTopp.add(stag);
+  }
+
+  /* Trusstårn i hver ende */
+  const taarn = [];
+  for (const sx of [-7.2, 7.2]) {
+    const tg = new THREE.Group();
+    const stolpe = new THREE.Mesh(new THREE.BoxGeometry(0.16, 5.6, 0.16), trussMat);
+    stolpe.position.y = 2.8;
+    const fot = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.1, 1.1), trussMat);
+    fot.position.y = 0.05;
+    tg.add(stolpe, fot);
+    tg.position.set(sx, 0, 0);
+    scene.add(tg);
+    taarn.push({ stolpe, fot });
+  }
+
+  /* Scenedekk */
+  const dekk = new THREE.Mesh(
+    new THREE.BoxGeometry(10, 0.4, 4),
+    new THREE.MeshStandardMaterial({ color: 0x170d24, roughness: 0.9 })
+  );
+  dekk.position.set(0, 0.2, -1.6);
+  scene.add(dekk);
+
+  /* PA-stabler: sub + tre topper per side */
+  const pa = [];
+  for (const sx of [-8.4, 8.4]) {
+    const sub = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.7, 0.95), kasseMat());
+    sub.position.set(sx, 0.35, 0.6);
+    scene.add(sub);
+    const deler = [sub];
+    for (let j = 0; j < 3; j++) {
+      const topp = new THREE.Mesh(new THREE.BoxGeometry(0.82, 0.5, 0.72), kasseMat());
+      topp.position.set(sx, 0.98 + j * 0.54, 0.6);
+      scene.add(topp);
+      deler.push(topp);
+    }
+    pa.push(deler);
+  }
+
+  /* DJ-bord på dekket, med korall-frontstripe */
+  const dj = new THREE.Group();
+  const bord = new THREE.Mesh(new THREE.BoxGeometry(1.9, 0.95, 0.65), kasseMat());
+  bord.position.y = 0.475;
+  const pult = new THREE.Mesh(new THREE.BoxGeometry(1.3, 0.12, 0.45), trussMat);
+  pult.position.y = 1.01;
+  const djStripeMat = new THREE.MeshBasicMaterial({ color: 0xfe5757, transparent: true, opacity: 0.4 });
+  const stripe = new THREE.Mesh(new THREE.BoxGeometry(1.9, 0.07, 0.02), djStripeMat);
+  stripe.position.set(0, 0.62, 0.34);
+  dj.add(bord, pult, stripe);
+  dj.position.set(0, 0.4, -1.4);
+  scene.add(dj);
+
+  /* Flightcaser: står fremme før/etter showet, trilles ut under opprigg */
+  const kasser = [];
+  for (const [kx, kz, rot] of [[-2.6, 2.6, 0.3], [-4.1, 3.3, -0.2], [-5.4, 2.1, 0.55]]) {
+    const kg = new THREE.Group();
+    const kropp = new THREE.Mesh(new THREE.BoxGeometry(1.25, 0.95, 0.75),
+      new THREE.MeshStandardMaterial({ color: 0x1d1129, roughness: 0.5, transparent: true }));
+    kropp.position.y = 0.475;
+    const list = new THREE.Mesh(new THREE.BoxGeometry(1.27, 0.05, 0.77),
+      new THREE.MeshBasicMaterial({ color: 0xfe5757, transparent: true, opacity: 0.5 }));
+    list.position.y = 0.72;
+    kg.add(kropp, list);
+    kg.position.set(kx, 0, kz);
+    kg.rotation.y = rot;
+    scene.add(kg);
+    kasser.push({ kg, kropp, list, x: kx });
   }
 
   /* Moving heads */
@@ -673,7 +747,7 @@ try {
       new THREE.MeshBasicMaterial({ color: 0xffffff }));
     retning.add(kilde);
     g.add(retning);
-    scene.add(g);
+    riggTopp.add(g);
     const glod = new THREE.Mesh(
       new THREE.CircleGeometry(1.3, 32),
       new THREE.MeshBasicMaterial({
@@ -684,7 +758,7 @@ try {
     glod.rotation.x = -Math.PI / 2;
     glod.position.y = 0.02;
     scene.add(glod);
-    lamper.push({ g, retning, kjegle, glod, kilde, fase: Math.random() * Math.PI * 2, maal: new THREE.Vector3() });
+    lamper.push({ g, hode, retning, kjegle, glod, kilde, fase: Math.random() * Math.PI * 2, maal: new THREE.Vector3() });
   }
 
   /* ---- Stemninger ----
@@ -692,15 +766,17 @@ try {
      glo gulvglød · smal 1 bred→0.15 laser · puls taktpuls 0–0.5 ·
      kam/se kamera og blikkpunkt */
   const S = {
-    hero:    { fog: 0.050, hvit: 0,    fart: 1.0,  str: 0.12, glo: 0.16, smal: 1,    puls: 0,    kam: [0, 2.4, 10],    se: [0, 1.6, 0] },
-    rigging: { fog: 0.028, hvit: 1,    fart: 0.4,  str: 0.07, glo: 0.06, smal: 1,    puls: 0,    kam: [4.2, 3.0, 9],   se: [0, 2.0, 0] },
-    dorene:  { fog: 0.055, hvit: 0.45, fart: 0.6,  str: 0.09, glo: 0.10, smal: 1,    puls: 0,    kam: [-3.2, 2.2, 8.5],se: [0, 1.5, 0] },
-    showet:  { fog: 0.085, hvit: 0,    fart: 2.1,  str: 0.17, glo: 0.20, smal: 1,    puls: 0.35, kam: [0, 1.3, 6.5],   se: [0, 3.5, 0] },
-    siste:   { fog: 0.070, hvit: 0.1,  fart: 0.3,  str: 0.035,glo: 0.04, smal: 1,    puls: 0,    kam: [0, 2.6, 10.5],  se: [0, 1.2, 0] },
-    arbeid:  { fog: 0.038, hvit: 1,    fart: 0.45, str: 0.09, glo: 0.08, smal: 1,    puls: 0,    kam: [-3.4, 3.8, 8],  se: [0, 1.1, 0] },
-    galleri: { fog: 0.100, hvit: 0.25, fart: 0.7,  str: 0.05, glo: 0.05, smal: 1,    puls: 0,    kam: [3.0, 1.4, 7.5], se: [0, 3.2, 0] },
-    book:    { fog: 0.065, hvit: 0.2,  fart: 0.8,  str: 0.08, glo: 0.09, smal: 1,    puls: 0,    kam: [2.6, 1.6, 7.5], se: [-1.5, 3.2, 0] },
-    slutt:   { fog: 0.060, hvit: 0,    fart: 0.35, str: 0.03, glo: 0.04, smal: 1,    puls: 0,    kam: [0, 2.2, 11],    se: [0, 2.6, 0] },
+    hero:     { bygg: 1,    fog: 0.050, hvit: 0,    fart: 1.0,  str: 0.12, glo: 0.16, smal: 1, puls: 0,    kam: [0, 2.4, 10],    se: [0, 1.6, 0] },
+    rigging:  { bygg: 0.04, fog: 0.025, hvit: 1,    fart: 0.4,  str: 0.0,  glo: 0.0,  smal: 1, puls: 0,    kam: [5.4, 3.2, 10.5],se: [0, 1.8, -0.5] },
+    riggklar: { bygg: 1,    fog: 0.030, hvit: 1,    fart: 0.45, str: 0.07, glo: 0.06, smal: 1, puls: 0,    kam: [3.4, 2.6, 9.5], se: [0, 2.0, -0.5] },
+    dorene:   { bygg: 1,    fog: 0.055, hvit: 0.45, fart: 0.6,  str: 0.09, glo: 0.10, smal: 1, puls: 0,    kam: [-3.2, 2.2, 8.5],se: [0, 1.5, 0] },
+    showet:   { bygg: 1,    fog: 0.085, hvit: 0,    fart: 2.1,  str: 0.17, glo: 0.20, smal: 1, puls: 0.35, kam: [0, 1.3, 6.5],   se: [0, 3.5, 0] },
+    showro:   { bygg: 1,    fog: 0.075, hvit: 0,    fart: 1.2,  str: 0.12, glo: 0.14, smal: 1, puls: 0.15, kam: [-1.5, 1.6, 7.5],se: [0, 3.0, 0] },
+    siste:    { bygg: 0.04, fog: 0.060, hvit: 0.6,  fart: 0.3,  str: 0.0,  glo: 0.0,  smal: 1, puls: 0,    kam: [4.6, 2.8, 11],  se: [0, 1.4, -0.5] },
+    arbeid:   { bygg: 1,    fog: 0.038, hvit: 1,    fart: 0.45, str: 0.09, glo: 0.08, smal: 1, puls: 0,    kam: [-3.4, 3.8, 8],  se: [0, 1.1, 0] },
+    galleri:  { bygg: 1,    fog: 0.100, hvit: 0.25, fart: 0.7,  str: 0.05, glo: 0.05, smal: 1, puls: 0,    kam: [3.0, 1.4, 7.5], se: [0, 3.2, 0] },
+    book:     { bygg: 1,    fog: 0.065, hvit: 0.2,  fart: 0.8,  str: 0.08, glo: 0.09, smal: 1, puls: 0,    kam: [2.6, 1.6, 7.5], se: [-1.5, 3.2, 0] },
+    slutt:    { bygg: 0.5,  fog: 0.060, hvit: 0,    fart: 0.35, str: 0.03, glo: 0.04, smal: 1, puls: 0,    kam: [0, 2.2, 11],    se: [0, 2.6, 0] },
   };
 
   /* Nøkkelpunkter: dokumentposisjon → stemning. Måles på nytt ved resize. */
@@ -709,12 +785,20 @@ try {
   let punkter = [];
   function maal() {
     const abs = (e, andel) => { const r = e.getBoundingClientRect(); return scrollY + r.top + r.height * andel; };
+    /* scrub-punkter forankres i samme progresjon som tidslinjen:
+       krysses når scrubbe-progresjonen (0–1) når brøken */
+    const iScrub = andel => {
+      const r = scrub.getBoundingClientRect();
+      return scrollY + r.top + (r.height - innerHeight) * andel + innerHeight / 2;
+    };
     punkter = [
       { pos: abs(el('del-hero'), 0.5),      st: S.hero },
-      { pos: abs(scrub, 0.06),              st: S.rigging },
-      { pos: abs(scrub, 0.34),              st: S.dorene },
-      { pos: abs(scrub, 0.62),              st: S.showet },
-      { pos: abs(scrub, 0.92),              st: S.siste },
+      { pos: iScrub(0.02),                  st: S.rigging },
+      { pos: iScrub(0.22),                  st: S.riggklar },
+      { pos: iScrub(0.45),                  st: S.dorene },
+      { pos: iScrub(0.63),                  st: S.showet },
+      { pos: iScrub(0.78),                  st: S.showro },
+      { pos: iScrub(0.97),                  st: S.siste },
       { pos: abs(el('del-tjenester'), 0.5), st: S.arbeid },
       { pos: abs(el('del-galleri'), 0.5),   st: S.galleri },
       { pos: abs(el('del-book'), 0.5),      st: S.book },
@@ -764,11 +848,12 @@ try {
 
   /* Regi: interpoler mellom nøkkelpunkter, legg på modifikatorer */
   function glatt(u) { return u * u * (3 - 2 * u); }
-  const naa = { fog: 0.05, hvit: 0, fart: 1, str: 0.12, glo: 0.16, smal: 1, puls: 0,
+  const naa = { bygg: 1, fog: 0.05, hvit: 0, fart: 1, str: 0.12, glo: 0.16, smal: 1, puls: 0,
     kam: new THREE.Vector3(0, 2.4, 10), se: new THREE.Vector3(0, 1.6, 0) };
   const tmpA = new THREE.Vector3(), tmpB = new THREE.Vector3();
+  const VERDEN = new THREE.Vector3();
   const FARGE = new THREE.Color();
-  const TALL = ['fog', 'hvit', 'fart', 'str', 'glo', 'smal', 'puls'];
+  const TALL = ['bygg', 'fog', 'hvit', 'fart', 'str', 'glo', 'smal', 'puls'];
 
   function regi(demp) {
     const s = scrollY + innerHeight / 2;
@@ -825,6 +910,45 @@ try {
   let synlig = !document.hidden;
   document.addEventListener('visibilitychange', () => { synlig = !document.hidden; });
 
+  /* ---- Byggeprosessen ----
+     b 0–1 styrer hele monteringen; hvert element har sitt vindu.
+     Ved sidelast bygges riggen opp foran øynene dine (intro). */
+  function trinn(v, a, b2) { return glatt(THREE.MathUtils.clamp((v - a) / (b2 - a), 0, 1)); }
+  const oppstart = performance.now();
+  function byggScene(b) {
+    const eDekk = trinn(b, 0.0, 0.14);
+    dekk.scale.y = Math.max(eDekk, 0.001);
+    dekk.position.y = 0.2 * eDekk;
+
+    const eTaarn = trinn(b, 0.08, 0.28);
+    for (const T of taarn) {
+      T.stolpe.scale.y = Math.max(eTaarn, 0.001);
+      T.stolpe.position.y = 2.8 * eTaarn;
+      T.fot.scale.setScalar(Math.max(trinn(b, 0.05, 0.15), 0.001));
+    }
+
+    const eTruss = trinn(b, 0.24, 0.5);
+    riggTopp.position.y = -4.6 * (1 - eTruss);
+
+    for (let s = 0; s < pa.length; s++) {
+      for (let j = 0; j < pa[s].length; j++) {
+        const e = trinn(b, 0.3 + j * 0.08, 0.42 + j * 0.08);
+        pa[s][j].scale.setScalar(Math.max(e, 0.001));
+      }
+    }
+
+    const eDj = trinn(b, 0.5, 0.64);
+    dj.scale.setScalar(Math.max(eDj, 0.001));
+
+    const eKasse = 1 - trinn(b, 0.28, 0.58);
+    for (const K of kasser) {
+      K.kg.visible = eKasse > 0.02;
+      K.kg.position.x = K.x - (1 - eKasse) * 6;
+      K.kropp.material.opacity = eKasse;
+      K.list.material.opacity = eKasse * 0.5;
+    }
+  }
+
   const q = new THREE.Quaternion();
   const dir = new THREE.Vector3();
   let t = 0;
@@ -842,8 +966,19 @@ try {
     FARGE.copy(KORALL).lerp(HVIT, naa.hvit);
     const takt = 1 + Math.sin(t * 6.3) * naa.puls;
 
+    /* bygg: scroll-regien, dempet av intro-oppriggingen ved sidelast */
+    const intro = trinn((performance.now() - oppstart) / 1000, 0.25, 3.0);
+    const b = Math.min(naa.bygg, intro);
+    byggScene(b);
+    djStripeMat.opacity = 0.15 + Math.min(naa.str * takt, 0.4) * 1.2;
+
     for (let i = 0; i < lamper.length; i++) {
       const L = lamper[i];
+      /* hver lampe monteres i sitt eget vindu */
+      const eL = trinn(b, 0.52 + i * 0.07, 0.66 + i * 0.07);
+      L.hode.scale.setScalar(0.25 + 0.75 * eL);
+      L.kilde.visible = eL > 0.5;
+
       const sving = Math.sin(t * 0.5 + L.fase) * 4.5;
       const dybde = Math.cos(t * 0.35 + L.fase) * 2.2 + 2.2;
       const eget = harPeker
@@ -851,15 +986,16 @@ try {
         : new THREE.Vector3(L.g.position.x * 0.4 + sving, 0, dybde);
       L.maal.lerp(eget, harPeker ? 0.06 : 0.02);
 
-      dir.copy(L.maal).sub(L.g.position).normalize();
+      L.g.getWorldPosition(VERDEN);
+      dir.copy(L.maal).sub(VERDEN).normalize();
       q.setFromUnitVectors(NED, dir);
       L.retning.quaternion.slerp(q, 0.12);
 
       L.kjegle.scale.x = L.kjegle.scale.z = naa.smal;
       L.kjegle.material.color.copy(FARGE);
-      L.kjegle.material.opacity = Math.min(naa.str * takt, 0.4);
+      L.kjegle.material.opacity = Math.min(naa.str * takt, 0.4) * eL;
       L.glod.material.color.copy(FARGE);
-      L.glod.material.opacity = Math.min(naa.glo * takt, 0.4);
+      L.glod.material.opacity = Math.min(naa.glo * takt, 0.4) * eL;
       L.glod.scale.setScalar(0.3 + naa.smal * 0.7);
       L.glod.position.x = L.maal.x;
       L.glod.position.z = L.maal.z;
@@ -873,7 +1009,15 @@ try {
     );
     kamera.lookAt(naa.se);
     renderer.render(scene, kamera);
+
+    /* debug-krok for Playwright-verifisering (billig: hvert 30. bilde) */
+    if ((bildeNr++ % 30) === 0) {
+      window.__dbg = { bygg: +b.toFixed(3), maalBygg: +naa.bygg.toFixed(3),
+        riggY: +riggTopp.position.y.toFixed(2), str: +naa.str.toFixed(3),
+        kamY: +kamera.position.y.toFixed(2), bilder: bildeNr };
+    }
   }
+  let bildeNr = 0;
   bilde();
 } catch (feil) {
   reserve();
